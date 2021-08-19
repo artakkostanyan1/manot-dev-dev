@@ -1,24 +1,32 @@
 .header {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .manot-logo {
-    position: absolute;
     width: 58px;
     height: 61px;
-    left: 28px;
-    top: 18px;
+    margin-top: 18px;
+    margin-left: 28px
 }
 
 .user-name {
-    position: absolute;
-    top: 37px;
-    right: 70px;
+    width: 140px;
+    height: 40px;
+    margin-top: 28px;
 
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 25px;
+    font-size: 20px;
+    line-height: 40px;
+    /* identical to box height, or 222% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
+
+    color: #000000;
 }
