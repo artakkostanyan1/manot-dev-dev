@@ -1,0 +1,24 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.manot-logo {
+    position: absolute;
+    width: 58px;
+    height: 61px;
+    left: 28px;
+    top: 18px;
+}
+
+.user-name {
+    position: absolute;
+    top: 37px;
+    right: 70px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+}
