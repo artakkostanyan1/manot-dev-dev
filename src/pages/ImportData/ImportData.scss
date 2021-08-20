@@ -6,35 +6,27 @@
     height: 690px;
 }
 
-.header-text {
-    height: 60px;
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 26px;
-    line-height: 40px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #000000;
-}
-
+.header-text,
 .small-header {
     height: 60px;
 
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
     line-height: 40px;
 
-    display: flex;
-    align-items: center;
-    text-align: center;
-
     color: #000000;
+}
+
+.header-text {
+    width: 435px;
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.small-header {
+    width: 255px;
+    font-size: 16px;
 }
 
 .import-button {
