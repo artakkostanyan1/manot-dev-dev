@@ -1,0 +1,11 @@
+{
+    "user_profile": "Profile and password",
+    "user_payment": "Payment method",
+    "user_logout": "Logout",
+
+    "welcome_text": "Welcome to",
+    "welcome_text1":  "annotation studio!",
+
+    "small_welcome_text": "To get started please import the data.",
+    "import_data": "Import data"
+}
