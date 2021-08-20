@@ -1,7 +1,6 @@
 import Header from '../../components/Header/Header';
 // import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { withTranslation } from 'react-i18next';
 import './ImportData.scss';
 
 function ImportData(props) {
@@ -10,11 +9,11 @@ function ImportData(props) {
             <Header />
             <div className='import-data-container'>
                 <span className='header-text'>
-                {props.t('welcome_text')} <b>manot</b> {props.t('welcome_text1')}
+                Welcome to <b>manot</b> annotation studio!
                 </span>
-                <span className='small-header'>{props.t('small_welcome_text')}</span>
+                <span className='small-header'>To get started please import the data.</span>
                 <button className='import-button'>
-                    <p className='import-text'>{props.t('import_data')}</p>
+                    <p className='import-text'>Import data</p>
                     <CloudUploadIcon
                         style={{
                             width: '85px',
@@ -29,4 +28,4 @@ function ImportData(props) {
     )
 }
 
-export default withTranslation()(ImportData);
+export default ImportData;

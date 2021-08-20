@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header/Header';
 import { useForm } from "react-hook-form";
-import { withTranslation } from 'react-i18next';
 import './ProfileAndPassword.scss';
 
 function ProfileAndPassword(props) {
@@ -13,27 +12,27 @@ function ProfileAndPassword(props) {
         <>
             <Header />
             <form >
-                <div className='h'>{props.t('user_profile')}</div>
+                <div className='h'>Profile and password</div>
 
-                <div className='full_name_div'>{props.t('full_name')}</div>
+                <div className='full_name_div'>Full name</div>
                 <input className="full_name_input"
                     {...register("fullname", { required: true })} />
 
-                <div className='email_div'>{props.t('email')}</div>
+                <div className='email_div'>Email</div>
                 <input className="email_input"
                     {...register("email")} />
 
-                <div className='new_password_div'>{props.t('new_psswd')}</div>
+                <div className='new_password_div'>New password</div>
                 <input className="new_password_input"
                     {...register("newpassword")} />
 
-                <div className='repeat_password_div'>{props.t('repeat_psswd')}</div>
+                <div className='repeat_password_div'>Repeat new password</div>
                 <input className="repeat_password_input"
                     {...register("repeatpassword")} />
 
                 <button className='submit_button' type='submit'>
                     <div className='submit_text'>
-                        {props.t('save_button')}
+                        Save changes
                     </div>
                 </button>
             </form>
@@ -41,4 +40,4 @@ function ProfileAndPassword(props) {
     )
 }
 
-export default withTranslation()(ProfileAndPassword);
+export default ProfileAndPassword;

@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
-import { withTranslation } from 'react-i18next';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import './Header.scss'
@@ -36,9 +35,9 @@ function Header(props) {
                     // backgroundColor: '#0D517E'
                 }}
             >
-                <MenuItem onClick={handleClose}>{props.t('user_profile')}</MenuItem>
-                <MenuItem onClick={handleClose}>{props.t('user_payment')}</MenuItem>
-                <MenuItem onClick={handleClose}>{props.t('user_logout')}</MenuItem>
+                <MenuItem onClick={handleClose}>Profile and password</MenuItem>
+                <MenuItem onClick={handleClose}>Payment method</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
             <div className='user-name'>
 
@@ -56,4 +55,4 @@ function Header(props) {
     )
 }
 
-export default withTranslation()(Header);
+export default Header;
