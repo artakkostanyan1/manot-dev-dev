@@ -1,6 +1,6 @@
 import ImportData from './pages/ImportData/ImportData';
+import ProfileAndPassword from './pages/ProfileAndPassword/ProfileAndPassword';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import ProfileAndPassword from './ProfileAndPassword';
 import './App.css';
 
 const NoMatchPage = () => {

@@ -7,5 +7,11 @@
     "welcome_text1":  "annotation studio!",
 
     "small_welcome_text": "To get started please import the data.",
-    "import_data": "Import data"
+    "import_data": "Import data",
+
+    "full_name": "Full name",
+    "email": "Email",
+    "new_psswd": "New password",
+    "repeat_psswd": "Repeat new password",
+    "save_button": "Save changes"
 }

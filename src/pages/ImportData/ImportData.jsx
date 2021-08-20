@@ -1,4 +1,4 @@
-import Header from '../../common/Header/Header';
+import Header from '../../components/Header/Header';
 // import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { withTranslation } from 'react-i18next';

@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import { withTranslation } from 'react-i18next';
-import { ReactComponent as ReactLogo } from '../../media/manot_logo.svg';
+import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import './Header.scss'
 
