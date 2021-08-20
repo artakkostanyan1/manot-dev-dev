@@ -1,5 +1,6 @@
 import ImportData from './pages/ImportData/ImportData';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import ProfileAndPassword from './ProfileAndPassword';
 import './App.css';
 
 const NoMatchPage = () => {
@@ -12,6 +13,12 @@ const routes = [
     exact: true,
     private: false,
     component: ImportData,
+  },
+  {
+    path: '/registration',
+    exact: true,
+    private: false,
+    component: ProfileAndPassword,
   },
   {
     private: false,
