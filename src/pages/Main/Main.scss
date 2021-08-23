@@ -1,0 +1,62 @@
+.button-containers {
+    display: flex;
+    justify-content: flex-end;
+
+    margin: 30px;
+}
+
+.button-containers button {
+    width: 117px;
+    height: 40px;
+
+    border: 1px solid #257aaf;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 40px;
+    /* or 286% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #257aaf;
+
+    padding: 5px;
+}
+
+.button-containers button:nth-child(2) {
+    background: #f86878;
+
+    margin-left: 10px;
+}
+
+.big-logo {
+    height: 680px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.manot-text {
+    height: 110px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 96px;
+    line-height: 40px;
+    /* or 42% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #0d517e;
+}

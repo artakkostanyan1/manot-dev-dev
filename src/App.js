@@ -1,3 +1,4 @@
+import Main from './pages/Main/Main';
 import ImportData from './pages/ImportData/ImportData';
 import ProfileAndPassword from './pages/ProfileAndPassword/ProfileAndPassword';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -19,6 +20,12 @@ const routes = [
     exact: true,
     private: false,
     component: ProfileAndPassword,
+  },
+  {
+    path: '/main',
+    exact: true,
+    private: false,
+    component: Main,
   },
   {
     private: false,
