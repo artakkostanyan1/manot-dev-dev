@@ -35,13 +35,18 @@
     margin-left: 10px;
 }
 
-.big-logo {
+.big-logo-container {
     height: 680px;
 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.big-logo {
+    width: 311px;
+    height: 308px;
 }
 
 .manot-text {

@@ -1,12 +1,14 @@
 import React from 'react';
 import Header from '../../components/Header/Header';
 import { useForm } from "react-hook-form";
+import { useHistory } from 'react-router';
 import './Registration.scss';
 
 function ProfileAndPassword(props) {
-
     const { register, formState: { errors }, handleSubmit } = useForm();
     const onSubmit = data => console.log(data);
+    const history = useHistory();
+
     return (
         <>
             <Header />
@@ -28,15 +30,19 @@ function ProfileAndPassword(props) {
                     <div className='new_password_div'>New password</div>
                     <input className="new_password_input"
                         {...register("newpassword", { required: 'Please enter password' })} />
-                        {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
 
                     <div className='repeat_password_div'>Repeat new password</div>
                     <input className="repeat_password_input"
                         {...register("repeatpassword", { required: 'Please repeat password' })} />
-                        {errors.repeatpassword && <div className='error_message'>{errors.repeatpassword.message}</div>}
+                    {errors.repeatpassword && <div className='error_message'>{errors.repeatpassword.message}</div>}
                     <br />
 
-                    <button className='submit_button' type='submit'>
+                    <button
+                        onClick={() => history.push('/verification')}
+                        className='submit_button'
+                        type='submit'
+                    >
                         <div className='submit_text'>
                             Save changes
                         </div>
