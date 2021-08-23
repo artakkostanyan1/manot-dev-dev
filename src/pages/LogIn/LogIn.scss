@@ -1,15 +1,21 @@
-.log-in-container {
+.form_wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
-.h {
-    position: absolute;
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.heading {
     width: 244px;
     height: 40px;
-    left: 598px;
-    top: 112px;
 
     font-family: Roboto;
     font-style: normal;
@@ -18,20 +24,22 @@
     line-height: 40px;
     /* identical to box height, or 154% */
 
-    // display: flex;
-    // align-items: center;
-    // text-align: center;
+    text-align: center;
 
     color: #000000;
+}
 
+.error_message {
+    width: 482px;
+    color: red;
+
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 .email_div {
-    position: absolute;
-    width: 89px;
+    width: 482px;
     height: 40px;
-    left: 479px;
-    top: 256px;
 
     font-family: Roboto;
     font-style: normal;
@@ -40,20 +48,17 @@
     line-height: 40px;
     /* identical to box height, or 286% */
 
-    // display: flex;
-    // align-items: center;
-    // text-align: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
 
     color: #000000;
 
 }
 
 .email_input {
-    position: absolute;
     width: 482px;
     height: 40px;
-    left: 479px;
-    top: 296px;
 
     border: 0.5px solid #000000;
     box-sizing: border-box;
@@ -63,11 +68,8 @@
 }
 
 .password_div {
-    position: absolute;
-    width: 93px;
+    width: 482px;
     height: 40px;
-    left: 479px;
-    top: 363px;
 
     font-family: Roboto;
     font-style: normal;
@@ -76,20 +78,16 @@
     line-height: 40px;
     /* identical to box height, or 286% */
 
-    // display: flex;
-    // align-items: center;
-    // text-align: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
 
     color: #000000;
-
 }
 
 .password_input {
-    position: absolute;
     width: 482px;
     height: 40px;
-    left: 479px;
-    top: 403px;
 
     border: 0.5px solid #000000;
     box-sizing: border-box;
@@ -98,13 +96,12 @@
     outline: none;
 }
 
-.submit_button {
-    position: absolute;
+.save_button {
     width: 162px;
     height: 33px;
-    left: 639px;
-    top: 575px;
 
+    margin-top: 15px;
+    
     background: #257AAF;
     border: 1px solid #257AAF;
     box-sizing: border-box;
@@ -112,25 +109,3 @@
 
     color: white;
 }
-
-/* .submit_text {
-    position: absolute;
-    width: 134.32px;
-    height: 40px;
-    left: calc(50% - 134.32px/2 - 0px);
-    top: calc(50% - 40px/2 + 242px);
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 40px;
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #FFFFFF;
-
-    mix-blend-mode: normal;
-} */

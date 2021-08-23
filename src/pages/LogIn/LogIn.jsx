@@ -5,29 +5,33 @@ import './LogIn.scss';
 
 function LogIn(props) {
 
-    const { register, handleSubmit } = useForm();
+    const { register, formState: { errors }, handleSubmit } = useForm();
     const onSubmit = data => console.log(data);
-
     return (
         <>
             <Header />
-            <form className='log-in-container'>
-                <div className='h'>Log In</div>
+            <div className='form_wrapper'>
+                <form className='form' onSubmit={handleSubmit((data) => console.log(data))}>
+                    <div className='heading'>Login</div>
 
-                <div className='email_div'>Email</div>
-                <input className="email_input"
-                    {...register("email")} />
+                    <div className='email_div'>Email</div>
+                    <input className="email_input"
+                        type='email'
+                        {...register("email", { required: 'Please enter your email' })} />
+                    {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
-                <div className='password_div'>password</div>
-                <input className="password_input"
-                    {...register("password")} />
+                    <div className='password_div'>Password</div>
+                    <input className="password_input"
+                        {...register("password", { required: 'Please enter password' })} />
+                        {errors.password && <div className='error_message'>{errors.password.message}</div>}
 
-                <button className='submit_button' type='submit'>
-                    <div className='submit_text'>
-                        Log In
-                    </div>
-                </button>
-            </form>
+                    <button className='save_button' type='submit'>
+                        <div className='submit_text'>
+                            Save changes
+                        </div>
+                    </button>
+                </form>
+            </div>
         </>
     )
 }

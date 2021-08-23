@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
+import { Link } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import './UserHeader.scss';
@@ -39,15 +40,18 @@ function UserHeader(props) {
             <ReactLogo className='manot-logo' />
             <Menu
                 id="fade-menu"
-                classes={{ paper: classes.menuStyle}}
+                classes={{ paper: classes.menuStyle }}
                 anchorEl={anchorEl}
                 keepMounted
                 open={open}
                 onClose={handleClose}
                 TransitionComponent={Fade}
             >
-                <MenuItem onClick={handleClose}
-                >Profile and password</MenuItem>
+                <MenuItem onClick={handleClose}>
+                    <Link className='menu_link' to="/registration">
+                        Profile and password
+                    </Link>
+                </MenuItem>
                 <MenuItem onClick={handleClose}>Payment method</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
