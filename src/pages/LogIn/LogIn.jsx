@@ -1,12 +1,14 @@
 import React from 'react';
 import Header from '../../components/Header/Header';
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import './LogIn.scss';
 
 function LogIn(props) {
-
     const { register, formState: { errors }, handleSubmit } = useForm();
     const onSubmit = data => console.log(data);
+    const history = useHistory();
+
     return (
         <>
             <Header />
@@ -23,9 +25,13 @@ function LogIn(props) {
                     <div className='password_div'>Password</div>
                     <input className="password_input"
                         {...register("password", { required: 'Please enter password' })} />
-                        {errors.password && <div className='error_message'>{errors.password.message}</div>}
+                    {errors.password && <div className='error_message'>{errors.password.message}</div>}
 
-                    <button className='save_button' type='submit'>
+                    <button
+                        onClick={() => history.push('/')}
+                        className='save_button'
+                        type='submit'
+                    >
                         <div className='submit_text'>
                             Save changes
                         </div>

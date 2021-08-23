@@ -1,7 +1,8 @@
-import Main from './pages/Main/Main';
 import ImportData from './pages/ImportData/ImportData';
-import LogIn from './pages/LogIn/LogIn';
+import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
+import Verififcation from './pages/Verification/Verififcation';
+import LogIn from './pages/LogIn/LogIn';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 
@@ -17,22 +18,28 @@ const routes = [
     component: ImportData,
   },
   {
+    path: '/main',
+    exact: true,
+    private: false,
+    component: Main,
+  },
+  {
     path: '/registration',
     exact: true,
     private: false,
     component: Registration,
   },
   {
+    path: '/verification',
+    exact: true,
+    private: false,
+    component: Verififcation,
+  },
+  {
     path: '/login',
     exact: true,
     private: false,
     component: LogIn,
-  },
-  {
-    path: '/main',
-    exact: true,
-    private: false,
-    component: Main,
   },
   {
     private: false,
@@ -45,12 +52,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-            <Switch>
-              {routes.map((route, index) =>
-                <Route key={index} path={route.path} exact={route.exact} component={route.component} />
-              )}
-            </Switch>
-          </BrowserRouter>
+        <Switch>
+          {routes.map((route, index) =>
+            <Route key={index} path={route.path} exact={route.exact} component={route.component} />
+          )}
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
