@@ -53,7 +53,11 @@ function UserHeader(props) {
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Payment method</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}>
+                    <Link className='menu_link' to="/main">
+                        Logout
+                    </Link>
+                </MenuItem>
             </Menu>
             <div className='user-name'>
 
