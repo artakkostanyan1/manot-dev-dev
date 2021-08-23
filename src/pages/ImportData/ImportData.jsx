@@ -1,12 +1,11 @@
-import Header from '../../components/Header/Header';
-// import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
+import UserHeader from '../../components/UserHeader/UserHeader';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import './ImportData.scss';
 
 function ImportData(props) {
     return (
         <>
-            <Header />
+            <UserHeader />
             <div className='import-data-container'>
                 <span className='header-text'>
                 Welcome to <b>manot</b> annotation studio!

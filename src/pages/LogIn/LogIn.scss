@@ -1,0 +1,136 @@
+.log-in-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.h {
+    position: absolute;
+    width: 244px;
+    height: 40px;
+    left: 598px;
+    top: 112px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 26px;
+    line-height: 40px;
+    /* identical to box height, or 154% */
+
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
+
+    color: #000000;
+
+}
+
+.email_div {
+    position: absolute;
+    width: 89px;
+    height: 40px;
+    left: 479px;
+    top: 256px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 40px;
+    /* identical to box height, or 286% */
+
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
+
+    color: #000000;
+
+}
+
+.email_input {
+    position: absolute;
+    width: 482px;
+    height: 40px;
+    left: 479px;
+    top: 296px;
+
+    border: 0.5px solid #000000;
+    box-sizing: border-box;
+    border-radius: 13px;
+
+    outline: none;
+}
+
+.password_div {
+    position: absolute;
+    width: 93px;
+    height: 40px;
+    left: 479px;
+    top: 363px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 40px;
+    /* identical to box height, or 286% */
+
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
+
+    color: #000000;
+
+}
+
+.password_input {
+    position: absolute;
+    width: 482px;
+    height: 40px;
+    left: 479px;
+    top: 403px;
+
+    border: 0.5px solid #000000;
+    box-sizing: border-box;
+    border-radius: 13px;
+
+    outline: none;
+}
+
+.submit_button {
+    position: absolute;
+    width: 162px;
+    height: 33px;
+    left: 639px;
+    top: 575px;
+
+    background: #257AAF;
+    border: 1px solid #257AAF;
+    box-sizing: border-box;
+    border-radius: 13px;
+
+    color: white;
+}
+
+/* .submit_text {
+    position: absolute;
+    width: 134.32px;
+    height: 40px;
+    left: calc(50% - 134.32px/2 - 0px);
+    top: calc(50% - 40px/2 + 242px);
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 40px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #FFFFFF;
+
+    mix-blend-mode: normal;
+} */
