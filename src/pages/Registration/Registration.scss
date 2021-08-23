@@ -1,9 +1,21 @@
-.h {
-    position: absolute;
+.form_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.heading{
     width: 244px;
     height: 40px;
-    left: 598px;
-    top: 112px;
 
     font-family: Roboto;
     font-style: normal;
@@ -21,11 +33,8 @@
 }
 
 .full_name_div {
-    position: absolute;
-    width: 61px;
+    width: 482px;
     height: 40px;
-    left: 479px;
-    top: 167px;
 
     font-family: Roboto;
     font-style: normal;
@@ -41,11 +50,8 @@
 }
 
 .full_name_input {
-    position: absolute;
     width: 482px;
     height: 40px;
-    left: 479px;
-    top: 207px;
 
     border: 0.5px solid #000000;
     box-sizing: border-box;
@@ -54,12 +60,17 @@
     outline: none;
 }
 
+.error_message {
+    width: 482px;
+    color: red;
+
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
 .email_div {
-    position: absolute;
-    width: 89px;
+    width: 482px;
     height: 40px;
-    left: 479px;
-    top: 256px;
 
     font-family: Roboto;
     font-style: normal;
@@ -77,11 +88,8 @@
 }
 
 .email_input {
-    position: absolute;
     width: 482px;
     height: 40px;
-    left: 479px;
-    top: 296px;
 
     border: 0.5px solid #000000;
     box-sizing: border-box;
@@ -91,17 +99,16 @@
 }
 
 .new_password_div {
-    position: absolute;
-    width: 93px;
+    width: 482px;
     height: 40px;
-    left: 479px;
-    top: 363px;
 
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 40px;
+
+    margin-top: 35px;
     /* identical to box height, or 286% */
 
     display: flex;
@@ -113,12 +120,9 @@
 }
 
 .new_password_input {
-    position: absolute;
     width: 482px;
     height: 40px;
-    left: 479px;
-    top: 403px;
-
+ 
     border: 0.5px solid #000000;
     box-sizing: border-box;
     border-radius: 13px;
@@ -127,11 +131,8 @@
 }
 
 .repeat_password_div {
-    position: absolute;
-    width: 138px;
+    width: 482px;
     height: 40px;
-    left: 479px;
-    top: 452px;
 
     font-family: Roboto;
     font-style: normal;
@@ -148,11 +149,8 @@
 }
 
 .repeat_password_input {
-    position: absolute;
     width: 482px;
     height: 40px;
-    left: 479px;
-    top: 492px;
 
     border: 0.5px solid #000000;
     box-sizing: border-box;
@@ -162,11 +160,8 @@
 }
 
 .submit_button {
-    position: absolute;
     width: 162px;
     height: 33px;
-    left: 639px;
-    top: 575px;
 
     background: #257AAF;
     border: 1px solid #257AAF;
