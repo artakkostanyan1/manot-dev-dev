@@ -6,8 +6,9 @@ import './Registration.scss';
 
 function ProfileAndPassword(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
     const history = useHistory();
+    
+    const onSubmit = data => console.log(data);
 
     return (
         <>
@@ -47,6 +48,7 @@ function ProfileAndPassword(props) {
                             Save changes
                         </div>
                     </button>
+
                 </form>
             </div>
         </>

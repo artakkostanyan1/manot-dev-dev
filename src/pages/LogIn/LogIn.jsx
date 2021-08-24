@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import Recaptcha from 'react-recaptcha';
 import './LogIn.scss';
 
 function LogIn(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
     const history = useHistory();
+    const [isVerified, setIsVerified] = useState(false);
+
+    const onSubmit = data => console.log(data);
+
+    function handleVerifyCallback(response) {
+        if (response) {
+            setIsVerified(true)
+        }
+    }
 
     return (
         <>
@@ -26,6 +35,13 @@ function LogIn(props) {
                     <input className="password_input"
                         {...register("password", { required: 'Please enter password' })} />
                     {errors.password && <div className='error_message'>{errors.password.message}</div>}
+
+                    <Recaptcha
+                        className='login_recaptcha'
+                        sitekey="6Lco1h8cAAAAAB0Si1bOomVmcyRqCK-OYKhy_7SW"
+                        render="explicit"
+                        verifyCallback={handleVerifyCallback}
+                    />
 
                     <button
                         onClick={() => history.push('/')}
