@@ -1,8 +1,9 @@
 import ImportData from './pages/ImportData/ImportData';
 import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
-import Verififcation from './pages/Verification/Verififcation';
+// import Verififcation from './pages/Verification/Verififcation';
 import LogIn from './pages/LogIn/LogIn';
+import Payment from './pages/Payment/Payment';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 
@@ -29,17 +30,23 @@ const routes = [
     private: false,
     component: Registration,
   },
-  {
-    path: '/verification',
-    exact: true,
-    private: false,
-    component: Verififcation,
-  },
+  // {
+  //   path: '/verification',
+  //   exact: true,
+  //   private: false,
+  //   component: Verififcation,
+  // },
   {
     path: '/login',
     exact: true,
     private: false,
     component: LogIn,
+  },
+  {
+    path: '/pay',
+    exact: true,
+    private: false,
+    component: Payment,
   },
   {
     private: false,
