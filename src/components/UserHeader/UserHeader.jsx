@@ -15,10 +15,6 @@ export const useStyles = makeStyles((theme) => ({
         color: 'white',
         borderRadius: '13px',
         marginTop: '50px'
-    },
-    iconStyle: {
-        color: '#257aaf',
-        marginLeft: '10px'
     }
 }));
 
@@ -65,7 +61,7 @@ function UserHeader(props) {
 
                 <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
                     <AccountCircleOutlinedIcon
-                        classes={{ paper: classes.iconStyle }}
+                        className='user-account'
                     />
                 </Button>
             </div>
