@@ -30,24 +30,24 @@
     color: #000000;
 }
 
-.full_name_div {
-    width: 482px;
-    height: 40px;
+// .name_div,  .surname_div, .email_div, .new_password_div, .repeat_password_div {
+//     width: 482px;
+//     height: 40px;
 
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 40px;
-    /* identical to box height, or 286% */
+//     font-family: Roboto;
+//     font-style: normal;
+//     font-weight: normal;
+//     font-size: 14px;
+//     line-height: 40px;
+//     /* identical to box height, or 286% */
 
-    display: flex;
-    align-items: center;
-    text-align: center;
+//     display: flex;
+//     align-items: center;
+//     text-align: center;
 
-}
+// }
 
-.full_name_input {
+.name_input, .surname_input, .email_input {
     width: 482px;
     height: 40px;
 
@@ -56,6 +56,9 @@
     border-radius: 13px;
 
     outline: none;
+
+    padding: 5px;
+    margin: 15px;
 }
 
 .error_message {
@@ -66,96 +69,19 @@
     margin-bottom: 3px;
 }
 
-.email_div {
-    width: 482px;
-    height: 40px;
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 40px;
-    /* identical to box height, or 286% */
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #000000;
-
-}
-
-.email_input {
-    width: 482px;
-    height: 40px;
-
-    border: 0.5px solid #000000;
-    box-sizing: border-box;
-    border-radius: 13px;
-
-    outline: none;
-}
-
-.new_password_div {
-    width: 482px;
-    height: 40px;
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 40px;
-
-    margin-top: 35px;
-    /* identical to box height, or 286% */
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #000000;
-
-}
-
-.new_password_input {
-    width: 482px;
-    height: 40px;
+// .new_password_input, .repeat_password_input {
+//     width: 482px;
+//     height: 40px;
  
-    border: 0.5px solid #000000;
-    box-sizing: border-box;
-    border-radius: 13px;
+//     border: 0.5px solid #000000;
+//     box-sizing: border-box;
+//     border-radius: 13px;
 
-    outline: none;
-}
+//     outline: none;
 
-.repeat_password_div {
-    width: 482px;
-    height: 40px;
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 40px;
-    /* identical to box height, or 286% */
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #000000;
-}
-
-.repeat_password_input {
-    width: 482px;
-    height: 40px;
-
-    border: 0.5px solid #000000;
-    box-sizing: border-box;
-    border-radius: 13px;
-
-    outline: none;
-}
+//     padding: 5px;
+//     margin: 15px;
+// }
 
 .submit_button {
     width: 162px;
@@ -167,6 +93,44 @@
     border-radius: 13px;
 
     color: white;
+}
+.pass_wrapper {
+    display: flex;
+}
+
+.new_password_input {
+    width: 442px;
+    height: 40px;
+
+    border: 0.5px solid #000000;
+    border-right: none;
+    box-sizing: border-box;
+    border-bottom-left-radius: 13px;
+    border-top-left-radius: 13px;
+    outline: none;
+
+    padding: 5px;
+    margin: 15px;
+    margin-right: 0px;
+}
+
+.pass_button {
+    width: 40px;
+    height: 40px;
+
+    border: 0.5px solid #000000;
+    border-left: none;
+
+    box-sizing: border-box;
+    border-bottom-right-radius: 13px;
+    border-top-right-radius: 13px;
+
+    outline: none;
+    background-color: white;
+
+    padding: 5px;
+    margin: 15px;
+    margin-left: 0px;
 }
 
 /* .submit_text {
