@@ -2,7 +2,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .form {
@@ -10,7 +9,6 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
 }
 
 .heading {
@@ -27,6 +25,38 @@
     text-align: center;
 
     color: #000000;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+
+    margin: 30px;
+}
+
+.button-container button {
+    width: 117px;
+    height: 40px;
+
+    border: 1px solid #257aaf;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 40px;
+    /* or 286% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #257aaf;
+    background: #f86878;
+
+    padding: 5px;
 }
 
 .error_message {
@@ -53,7 +83,6 @@
     text-align: center;
 
     color: #000000;
-
 }
 
 .email_input {
@@ -100,14 +129,29 @@
     margin-top: 10px;
 }
 
+.forggot-pasword {
+    width: 111px;
+    height: 39px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 40px;
+    /* or 308% */
+
+
+    color: #257aaf;
+}
+
 .save_button {
     width: 162px;
     height: 33px;
 
     margin-top: 15px;
-    
-    background: #257AAF;
-    border: 1px solid #257AAF;
+
+    background: #257aaf;
+    border: 1px solid #257aaf;
     box-sizing: border-box;
     border-radius: 13px;
 

@@ -3,6 +3,7 @@ import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
 // import Verififcation from './pages/Verification/Verififcation';
 import LogIn from './pages/LogIn/LogIn';
+import Payment from './pages/Payment/Payment';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
@@ -41,6 +42,12 @@ const routes = [
     exact: true,
     private: false,
     component: LogIn,
+  },
+  {
+    path: '/pay',
+    exact: true,
+    private: false,
+    component: Payment,
   },
   {
     private: false,

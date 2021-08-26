@@ -22,6 +22,11 @@ function ProfileAndPassword(props) {
         (repeatPasswordType === 'text') ? setRepeatPasswordType('password') : setRepeatPasswordType('text');
     }
     const onSubmit = data => console.log(data);
+    const history = useHistory();
+    const [fullName, setFullName] = useState();
+    const [email, setEmail] = useState();
+    const [newPassword, setNewPassword] = useState();
+    const [repeatPassword, setRepeatPassword] = useState();
 
     return (
         <>
