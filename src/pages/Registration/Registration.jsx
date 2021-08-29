@@ -10,9 +10,14 @@ import './Registration.scss';
 
 function ProfileAndPassword(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const [passwordType, setPasswordType] = useState('text');
-    const [repeatPasswordType, setRepeatPasswordType] = useState('text');
     // const history = useHistory();
+    const [name, setName] = useState();
+    const [surname, setSurname] = useState();
+    const [email, setEmail] = useState();
+    const [passValue, setPassValue] = useState();
+    const [repeatPassValue, setRepeatPassValue] = useState();
+    const [passwordType, setPasswordType] = useState('password');
+    const [repeatPasswordType, setRepeatPasswordType] = useState('password');
 
     function handleClick1() {
         (passwordType === 'text') ? setPasswordType('password') : setPasswordType('text');
@@ -21,12 +26,8 @@ function ProfileAndPassword(props) {
     function handleClick2() {
         (repeatPasswordType === 'text') ? setRepeatPasswordType('password') : setRepeatPasswordType('text');
     }
+
     const onSubmit = data => console.log(data);
-    const history = useHistory();
-    const [fullName, setFullName] = useState();
-    const [email, setEmail] = useState();
-    const [newPassword, setNewPassword] = useState();
-    const [repeatPassword, setRepeatPassword] = useState();
 
     return (
         <>
@@ -36,29 +37,47 @@ function ProfileAndPassword(props) {
                     <div className='heading'>Sign up</div>
 
                     {/* <div className='name_div'>Name</div> */}
-                    <input className="name_input"
+                    <input
+                        type='text'
+                        className="name_input"
+                        placeholder='Name'
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
                         {...register("name", { required: 'Please enter your name' })}
-                        placeholder='Name' />
+                    />
                     {errors.name && <div className='error_message'>{errors.name.message}</div>}
 
                     {/* <div className='surname_div'>Surname</div> */}
-                    <input className="surname_input"
+                    <input
+                        type='text'
+                        className="surname_input"
+                        placeholder='Surname'
+                        value={surname}
+                        onChange={(event) => setSurname(event.target.value)}
                         {...register("surname", { required: 'Please enter your full name' })}
-                        placeholder='Surname' />
+                    />
                     {errors.surname && <div className='error_message'>{errors.surname.message}</div>}
 
                     {/* <div className='email_div'>Email</div> */}
-                    <input className="email_input"
+                    <input
                         type='email'
+                        className="email_input"
+                        placeholder='Email'
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
                         {...register("email", { required: 'Please enter your email' })}
-                        placeholder='Email' />
+                    />
                     {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
                     <br />
                     <div className='pass_wrapper'>
-                        <input type={passwordType} className='new_password_input'
-                            {...register("newpassword", { required: 'Please enter password' })}
+                        <input
+                            type={passwordType}
+                            className='new_password_input'
                             placeholder='Password'
+                            value={passValue}
+                            onChange={(event) => setRepeatPassValue(event.target.value)}
+                            {...register("password", { required: 'Please enter password' })}
                         />
                         <button className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
@@ -66,12 +85,16 @@ function ProfileAndPassword(props) {
                             }
                         </button>
                     </div>
-                    {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {errors.password && <div className='error_message'>{errors.newpassword.message}</div>}
 
                     <div className='pass_wrapper'>
-                        <input type={repeatPasswordType} className='new_password_input'
-                            {...register("newpassword", { required: 'Please enter password' })}
+                        <input
+                            type={repeatPasswordType}
+                            className='new_password_input'
                             placeholder='Repeat password'
+                            value={repeatPassValue}
+                            onChange={(event) => setPassValue(event.target.value)}
+                            {...register("newpassword", { required: 'Please enter password' })}
                         />
                         <button className='pass_button' onClick={handleClick2}>
                             {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
