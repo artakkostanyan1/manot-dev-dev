@@ -38,6 +38,7 @@
 
     outline: none;
     border: none;
+    cursor: pointer;
 }
 
 .import-text {
@@ -48,4 +49,83 @@
     line-height: 30px;
 
     color: #ffffff;
+}
+
+// .MuiPaper-root > .folder-dialog {
+//     // width: 100%;
+//     // height: 36px;
+
+//     background: #ffffff;
+//     border: 3px solid #257aaf;
+//     box-sizing: border-box;
+//     border-radius: 13px
+// }
+
+.dialog-title > .MuiTypography-h6 {
+    width: 100%;
+    height: 36px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 40px;
+    /* or 286% */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #000000;
+
+    margin-top: 15px;
+}
+
+.folder-name-input {
+    width: 482px;
+    height: 40px;
+
+    font-family: Roboto;
+    border: 0.5px solid #000000;
+    box-sizing: border-box;
+    border-radius: 13px;
+
+    padding: 10px;
+    margin: 10px 30px 45px 30px;
+    outline: none;
+}
+
+.dialog-action {
+    width: 372px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.MuiDialogActions-root > .continue-button {
+    width: 162px;
+    height: 33px;
+
+    background: #257aaf;
+    border: 1px solid #257aaf;
+    box-sizing: border-box;
+    border-radius: 13px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+
+    mix-blend-mode: normal;
+
+    margin-bottom: 5px;
+    cursor: pointer;
 }
