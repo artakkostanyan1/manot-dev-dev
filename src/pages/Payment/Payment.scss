@@ -19,7 +19,8 @@
     margin-bottom: 55px;
 }
 
-.payment-cards, .payment-heading-text {
+.payment-cards,
+.payment-heading-text {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -42,9 +43,8 @@
     flex-direction: column;
 }
 
-
-.card-number-lable {
-    width: 160px;
+.card-number-lable,
+.card-number-min-lable {
     height: 40px;
 
     font-family: Roboto;
@@ -56,9 +56,22 @@
 
     display: flex;
     align-items: center;
-    text-align: center;
+    // justify-content: center;
 
     color: #000000;
+}
+
+.card-number-min-lable:nth-child(1) {
+    margin-left: 12px;
+    margin-right: 5PX;
+}
+
+.card-number-lable {
+    width: 550px;
+}
+
+.card-number-min-lable {
+    width: 160px;
 }
 
 .payment-input-group {
@@ -72,22 +85,35 @@
 //     width: 200px;
 // }
 
-.card-number > .MuiInputBase-root > .MuiInputBase-input {
-    width: 550px;
-    height: 10px;
+.card-number,
+.card-min-number {
+    border-radius: 10px;
+    border: 1px solid #eee;
+    transition: 0.3s border-color;
+
+    padding: 5px;
 
     outline: none;
+}
+
+.card-number {
+    width: 550px;
+    height: 30px;
 }
 
 .card-min-number {
-    padding: 5px;
+    width: 160px;
+    height: 30px;
 }
 
-.card-min-number > .MuiInputBase-root > .MuiInputBase-input {
-    width: 160px;
-    height: 10px;
+.card-min-number:nth-child(2) {
+    margin-left: 10px;
+    margin-right: 10px;
+}
 
-    outline: none;
+.card-number:hover,
+.card-min-number:hover {
+    border: 1px solid #aaa;
 }
 
 .payment-container > button {

@@ -16,14 +16,13 @@ function LogIn(props) {
         event.preventDefault();
         history.push('/registration')
     };
-    const onSubmit = data => console.log(data);
+    // const onSubmit = data => console.log(data);
 
     function handleVerifyCallback(response) {
         if (response) {
             setIsVerified(true)
         }
     }
-    
 
     return (
         <>
@@ -40,9 +39,12 @@ function LogIn(props) {
                     <div className='email_div'>Email</div>
                     <input
                         className="email_input"
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                            console.log('e', e.target.value)
+                        }}
                         type='email'
                         value={email}
-                        onChange={(e) => { setEmail(e.target.value) }}
                         {...register("email", { required: 'Please enter your email' })} />
                     {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
@@ -72,7 +74,7 @@ function LogIn(props) {
                     <button
                         onClick={() => {
                             (email && password) &&
-                            history.push('/')
+                                history.push('/')
                         }
                         }
                         className='save_button'
