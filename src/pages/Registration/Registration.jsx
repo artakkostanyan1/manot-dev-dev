@@ -20,11 +20,11 @@ function ProfileAndPassword(props) {
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
 
     function handleClick1() {
-        (passwordType === 'text') ? setPasswordType('password') : setPasswordType('text');
+        (passwordType === 'password') ? setPasswordType('password') : setPasswordType('text');
     }
 
     function handleClick2() {
-        (repeatPasswordType === 'text') ? setRepeatPasswordType('password') : setRepeatPasswordType('text');
+        (repeatPasswordType === 'password') ? setRepeatPasswordType('password') : setRepeatPasswordType('text');
     }
 
     const onSubmit = data => console.log(data);

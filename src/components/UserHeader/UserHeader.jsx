@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import './UserHeader.scss';
@@ -22,6 +22,7 @@ function UserHeader(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const history = useHistory();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -33,7 +34,12 @@ function UserHeader(props) {
 
     return (
         <div className='header'>
-            <ReactLogo className='manot-logo' />
+            <button
+                className="manot-logo-button"
+                onClick={() => history.push('/')}
+            >
+                <ReactLogo className='manot-logo' />
+            </button>
             <Menu
                 id="fade-menu"
                 classes={{ paper: classes.menuStyle }}
