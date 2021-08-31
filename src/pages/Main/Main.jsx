@@ -8,19 +8,27 @@ function Main() {
 
     return (
         <>
-            <div className='button-containers'>
-                <Button onClick={() => history.push('/login')}>
-                    Log In
-                </Button>
-                <Button onClick={() => history.push('/registration')}>
-                    Sign Up
-                </Button>
-            </div>
-            <div className='big-logo-container'>
-                <ReactLogo className='big-logo' />
-                <span className='manot-text'>
-                    manot
-                </span>
+            <div className='main_page_container'>
+            <div className='gradient1'></div>
+            <div className='gradient2'></div>
+
+                <div className='big_logo_container'>
+                    <ReactLogo className='big_logo' />
+                    <span className='manot-text'>
+                        manot
+                    </span>
+                </div>
+
+                <div className='button-containers'>
+                    <button
+                        onClick={() => history.push('/login')}>
+                        Log In
+                    </button>
+                    <button
+                        onClick={() => history.push('/registration')}>
+                        Sign Up
+                    </button>
+                </div>
             </div>
         </>
     )

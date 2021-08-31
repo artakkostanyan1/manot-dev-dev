@@ -1,3 +1,31 @@
+.main_page_container {
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.gradient1 {
+    position: absolute;
+    left: -28.33%;
+    right: 72.64%;
+    top: -17.62%;
+    bottom: 17.75%;
+    background: radial-gradient(50% 50% at 48.33% 50%, rgba(62, 112, 181, 0.35) 0%, rgba(255, 255, 255, 0));
+}
+
+.gradient2 {
+    position: absolute;
+    left: 75.56%;
+    right: -31.25%;
+    top: -15%;
+    bottom: 15.12%;
+    background: radial-gradient(50% 50% at 48.33% 50%, rgba(62, 112, 181, 0.35) 0%, rgba(255, 255, 255, 0));
+}
+
 .button-containers {
     display: flex;
     justify-content: flex-end;
@@ -35,18 +63,20 @@
     margin-left: 10px;
 }
 
-.big-logo-container {
-    height: 680px;
-
+.big_logo_container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    height: 266px;
+    width: 266px;
+
 }
 
-.big-logo {
-    width: 311px;
-    height: 308px;
+.big_logo {
+    width: 200px;
+    height: 200px;
 }
 
 .manot-text {
