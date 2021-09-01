@@ -27,13 +27,6 @@
     color: #000000;
 }
 
-.button-container {
-    display: flex;
-    justify-content: flex-end;
-
-    margin: 30px;
-}
-
 .button-container button {
     width: 117px;
     height: 40px;
@@ -84,18 +77,6 @@
 
     color: #000000;
 }
-
-.email_input {
-    width: 482px;
-    height: 40px;
-
-    border: 0.5px solid #000000;
-    box-sizing: border-box;
-    border-radius: 13px;
-
-    outline: none;
-}
-
 .password_div {
     width: 482px;
     height: 40px;
@@ -114,7 +95,7 @@
     color: #000000;
 }
 
-.password_input {
+.password_input, .email_inputs {
     width: 482px;
     height: 40px;
 
@@ -123,13 +104,16 @@
     border-radius: 13px;
 
     outline: none;
+
+    padding: 5px;
+    margin: 15px;
 }
 
 .login_recaptcha {
     margin-top: 10px;
 }
 
-.forggot-pasword {
+.forgot-password {
     width: 111px;
     height: 39px;
 

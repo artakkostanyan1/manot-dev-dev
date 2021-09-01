@@ -3,7 +3,7 @@ import Header from '../../components/Header/Header';
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import Recaptcha from 'react-recaptcha';
-import { Button, Link } from '@material-ui/core';
+import { Link } from '@material-ui/core';
 import './LogIn.scss';
 
 function LogIn(props) {
@@ -25,33 +25,31 @@ function LogIn(props) {
     }
 
     return (
-        <>
+        <div className='verify_container'>
             <Header />
-            <div className='button-container'>
-                <Button onClick={() => history.push('/registration')}>
-                    Sign Up
-                </Button>
-            </div>
+
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit((data) => console.log(data))}>
-                    <div className='heading'>Login</div>
+                    <div className='heading'>Sign in</div>
 
-                    <div className='email_div'>Email</div>
+                    {/* <div className='email_div'>Email</div> */}
                     <input
+                        type='email'
                         className="email_input"
+                        placeholder='Email'
+                        value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
                             console.log('e', e.target.value)
                         }}
-                        type='email'
-                        value={email}
                         {...register("email", { required: 'Please enter your email' })} />
                     {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
-                    <div className='password_div'>Password</div>
+                    {/* <div className='password_div'>Password</div> */}
                     <input
-                        className="password_input"
                         type='password'
+                        className="password_input"
+                        placeholder='Password'
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
                         {...register("password", { required: 'Please enter password' })} />
@@ -67,9 +65,9 @@ function LogIn(props) {
                     <Link
                         href="#"
                         onClick={preventDefault}
-                        className='forggot-pasword'
+                        className='forgot-password'
                     >
-                        Forgot password?
+                        Forgot Password?
                     </Link>
                     <button
                         onClick={() => {
@@ -86,7 +84,7 @@ function LogIn(props) {
                     </button>
                 </form>
             </div>
-        </>
+        </div>
     )
 }
 
