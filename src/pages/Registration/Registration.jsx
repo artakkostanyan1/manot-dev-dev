@@ -20,17 +20,15 @@ function ProfileAndPassword(props) {
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
 
     function handleClick1() {
-        (passwordType === 'password') ? setPasswordType('password') : setPasswordType('text');
+        (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
     }
 
     function handleClick2() {
-        (repeatPasswordType === 'password') ? setRepeatPasswordType('password') : setRepeatPasswordType('text');
+        (repeatPasswordType === 'password') ? setRepeatPasswordType('text') : setRepeatPasswordType('password');
     }
 
-    const onSubmit = data => console.log(data);
-
     return (
-        <>
+        <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit((data) => console.log(data))}>
@@ -79,11 +77,11 @@ function ProfileAndPassword(props) {
                             onChange={(event) => setRepeatPassValue(event.target.value)}
                             {...register("password", { required: 'Please enter password' })}
                         />
-                        <button className='pass_button' onClick={handleClick1}>
+                        <div className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
                                 : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
                             }
-                        </button>
+                        </div>
                     </div>
                     {errors.password && <div className='error_message'>{errors.newpassword.message}</div>}
 
@@ -96,11 +94,11 @@ function ProfileAndPassword(props) {
                             onChange={(event) => setPassValue(event.target.value)}
                             {...register("newpassword", { required: 'Please enter password' })}
                         />
-                        <button className='pass_button' onClick={handleClick2}>
+                        <div className='pass_button' onClick={handleClick2}>
                             {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
                                 : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
                             }
-                        </button>
+                        </div>
                     </div>
                     {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
 
@@ -116,7 +114,7 @@ function ProfileAndPassword(props) {
 
                 </form>
             </div>
-        </>
+        </div>
     )
 }
 
