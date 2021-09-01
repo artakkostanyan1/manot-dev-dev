@@ -2,14 +2,22 @@ import React from 'react';
 import { useState } from 'react';
 import UserHeader from '../../components/UserHeader/UserHeader';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import './ImportData.scss';
 
 function ImportData(props) {
     const [open, setOpen] = useState(false);
     const [folderName, setFolderName] = useState('')
-    const handleClick = () => {
-        setOpen(!open);
+    const handleOpen = () => {
+        setOpen(true);
+        setFolderName('');
+    }
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
@@ -22,7 +30,7 @@ function ImportData(props) {
                 <span className='small-header'>To get started please import the data.</span>
                 <button
                     className='import-button'
-                    onClick={handleClick}
+                    onClick={handleOpen}
                 >
                     <p className='import-text'>Import data</p>
                     <CloudUploadIcon
@@ -34,15 +42,26 @@ function ImportData(props) {
                         }}
                     />
                 </button>
+                <div>
+                    {folderName
+                        && (<div>
+                            <FolderOpenIcon />
+                                {folderName}
+                            <AddIcon />
+                            <EditIcon />
+                            <HighlightOffIcon />
+                        </div>)
+                    }
+                </div>
                 <Dialog
                     className='folder-dialog'
-                    onClose={handleClick}
+                    onClose={handleClose}
                     aria-labelledby="customized-dialog-title"
                     open={open}
                 >
                     <DialogTitle
                         className="dialog-title"
-                        onClose={handleClick}
+                        onClose={handleClose}
                     >
                         Data’s folder creation
                     </DialogTitle>
@@ -54,13 +73,14 @@ function ImportData(props) {
                                 console.log('e', e.target.value)
                             }}
                             type='text'
+                            autoFocus
                             placeholder='Folder Name'
                             value={folderName} />
                     </DialogContent>
                     <DialogActions className='dialog-action'>
                         <button
                             className='continue-button'
-                            onClick={handleClick}
+                            onClick={handleClose}
                             color="primary"
                         >
                             Create

@@ -9,14 +9,11 @@ import './LogIn.scss';
 function LogIn(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [isVerified, setIsVerified] = useState(false);
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
     const history = useHistory();
     const preventDefault = (event) => {
         event.preventDefault();
         history.push('/registration')
     };
-    // const onSubmit = data => console.log(data);
 
     function handleVerifyCallback(response) {
         if (response) {
@@ -29,7 +26,7 @@ function LogIn(props) {
             <Header />
 
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => console.log(data))}>
+                <form className='form' onSubmit={handleSubmit((data) => { data && history.push('/') })}>
                     <div className='heading'>Sign in</div>
 
                     {/* <div className='email_div'>Email</div> */}
@@ -37,11 +34,6 @@ function LogIn(props) {
                         type='email'
                         className="email_input"
                         placeholder='Email'
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                            console.log('e', e.target.value)
-                        }}
                         {...register("email", { required: 'Please enter your email' })} />
                     {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
@@ -50,8 +42,6 @@ function LogIn(props) {
                         type='password'
                         className="password_input"
                         placeholder='Password'
-                        value={password}
-                        onChange={(e) => { setPassword(e.target.value) }}
                         {...register("password", { required: 'Please enter password' })} />
                     {errors.password && <div className='error_message'>{errors.password.message}</div>}
 
@@ -70,11 +60,6 @@ function LogIn(props) {
                         Forgot Password?
                     </Link>
                     <button
-                        onClick={() => {
-                            (email && password) &&
-                                history.push('/')
-                        }
-                        }
                         className='save_button'
                         type='submit'
                     >

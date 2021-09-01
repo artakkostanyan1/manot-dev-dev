@@ -1,11 +1,18 @@
-import Header from '../../components/Header/Header';
+import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import ReactCodeInput from 'react-code-input';
-// import { reactCodeInput } from 'CodeInputField.scss';
+import Header from '../../components/Header/Header';
+
 import './Verification.scss';
 
 function Verification() {
     const history = useHistory();
+    const [verificationCode, setVerificationCode] = useState();
+    // const [isValidCode, setIsValidCode] = useState(false);
+
+    // if('0000' === verificationCode) {
+    //     setIsValidCode(true);
+    // }
 
     return (
         <div className='verify_container'>
@@ -17,6 +24,8 @@ function Verification() {
                 <ReactCodeInput
                     type='text'
                     fields={4}
+                    value={verificationCode}
+                    onChange={(verificationCode) => setVerificationCode(verificationCode)}
                     inputStyle={{
                         fontFamily: 'monospace',
                         margin: '27px',
@@ -38,7 +47,13 @@ function Verification() {
                     className='verify_button'
                     onClick={() => console.log('verify')}
                 >
-                    <div className='submit_text'>
+                    <div
+                        onClick={() => {
+                            // (isValidCode &&
+                            verificationCode && history.push('/')
+                        }}
+                        className='submit_text'
+                    >
                         Verify
                     </div>
                 </button>
