@@ -1,4 +1,3 @@
-import { Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import './Main.scss';

@@ -2,6 +2,7 @@ import ImportData from './pages/ImportData/ImportData';
 import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
 import Verification from './pages/Verification/Verification';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
 import LogIn from './pages/LogIn/LogIn';
 import Payment from './pages/Payment/Payment';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -30,6 +31,12 @@ const routes = [
     exact: true,
     private: false,
     component: Registration,
+  },
+  {
+    path: '/resetpassword',
+    exact: true,
+    private: false,
+    component: ResetPassword,
   },
   {
     path: '/verification',

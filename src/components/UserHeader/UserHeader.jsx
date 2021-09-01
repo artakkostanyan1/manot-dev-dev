@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import PersonIcon from '@material-ui/icons/Person';
 import './UserHeader.scss';
 
 export const useStyles = makeStyles((theme) => ({
@@ -65,11 +64,16 @@ function UserHeader(props) {
 
                 <span>Maya K.</span>
 
-                <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
-                    <AccountCircleOutlinedIcon
+                <div
+                    className='user-account-container'
+                    aria-controls="fade-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                >
+                    <PersonIcon
                         className='user-account'
                     />
-                </Button>
+                </div>
             </div>
         </div>
     )

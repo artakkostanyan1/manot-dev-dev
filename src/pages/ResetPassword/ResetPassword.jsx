@@ -6,13 +6,13 @@ import { useHistory } from 'react-router';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
-import './Registration.scss';
+import './ResetPassword.scss';
 
-function ProfileAndPassword(props) {
+function ResetPassword(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const history = useHistory();
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
-    const history = useHistory();
 
     function handleClick1() {
         (passwordType === 'password') ? setPasswordType('password') : setPasswordType('text');
@@ -26,28 +26,8 @@ function ProfileAndPassword(props) {
         <>
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => data && history.push('/verification'))}>
-                    <div className='heading'>Sign up</div>
-
-                    {/* <div className='name_div'>Name</div> */}
-                    <input
-                        type='text'
-                        className="name_input"
-                        placeholder='Name'
-                        {...register("name", { required: 'Please enter your name' })}
-                    />
-                    {errors.name && <div className='error_message'>{errors.name.message}</div>}
-
-                    {/* <div className='surname_div'>Surname</div> */}
-                    <input
-                        type='text'
-                        className="surname_input"
-                        placeholder='Surname'
-                        {...register("surname", { required: 'Please enter your full name' })}
-                    />
-                    {errors.surname && <div className='error_message'>{errors.surname.message}</div>}
-
-                    {/* <div className='email_div'>Email</div> */}
+                <form className='form' onSubmit={handleSubmit((data) => data && history.push('/login'))}>
+                    <div className='heading'>Reset Password</div>
                     <input
                         type='email'
                         className="email_input"
@@ -92,29 +72,13 @@ function ProfileAndPassword(props) {
                         type='submit'
                     >
                         <div className='submit_text'>
-                            Sign up
+                            Submit
                         </div>
                     </button>
-                    <div className='policy-container'>
-                        By signing up you accept our <br />
-                        <b
-                            onClick={() => alert('The Terms of Use page')}
-                            className='terms'
-                        >
-                            Terms of Use
-                        </b>
-                        and
-                        <b
-                            onClick={() => alert('The Privace Policy poage')}
-                            className='policy'
-                        >
-                            Privace Policy
-                        </b>
-                    </div>
                 </form>
             </div>
         </>
     )
 }
 
-export default ProfileAndPassword;
+export default ResetPassword;
