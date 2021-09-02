@@ -87,7 +87,7 @@ function LogIn(props) {
                         type='submit'
                     >
                         <div className='submit_text'>
-                            Save changes
+                            Sign in
                         </div>
                     </button>
                 </form>
