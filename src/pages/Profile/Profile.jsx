@@ -110,7 +110,7 @@ function Profile(props) {
                         type='submit'
                     >
                         <div className='submit_text'>
-                            Sign up
+                            Save changes
                         </div>
                     </button>
                     <div className='policy-container'>
