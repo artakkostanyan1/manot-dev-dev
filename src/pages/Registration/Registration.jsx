@@ -8,7 +8,7 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 
 import './Registration.scss';
 
-function ProfileAndPassword(props) {
+function Registration(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
@@ -117,4 +117,4 @@ function ProfileAndPassword(props) {
     )
 }
 
-export default ProfileAndPassword;
+export default Registration;
