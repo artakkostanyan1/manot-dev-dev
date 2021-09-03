@@ -8,8 +8,8 @@ function Main() {
     return (
         <>
             <div className='main_page_container'>
-            <div className='gradient1'></div>
-            <div className='gradient2'></div>
+            {/* <div className='gradient1'></div> */}
+            {/* <div className='gradient2'></div> */}
 
                 <div className='big_logo_container'>
                     <ReactLogo className='big_logo' />

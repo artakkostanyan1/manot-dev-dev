@@ -46,13 +46,6 @@ function LogIn(props) {
                         {...register("email", { required: 'Please enter your email' })} />
                     {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
-                    {/* <div className='password_div'>Password</div> */}
-                    {/* <input
-                        type='password'
-                        className="password_input"
-                        placeholder='Password'
-                        {...register("password", { required: 'Please enter password' })} />
-                    {errors.password && <div className='error_message'>{errors.password.message}</div>} */}
                     <div className='pass_wrapper'>
                         <input
                             type={passwordType}
@@ -66,7 +59,7 @@ function LogIn(props) {
                             }
                         </div>
                     </div>
-                    {errors.password && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {errors.password && <div className='error_message'>{errors.password.message}</div>}
 
                     <Recaptcha
                         className='login_recaptcha'
