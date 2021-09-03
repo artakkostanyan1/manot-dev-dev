@@ -49,7 +49,7 @@ function UserHeader(props) {
                 TransitionComponent={Fade}
             >
                 <MenuItem onClick={handleClose}>
-                    <Link className='menu_link' to="/registration">
+                    <Link className='menu_link' to="/profile">
                         Profile and password
                     </Link>
                 </MenuItem>

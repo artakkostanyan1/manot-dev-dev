@@ -4,16 +4,25 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import Recaptcha from 'react-recaptcha';
 import { Link } from '@material-ui/core';
+
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
+
 import './LogIn.scss';
 
 function LogIn(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [isVerified, setIsVerified] = useState(false);
+    const [passwordType, setPasswordType] = useState('password');
     const history = useHistory();
     const preventDefault = (event) => {
         event.preventDefault();
         history.push('/resetpassword')
     };
+
+    function handleClick1() {
+        (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
+    }
 
     function handleVerifyCallback(response) {
         if (response) {
@@ -38,12 +47,26 @@ function LogIn(props) {
                     {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
                     {/* <div className='password_div'>Password</div> */}
-                    <input
+                    {/* <input
                         type='password'
                         className="password_input"
                         placeholder='Password'
                         {...register("password", { required: 'Please enter password' })} />
-                    {errors.password && <div className='error_message'>{errors.password.message}</div>}
+                    {errors.password && <div className='error_message'>{errors.password.message}</div>} */}
+                    <div className='pass_wrapper'>
+                        <input
+                            type={passwordType}
+                            className='new_password_input'
+                            placeholder='Password'
+                            {...register("password", { required: 'Please enter password' })}
+                        />
+                        <div className='pass_button' onClick={handleClick1}>
+                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
+                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
+                            }
+                        </div>
+                    </div>
+                    {errors.password && <div className='error_message'>{errors.newpassword.message}</div>}
 
                     <Recaptcha
                         className='login_recaptcha'
@@ -64,7 +87,7 @@ function LogIn(props) {
                         type='submit'
                     >
                         <div className='submit_text'>
-                            Save changes
+                            Sign in
                         </div>
                     </button>
                 </form>
