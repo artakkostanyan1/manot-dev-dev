@@ -21,11 +21,11 @@ function Main() {
                 <div className='button-containers'>
                     <button
                         onClick={() => history.push('/login')}>
-                        Log In
+                        Sign in
                     </button>
                     <button
                         onClick={() => history.push('/registration')}>
-                        Sign Up
+                        Sign up
                     </button>
                 </div>
             </div>
