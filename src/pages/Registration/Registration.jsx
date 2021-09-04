@@ -95,7 +95,7 @@ function Registration(props) {
                             Sign up
                         </div>
                     </button>
-                    <div className='policy-container'>
+                    <div className='policy_container'>
                         By signing up you accept our <br />
                         <b
                             onClick={() => alert('The Terms of Use page')}
