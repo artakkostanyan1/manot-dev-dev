@@ -79,7 +79,7 @@ function Profile(props) {
                         <input
                             type={passwordType}
                             className='new_password_input'
-                            placeholder='Password'
+                            placeholder='New Password'
                             {...register("password", { required: 'Please enter password' })}
                         />
                         <div className='pass_button' onClick={handleClick1}>
@@ -94,7 +94,7 @@ function Profile(props) {
                         <input
                             type={repeatPasswordType}
                             className='new_password_input'
-                            placeholder='Repeat password'
+                            placeholder='Repeat Neww Password'
                             {...register("newpassword", { required: 'Please enter password' })}
                         />
                         <div className='pass_button' onClick={handleClick2}>
@@ -113,22 +113,6 @@ function Profile(props) {
                             Save changes
                         </div>
                     </button>
-                    <div className='policy-container'>
-                        By signing up you accept our <br />
-                        <b
-                            onClick={() => alert('The Terms of Use page')}
-                            className='terms'
-                        >
-                            Terms of Use
-                        </b>
-                        and
-                        <b
-                            onClick={() => alert('The Privace Policy poage')}
-                            className='policy'
-                        >
-                            Privace Policy
-                        </b>
-                    </div>
                 </form>
             </div>
         </div>

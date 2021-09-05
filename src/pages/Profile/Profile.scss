@@ -10,7 +10,6 @@
     justify-content: center;
 }
 
-
 .form {
     display: flex;
     align-items: center;
@@ -34,23 +33,6 @@
 
     color: #000000;
 }
-
-// .name_div,  .surname_div, .email_div, .new_password_div, .repeat_password_div {
-//     width: 482px;
-//     height: 40px;
-
-//     font-family: Roboto;
-//     font-style: normal;
-//     font-weight: normal;
-//     font-size: 14px;
-//     line-height: 40px;
-//     /* identical to box height, or 286% */
-
-//     display: flex;
-//     align-items: center;
-//     text-align: center;
-
-// }
 
 .name_input, .surname_input, .email_input {
     width: 482px;
@@ -85,6 +67,7 @@
 
     color: white;
 }
+
 .pass_wrapper {
     display: flex;
 }
@@ -122,49 +105,4 @@
     padding: 5px;
     margin: 15px;
     margin-left: 0px;
-}
-
-/* .submit_text {
-    position: absolute;
-    width: 134.32px;
-    height: 40px;
-    left: calc(50% - 134.32px/2 - 0px);
-    top: calc(50% - 40px/2 + 242px);
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 40px;
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #FFFFFF;
-
-    mix-blend-mode: normal;
-} */
-
-.policy-container {
-    width: 300px;
-
-    line-height: 1.6;
-    text-align: center;
-
-    margin-top: 40px;
-
-    .terms {
-        text-decoration: underline;
-        cursor: pointer;
-
-        margin-right: 5px;
-    }
-
-    .policy {
-        text-decoration: underline;
-        cursor: pointer;
-
-        margin-left: 5px;
-    }
 }
