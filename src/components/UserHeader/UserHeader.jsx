@@ -62,8 +62,9 @@ function UserHeader(props) {
             </Menu>
             <div className='user-name'>
 
-                <span>Maya K.</span>
-
+                <Link to="/">
+                    Maya K.
+                </Link>
                 <div
                     className='user-account-container'
                     aria-controls="fade-menu"

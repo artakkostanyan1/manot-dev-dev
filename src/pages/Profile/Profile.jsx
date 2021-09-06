@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from '../../components/Header/Header';
+import UserHeader from '../../components/UserHeader/UserHeader';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router';
 
@@ -10,9 +10,14 @@ import './Profile.scss';
 
 function Profile(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const [oldPasswordType, setOldPasswordType] = useState('password');
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
     const history = useHistory();
+
+    function handleClick0() {
+        (oldPasswordType === 'password') ? setOldPasswordType('text') : setOldPasswordType('password');
+    }
 
     function handleClick1() {
         (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
@@ -24,7 +29,7 @@ function Profile(props) {
 
     return (
         <div className='registration_container'>
-            <Header />
+            <UserHeader />
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit((data) => data && history.push('/verification'))}>
                     <div className='heading'>Profile and password</div>
@@ -55,6 +60,7 @@ function Profile(props) {
                         className="email_input"
                         placeholder='Email'
                         value='mays@gmail.com'
+                        disabled
                         {...register("email", { required: 'Please enter your email' })}
                     />
                     {errors.email && <div className='error_message'>{errors.email.message}</div>}
@@ -62,13 +68,13 @@ function Profile(props) {
                     <br />
                     <div className='pass_wrapper'>
                         <input
-                            type={passwordType}
+                            type={oldPasswordType}
                             className='new_password_input'
                             placeholder='Old Password'
                             {...register("password", { required: 'Please enter password' })}
                         />
-                        <div className='pass_button' onClick={handleClick1}>
-                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
+                        <div className='pass_button' onClick={handleClick0}>
+                            {(oldPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
                                 : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
                             }
                         </div>
@@ -79,7 +85,7 @@ function Profile(props) {
                         <input
                             type={passwordType}
                             className='new_password_input'
-                            placeholder='Password'
+                            placeholder='New Password'
                             {...register("password", { required: 'Please enter password' })}
                         />
                         <div className='pass_button' onClick={handleClick1}>
@@ -94,8 +100,8 @@ function Profile(props) {
                         <input
                             type={repeatPasswordType}
                             className='new_password_input'
-                            placeholder='Repeat password'
-                            {...register("newpassword", { required: 'Please enter password' })}
+                            placeholder='Repeat New Password'
+                            {...register("repeatpassword", { required: 'Please enter password' })}
                         />
                         <div className='pass_button' onClick={handleClick2}>
                             {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
@@ -103,7 +109,7 @@ function Profile(props) {
                             }
                         </div>
                     </div>
-                    {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {errors.repeatpassword && <div className='error_message'>{errors.newpassword.message}</div>}
 
                     <button
                         className='submit_button'
@@ -113,22 +119,6 @@ function Profile(props) {
                             Save changes
                         </div>
                     </button>
-                    <div className='policy-container'>
-                        By signing up you accept our <br />
-                        <b
-                            onClick={() => alert('The Terms of Use page')}
-                            className='terms'
-                        >
-                            Terms of Use
-                        </b>
-                        and
-                        <b
-                            onClick={() => alert('The Privace Policy poage')}
-                            className='policy'
-                        >
-                            Privace Policy
-                        </b>
-                    </div>
                 </form>
             </div>
         </div>
