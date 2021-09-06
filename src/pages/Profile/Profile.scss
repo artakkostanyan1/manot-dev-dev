@@ -6,7 +6,7 @@
     height: 680px;
 
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     justify-content: center;
 }
 
@@ -145,26 +145,3 @@
 
     mix-blend-mode: normal;
 } */
-
-.policy-container {
-    width: 300px;
-
-    line-height: 1.6;
-    text-align: center;
-
-    margin-top: 40px;
-
-    .terms {
-        text-decoration: underline;
-        cursor: pointer;
-
-        margin-right: 5px;
-    }
-
-    .policy {
-        text-decoration: underline;
-        cursor: pointer;
-
-        margin-left: 5px;
-    }
-}

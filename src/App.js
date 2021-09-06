@@ -9,7 +9,6 @@ import  Profile  from './pages/Profile/Profile';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
-import { Profiler } from 'react';
 
 const NoMatchPage = () => {
   return <h3>404 - Not found</h3>;
