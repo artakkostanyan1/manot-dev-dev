@@ -9,6 +9,7 @@ import  Profile  from './pages/Profile/Profile';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
+import LeftBar from './components/LeftBar/LeftBar';
 
 const NoMatchPage = () => {
   return <h3>404 - Not found</h3>;
@@ -62,6 +63,12 @@ const routes = [
     exact: true,
     private: false,
     component: Payment,
+  },
+  {
+    path: '/leftbar',
+    exact: true,
+    private: false,
+    component: LeftBar,
   },
   {
     private: false,
