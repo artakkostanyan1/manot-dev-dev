@@ -12,6 +12,7 @@ function Registration(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
+    const [accept, setAccept] = useState(false);
     const history = useHistory();
 
     function handleClick1() {
@@ -22,11 +23,15 @@ function Registration(props) {
         (repeatPasswordType === 'password') ? setRepeatPasswordType('text') : setRepeatPasswordType('password');
     }
 
+    const handleAccept = () => {
+        setAccept(!accept);
+    }
+
     return (
         <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => data && history.push('/verification'))}>
+                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && history.push('/verification'))}>
                     <div className='heading'>Sign up</div>
 
                     {/* <div className='name_div'>Name</div> */}
@@ -86,7 +91,33 @@ function Registration(props) {
                         </div>
                     </div>
                     {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
-
+                    <div className='accept-policy-container'>
+                        <div>
+                            <input
+                                className='policy-checkbox'
+                                type='checkbox'
+                                onClick={handleAccept}
+                                {...register("checkbox", { required: 'Please check' })}
+                            />
+                            <div className='policy-container'>
+                                Accept our
+                                <b
+                                    onClick={() => alert('The Terms of Use page')}
+                                    className='terms'
+                                >
+                                    Terms of Use
+                                </b>
+                                and
+                                <b
+                                    onClick={() => alert('The Privace Policy poage')}
+                                    className='policy'
+                                >
+                                    Privace Policy
+                                </b>
+                            </div>
+                        </div>
+                        {errors.checkbox && <div className='error_message'>{errors.checkbox.message}</div>}
+                    </div>
                     <button
                         className='submit_button'
                         type='submit'
@@ -95,22 +126,6 @@ function Registration(props) {
                             Sign up
                         </div>
                     </button>
-                    <div className='policy_container'>
-                        By signing up you accept our <br />
-                        <b
-                            onClick={() => alert('The Terms of Use page')}
-                            className='terms'
-                        >
-                            Terms of Use
-                        </b>
-                        and
-                        <b
-                            onClick={() => alert('The Privace Policy poage')}
-                            className='policy'
-                        >
-                            Privace Policy
-                        </b>
-                    </div>
                 </form>
             </div>
         </div>
