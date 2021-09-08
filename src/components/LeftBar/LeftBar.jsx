@@ -1,7 +1,5 @@
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import FullscreenExit from '@material-ui/icons/FullscreenExit';
-import CropOriginalIcon from '@material-ui/icons/CropOriginal';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import { useState } from 'react';
 import './LeftBar.scss';
 
@@ -37,11 +35,13 @@ function LeftBar(props) {
                             <label>RB-box</label>
                         </div>
                     </div>
-                    <div
-                        className='anotation-button'
-                        onClick={() => console.log('Anotation')}
-                    >
-                        Start full data annottation
+                    <div className='anotation-button-container'>
+                        <div
+                            className='anotation-button'
+                            onClick={() => console.log('Anotation')}
+                        >
+                            Start full data annottation
+                        </div>
                     </div>
                     <div className='photos-container'>
                         <div>
@@ -71,8 +71,8 @@ function LeftBar(props) {
                     </div>
                 </div>
                 : <div className='icons-container'>
-                    <DashboardIcon />
-                    <CropOriginalIcon />
+                    <img src="dashboard.png" alt="dashboard" />
+                    <img src="image.png" alt='icon' />
                 </div>}
         </div>
     )
