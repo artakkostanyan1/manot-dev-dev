@@ -8,6 +8,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        width: 100%;
 
         svg {
             margin: 5px 5px 0 0;
@@ -22,9 +23,10 @@
         div {
             display: flex;
             align-items: center;
+            width: 100%;
 
             .box-input {
-                width: 18px;
+                width: 70%;
                 height: 18px;
 
                 margin-right: 5px;
@@ -38,7 +40,7 @@
         justify-content: center;
 
         width: 70%;
-        height: 35px;
+        height: 34px;
 
         border: 1px solid #a8a7a7;
         box-sizing: border-box;
@@ -80,7 +82,7 @@
         flex-direction: column;
 
         div {
-            width: 250px;
+            width: 94%;
             height: 155px;
 
             box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
@@ -90,7 +92,7 @@
                 display: flex;
                 flex-wrap: wrap;
 
-                width: 200px;
+                width: 94%;
                 height: 100px;
 
                 margin: 20px auto 10px auto;
@@ -119,7 +121,7 @@
 }
 
 .full {
-    width: 15%;
+    width: 18%;
 }
 
 .min {
