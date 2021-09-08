@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router';
+import Recaptcha from 'react-recaptcha';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
@@ -12,6 +13,7 @@ function Registration(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
+    const [isVerified, setIsVerified] = useState(false);
     const [accept, setAccept] = useState(false);
     const history = useHistory();
 
@@ -27,11 +29,17 @@ function Registration(props) {
         setAccept(!accept);
     }
 
+    function handleVerifyCallback(response) {
+        if (response) {
+            setIsVerified(true)
+        }
+    }
+
     return (
         <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && history.push('/verification'))}>
+                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && isVerified && history.push('/verification'))}>
                     <div className='heading'>Sign up</div>
 
                     {/* <div className='name_div'>Name</div> */}
@@ -118,6 +126,14 @@ function Registration(props) {
                         </div>
                         {errors.checkbox && <div className='error_message'>{errors.checkbox.message}</div>}
                     </div>
+
+                    <Recaptcha
+                        className='login_recaptcha'
+                        sitekey="6Lco1h8cAAAAAB0Si1bOomVmcyRqCK-OYKhy_7SW"
+                        render="explicit"
+                        verifyCallback={handleVerifyCallback}
+                    />
+
                     <button
                         className='submit_button'
                         type='submit'
