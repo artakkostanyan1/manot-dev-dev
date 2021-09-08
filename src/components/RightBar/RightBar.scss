@@ -1,0 +1,58 @@
+.right_bar_conatainer {
+    height: 90vh;
+    width: 18%;
+
+    background-color: white;
+}
+
+.paper_inner_div{
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text_part {
+    margin-left: 5px;
+}
+
+.counter_part {
+    margin-right: 5px;
+}
+
+.fourth_text_part {
+    margin-left: 5px;
+
+    font-size: 12px;
+}
+
+.full_annotation_btn_container {
+    height: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.full_annotation_btn_border {
+    height: 35px;
+    width: 169px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #FE4D61;
+    border-radius: 30px;
+}
+
+.full_annotation_btn {
+    height: 30px;
+    width: 164px;
+
+    background-color: #FE4D61;
+    color: white;
+
+    border-radius: 30px;
+}
