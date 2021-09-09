@@ -7,10 +7,12 @@ import LogIn from './pages/LogIn/LogIn';
 import Payment from './pages/Payment/Payment';
 import  Profile  from './pages/Profile/Profile';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Upgrade from './pages/Upgrade/Upgrade';
 
 import './App.css';
 import LeftBar from './components/LeftBar/LeftBar';
 import RightBar from './components/RightBar/RightBar';
+
 
 const NoMatchPage = () => {
   return <h3>404 - Not found</h3>;
@@ -64,6 +66,12 @@ const routes = [
     exact: true,
     private: false,
     component: Payment,
+  },
+  {
+    path: '/upgrade',
+    exact: true,
+    private: false,
+    component: Upgrade,
   },
   {
     path: '/leftbar',
