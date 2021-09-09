@@ -1,0 +1,17 @@
+.comp-desktop {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    margin-top: 10px;
+    .main-content-container {
+        display: flex;
+        justify-content: space-between;
+
+        width: 85%;
+
+        .main-photo {
+            width: 60;
+        }
+    }
+}

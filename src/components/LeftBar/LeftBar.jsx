@@ -68,6 +68,22 @@ function LeftBar(props) {
                             />
                             <label>Image3</label>
                         </div>
+                        <div>
+                            <img
+                                alt='girl'
+                                src="img.webp"
+                                className='label-photo'
+                            />
+                            <label>Image3</label>
+                        </div>
+                        <div>
+                            <img
+                                alt='girl'
+                                src="img.webp"
+                                className='label-photo'
+                            />
+                            <label>Image3</label>
+                        </div>
                     </div>
                 </div>
                 : <div className='icons-container'>

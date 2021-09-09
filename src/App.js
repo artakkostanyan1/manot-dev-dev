@@ -12,6 +12,7 @@ import Upgrade from './pages/Upgrade/Upgrade';
 import './App.css';
 import LeftBar from './components/LeftBar/LeftBar';
 import RightBar from './components/RightBar/RightBar';
+import Desktop from './pages/Desktop/Desktop';
 
 
 const NoMatchPage = () => {
@@ -84,6 +85,12 @@ const routes = [
     exact: true,
     private: false,
     component: RightBar,
+  },
+  {
+    path: '/desktop',
+    exact: true,
+    private: false,
+    component: Desktop,
   },
   {
     private: false,
