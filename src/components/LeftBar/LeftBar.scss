@@ -23,10 +23,10 @@
         div {
             display: flex;
             align-items: center;
-            width: 100%;
+            // width: 100%;
 
             .box-input {
-                width: 70%;
+                width: 30px;
                 height: 18px;
 
                 margin-right: 5px;
@@ -78,11 +78,16 @@
     .photos-container {
         display: flex;
         align-items: center;
-        justify-content: center;
         flex-direction: column;
 
+        height: 650px;
+
+        overflow-y: auto;
+        margin: 20px 10px 0 10px;
+        // background: wheat;
+
         div {
-            width: 94%;
+            width: 100%;
             height: 155px;
 
             box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
@@ -92,18 +97,35 @@
                 display: flex;
                 flex-wrap: wrap;
 
-                width: 94%;
+                width: 220px;
                 height: 100px;
 
                 margin: 20px auto 10px auto;
-
             }
 
             label {
-                margin-left: 23px;
+                margin-left: 55px;
             }
         }
     }
+
+
+    .photos-container::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    .photos-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 8px;
+    }
+
+    .photos-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 8px;
+    }
+
 
     .icons-container {
         display: flex;
