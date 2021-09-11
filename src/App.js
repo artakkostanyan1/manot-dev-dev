@@ -1,3 +1,4 @@
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ImportData from './pages/ImportData/ImportData';
 import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
@@ -6,13 +7,12 @@ import ResetPassword from './pages/ResetPassword/ResetPassword';
 import LogIn from './pages/LogIn/LogIn';
 import Payment from './pages/Payment/Payment';
 import  Profile  from './pages/Profile/Profile';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Upgrade from './pages/Upgrade/Upgrade';
-
-import './App.css';
 import LeftBar from './components/LeftBar/LeftBar';
 import RightBar from './components/RightBar/RightBar';
 import Desktop from './pages/Desktop/Desktop';
+import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
+import './App.css';
 
 
 const NoMatchPage = () => {
@@ -91,6 +91,12 @@ const routes = [
     exact: true,
     private: false,
     component: Desktop,
+  },
+  {
+    path: '/verify',
+    exact: true,
+    private: false,
+    component: VerifyEmail,
   },
   {
     private: false,
