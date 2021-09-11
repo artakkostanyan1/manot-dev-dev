@@ -23,7 +23,7 @@ function ResetPassword(props) {
     }
 
     return (
-        <>
+        <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit((data) => data && history.push('/login'))}>
@@ -77,7 +77,7 @@ function ResetPassword(props) {
                     </button>
                 </form>
             </div>
-        </>
+        </div>
     )
 }
 
