@@ -27,7 +27,7 @@ function VerifyEmail() {
                         className='verify-email-button'
                         onClick={() => history.push('/login')}
                     >
-                        Check email and continue
+                        Continue
                     </div>
                     <div
                         className='verify-email-link'
