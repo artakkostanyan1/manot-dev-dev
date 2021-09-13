@@ -24,13 +24,13 @@ const routes = [
     path: '/',
     exact: true,
     private: false,
-    component: ImportData,
+    component: Main,
   },
   {
-    path: '/main',
+    path: '/importdata',
     exact: true,
     private: false,
-    component: Main,
+    component: ImportData,
   },
   {
     path: '/registration',
