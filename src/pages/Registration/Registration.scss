@@ -59,10 +59,11 @@
     border: 0.5px solid #000000;
     box-sizing: border-box;
     border-radius: 13px;
+    border-color: lightgray;
 
     outline: none;
 
-    padding: 5px;
+    padding: 10px;
     margin: 15px;
 }
 
@@ -99,9 +100,10 @@
     box-sizing: border-box;
     border-bottom-left-radius: 13px;
     border-top-left-radius: 13px;
+    border-color: lightgray;
     outline: none;
 
-    padding: 5px;
+    padding: 10px;
     margin: 15px;
     margin-right: 0px;
 }
@@ -165,9 +167,6 @@
         // margin: 21px 0 0 15px;
 
         .policy-checkbox {
-            width: 20px;
-            height: 20px;
-
             margin-right: 5px;
         }
 
@@ -180,6 +179,7 @@
                 cursor: pointer;
 
                 margin-right: 5px;
+                margin-left: 5px;
             }
 
             .policy {
