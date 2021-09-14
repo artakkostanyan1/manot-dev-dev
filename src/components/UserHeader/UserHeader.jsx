@@ -35,7 +35,7 @@ function UserHeader(props) {
         <div className='header'>
             <button
                 className="manot-logo-button"
-                onClick={() => history.push('/')}
+                onClick={() => history.push('/main')}
             >
                 <ReactLogo className='manot-logo' />
             </button>
