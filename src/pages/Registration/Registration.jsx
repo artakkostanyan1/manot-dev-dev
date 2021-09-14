@@ -39,7 +39,7 @@ function Registration(props) {
         <div >
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && isVerified && history.push('/verification'))}>
+                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && history.push('/verification'))}>
                     <div className='heading'>Sign up</div>
 
                     {/* <div className='name_div'>Name</div> */}
