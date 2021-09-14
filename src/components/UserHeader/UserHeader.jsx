@@ -35,7 +35,7 @@ function UserHeader(props) {
         <div className='header'>
             <button
                 className="manot-logo-button"
-                onClick={() => history.push('/main')}
+                onClick={() => history.push('/importdata')}
             >
                 <ReactLogo className='manot-logo' />
             </button>
@@ -55,14 +55,14 @@ function UserHeader(props) {
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Payment method</MenuItem>
                 <MenuItem onClick={handleClose}>
-                    <Link className='menu_link' to="/main">
+                    <Link className='menu_link' to="/">
                         Logout
                     </Link>
                 </MenuItem>
             </Menu>
             <div className='user-name'>
 
-                <Link to="/">
+                <Link to="/importdata">
                     User
                 </Link>
                 <div
