@@ -63,7 +63,7 @@ function UserHeader(props) {
             <div className='user-name'>
 
                 <Link to="/">
-                    Maya K.
+                    User
                 </Link>
                 <div
                     className='user-account-container'
