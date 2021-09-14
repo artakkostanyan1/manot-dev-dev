@@ -35,7 +35,9 @@ function LogIn(props) {
             <Header />
 
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => { data && history.push('/importdata') })}>
+                <form className='form' onSubmit={handleSubmit((data) => {
+                    data && history.push('/importdata')
+                })}>
                     <div className='heading'>Sign in</div>
 
                     {/* <div className='email_div'>Email</div> */}
