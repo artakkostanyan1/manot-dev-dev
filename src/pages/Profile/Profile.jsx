@@ -39,7 +39,7 @@ function Profile(props) {
                         type='text'
                         className="name_input"
                         placeholder='Name'
-                        value='Mays'
+                        value='User name'
                         {...register("name", { required: 'Please enter your name' })}
                     />
                     {errors.name && <div className='error_message'>{errors.name.message}</div>}
@@ -49,7 +49,7 @@ function Profile(props) {
                         type='text'
                         className="surname_input"
                         placeholder='Surname'
-                        value='Kelly'
+                        value='User surname'
                         {...register("surname", { required: 'Please enter your full name' })}
                     />
                     {errors.surname && <div className='error_message'>{errors.surname.message}</div>}
