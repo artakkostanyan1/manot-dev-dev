@@ -12,7 +12,7 @@ function Header(props) {
         <div className='header'>
             <button
                 className="manot-logo-button"
-                onClick={() => history.push('/main')}
+                onClick={() => history.push('/')}
             >
                 <ReactLogo className='manot-logo' />
             </button>
