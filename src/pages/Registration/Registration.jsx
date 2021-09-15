@@ -7,6 +7,7 @@ import Recaptcha from 'react-recaptcha';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
+import paths from '../../utils/routing';
 import './Registration.scss';
 
 function Registration(props) {
@@ -39,7 +40,7 @@ function Registration(props) {
         <div >
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && history.push('/verify'))}>
+                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && history.push(paths.Verify))}>
                     <div className='heading'>Sign up</div>
 
                     {/* <div className='name_div'>Name</div> */}
@@ -138,9 +139,7 @@ function Registration(props) {
                         className='submit_button'
                         type='submit'
                     >
-                        <div className='submit_text'>
-                            Sign up
-                        </div>
+                        Sign up
                     </button>
                 </form>
             </div>

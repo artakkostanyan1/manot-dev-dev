@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import ReactCodeInput from 'react-code-input';
 import Header from '../../components/Header/Header';
+import paths from '../../utils/routing';
 
 import './Verification.scss';
 
@@ -50,7 +51,7 @@ function Verification() {
                     <div
                         onClick={() => {
                             // (isValidCode &&
-                            verificationCode && history.push('/')
+                            verificationCode && history.push(paths.Importdata)
                         }}
                         className='submit_text'
                     >

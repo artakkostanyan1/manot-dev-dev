@@ -2,6 +2,7 @@ import Header from '../../components/Header/Header';
 import EmailIcon from '@material-ui/icons/Email';
 import { useHistory } from 'react-router-dom';
 
+import paths from '../../utils/routing';
 import './VerifyEmail.scss';
 
 function VerifyEmail() {
@@ -25,7 +26,7 @@ function VerifyEmail() {
                     </p>
                     <div
                         className='verify-email-button'
-                        onClick={() => history.push('/login')}
+                        onClick={() => history.push(paths.Login)}
                     >
                         Continue
                     </div>

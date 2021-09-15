@@ -1,5 +1,6 @@
 import { useHistory } from "react-router-dom";
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
+import paths from "../../utils/routing";
 import './Main.scss';
 
 function Main() {
@@ -20,11 +21,11 @@ function Main() {
 
                 <div className='button-containers'>
                     <button
-                        onClick={() => history.push('/login')}>
+                        onClick={() => history.push(paths.Login)}>
                         Sign in
                     </button>
                     <button
-                        onClick={() => history.push('/registration')}>
+                        onClick={() => history.push(paths.SignUp)}>
                         Sign up
                     </button>
                 </div>

@@ -8,6 +8,7 @@ import { Link } from '@material-ui/core';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
+import paths from '../../utils/routing';
 import './LogIn.scss';
 
 function LogIn(props) {
@@ -17,7 +18,7 @@ function LogIn(props) {
     const history = useHistory();
     const preventDefault = (event) => {
         event.preventDefault();
-        history.push('/resetpassword')
+        history.push(paths.ResetPassword)
     };
 
     function handleClick1() {
@@ -36,7 +37,7 @@ function LogIn(props) {
 
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit((data) => {
-                    data && history.push('/importdata')
+                    data && history.push(paths.Importdata)
                 })}>
                     <div className='heading'>Sign in</div>
 

@@ -8,10 +8,9 @@ import LogIn from './pages/LogIn/LogIn';
 import Payment from './pages/Payment/Payment';
 import  Profile  from './pages/Profile/Profile';
 import Upgrade from './pages/Upgrade/Upgrade';
-import LeftBar from './components/LeftBar/LeftBar';
-import RightBar from './components/RightBar/RightBar';
 import Desktop from './pages/Desktop/Desktop';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
+import paths from './utils/routing';
 import './App.css';
 
 
@@ -21,82 +20,76 @@ const NoMatchPage = () => {
 
 const routes = [
   {
-    path: '/',
+    path: paths.Main,
     exact: true,
     private: false,
     component: Main,
   },
   {
-    path: '/importdata',
+    path: paths.Importdata,
     exact: true,
     private: false,
     component: ImportData,
   },
   {
-    path: '/registration',
-    exact: true,
-    private: false,
-    component: Registration,
-  },
-  {
-    path: '/resetpassword',
+    path: paths.ResetPassword,
     exact: true,
     private: false,
     component: ResetPassword,
   },
   {
-    path: '/verification',
+    path: paths.OldVerification,
     exact: true,
     private: false,
     component: Verification,
   },
   {
-    path: '/login',
+    path: paths.Login,
     exact: true,
     private: false,
     component: LogIn,
   },
   {
-    path: '/profile',
+    path: paths.Verify,
+    exact: true,
+    private: false,
+    component: VerifyEmail,
+  },
+  {
+    path: paths.Profile,
     exact: true,
     private: false,
     component: Profile,
   },
   {
-    path: '/pay',
-    exact: true,
-    private: false,
-    component: Payment,
-  },
-  {
-    path: '/upgrade',
-    exact: true,
-    private: false,
-    component: Upgrade,
-  },
-  {
-    path: '/leftbar',
-    exact: true,
-    private: false,
-    component: LeftBar,
-  },
-  {
-    path: '/rightbar',
-    exact: true,
-    private: false,
-    component: RightBar,
-  },
-  {
-    path: '/desktop',
+    path: paths.Desktop,
     exact: true,
     private: false,
     component: Desktop,
   },
   {
-    path: '/verify',
+    path: paths.Registration,
     exact: true,
     private: false,
-    component: VerifyEmail,
+    component: Registration,
+  },
+  {
+    path: paths.Payment,
+    exact: true,
+    private: false,
+    component: Payment,
+  },
+  {
+    path: paths.Upgrade,
+    exact: true,
+    private: false,
+    component: Upgrade,
+  },
+  {
+    path: paths.Desktop,
+    exact: true,
+    private: false,
+    component: Desktop,
   },
   {
     private: false,

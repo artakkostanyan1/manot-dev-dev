@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
+import paths from '../../utils/routing';
 import './ResetPassword.scss';
 
 function ResetPassword(props) {
@@ -26,7 +27,7 @@ function ResetPassword(props) {
         <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => data && history.push('/login'))}>
+                <form className='form' onSubmit={handleSubmit((data) => data && history.push(paths.Login))}>
                     <div className='heading'>Reset Password</div>
                     <input
                         type='email'

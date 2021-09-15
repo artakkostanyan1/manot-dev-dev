@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
+import paths from '../../utils/routing';
 import './Profile.scss';
 
 function Profile(props) {
@@ -31,7 +32,7 @@ function Profile(props) {
         <div className='registration_container'>
             <UserHeader />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => data && history.push('/verification'))}>
+                <form className='form' onSubmit={handleSubmit((data) => data && history.push(paths.Importdata))}>
                     <div className='heading'>Profile and password</div>
 
                     {/* <div className='name_div'>Name</div> */}

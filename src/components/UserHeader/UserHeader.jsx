@@ -6,6 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import PersonIcon from '@material-ui/icons/Person';
+import paths from '../../utils/routing';
 import './UserHeader.scss';
 
 export const useStyles = makeStyles((theme) => ({
@@ -35,7 +36,7 @@ function UserHeader(props) {
         <div className='header'>
             <button
                 className="manot-logo-button"
-                onClick={() => history.push('/importdata')}
+                onClick={() => history.push(paths.Importdata)}
             >
                 <ReactLogo className='manot-logo' />
             </button>
@@ -49,20 +50,20 @@ function UserHeader(props) {
                 TransitionComponent={Fade}
             >
                 <MenuItem onClick={handleClose}>
-                    <Link className='menu_link' to="/profile">
+                    <Link className='menu_link' to={paths.Profile}>
                         Profile and password
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Payment method</MenuItem>
                 <MenuItem onClick={handleClose}>
-                    <Link className='menu_link' to="/">
+                    <Link className='menu_link' to={paths.Main}>
                         Logout
                     </Link>
                 </MenuItem>
             </Menu>
             <div className='user-name'>
 
-                <Link to="/importdata">
+                <Link to={paths.Importdata}>
                     User
                 </Link>
                 <div
