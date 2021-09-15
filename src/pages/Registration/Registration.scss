@@ -56,10 +56,9 @@
     width: 482px;
     height: 40px;
 
-    border: 0.5px solid #000000;
+    border: 0.5px solid lightgray;
     box-sizing: border-box;
-    border-radius: 13px;
-    border-color: lightgray;
+    border-radius: 30px;
 
     outline: none;
 
@@ -82,7 +81,7 @@
     background: #257aaf;
     border: 1px solid #257aaf;
     box-sizing: border-box;
-    border-radius: 13px;
+    border-radius: 30px;
 
     color: white;
     cursor: pointer;
@@ -96,12 +95,11 @@
     width: 442px;
     height: 40px;
 
-    border: 0.5px solid #000000;
+    border: 0.5px solid lightgray;
     border-right: none;
     box-sizing: border-box;
-    border-bottom-left-radius: 13px;
-    border-top-left-radius: 13px;
-    border-color: lightgray;
+    border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
     outline: none;
 
     padding: 10px;
@@ -113,7 +111,7 @@
     width: 40px;
     height: 40px;
 
-    border: 0.5px solid #000000;
+    border: 0.5px solid lightgray;
     border-left: none;
 
     box-sizing: border-box;
