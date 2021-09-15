@@ -13,9 +13,12 @@ import './Registration.scss';
 function Registration(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [passwordType, setPasswordType] = useState('password');
+    const [pass1, setPass1] = useState();
+    const [pass2, setPass2] = useState();
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
     const [isVerified, setIsVerified] = useState(false);
     const [accept, setAccept] = useState(false);
+    const [isMatched, setIsMatched] = useState(true);
     const history = useHistory();
 
     function handleClick1() {
@@ -40,7 +43,11 @@ function Registration(props) {
         <div >
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => (accept && data) && history.push(paths.Verify))}>
+                <form className='form' onSubmit={handleSubmit((data) => {
+                    pass1 !== pass2 ? setIsMatched(false): setIsMatched(true);
+                    ((pass1 === pass2) && accept && data) && history.push(paths.Verify)
+                })
+                }>
                     <div className='heading'>Sign up</div>
 
                     {/* <div className='name_div'>Name</div> */}
@@ -76,7 +83,9 @@ function Registration(props) {
                             type={passwordType}
                             className='new_password_input'
                             placeholder='Password'
+                            value={pass1}
                             {...register("password", { required: 'Please enter password' })}
+                            onChange={(e) => { setPass1(e.target.value) }}
                         />
                         <div className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
@@ -91,7 +100,9 @@ function Registration(props) {
                             type={repeatPasswordType}
                             className='new_password_input'
                             placeholder='Repeat password'
+                            value={pass2}
                             {...register("newpassword", { required: 'Please enter password' })}
+                            onChange={(e) => { setPass2(e.target.value) }}
                         />
                         <div className='pass_button' onClick={handleClick2}>
                             {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
@@ -100,6 +111,7 @@ function Registration(props) {
                         </div>
                     </div>
                     {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {!isMatched && <div className='error_message'>Passwords don't match</div>}
                     <div className='accept-policy-container'>
                         <div>
                             <input
