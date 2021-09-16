@@ -19,7 +19,10 @@ function Registration(props) {
     const [isVerified, setIsVerified] = useState(false);
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
+    const [isValidPassword, setIsValidPassword] = useState(true);
     const history = useHistory();
+
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 
     function handleClick1() {
         (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
@@ -43,14 +46,18 @@ function Registration(props) {
         <div >
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => {
-                    pass1 !== pass2 ? setIsMatched(false): setIsMatched(true);
-                    ((pass1 === pass2) && accept && data) && history.push(paths.Verify)
-                })
+                <form className='form' onSubmit={
+                    handleSubmit((data) => {
+                        pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
+                        if (isMatched) {
+                            !(strongRegex.test(pass1) && strongRegex.test(pass2)) && setIsValidPassword(false)
+                        }
+
+                        ((pass1 === pass2) && accept && strongRegex.test(pass1) && data) && history.push(paths.Verify)
+                    })
                 }>
                     <div className='heading'>Sign up</div>
 
-                    {/* <div className='name_div'>Name</div> */}
                     <input
                         type='text'
                         className="name_input"
@@ -59,7 +66,6 @@ function Registration(props) {
                     />
                     {errors.name && <div className='error_message'>{errors.name.message}</div>}
 
-                    {/* <div className='surname_div'>Surname</div> */}
                     <input
                         type='text'
                         className="surname_input"
@@ -68,7 +74,6 @@ function Registration(props) {
                     />
                     {errors.surname && <div className='error_message'>{errors.surname.message}</div>}
 
-                    {/* <div className='email_div'>Email</div> */}
                     <input
                         type='email'
                         className="email_input"
@@ -112,6 +117,8 @@ function Registration(props) {
                     </div>
                     {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
+                    {isMatched && !isValidPassword && <div className='error_message'>Password format is not valid</div>}
+
                     <div className='accept-policy-container'>
                         <div>
                             <input
