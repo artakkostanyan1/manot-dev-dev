@@ -24,6 +24,7 @@ function Verification() {
                 </div>
                 <ReactCodeInput
                     type='text'
+                    inputmode="numeric"
                     fields={4}
                     value={verificationCode}
                     onChange={(verificationCode) => setVerificationCode(verificationCode)}
@@ -41,7 +42,7 @@ function Verification() {
                         backgroundColor: '#FFF',
                         color: 'black',
                         border: '1px solid #257AAF',
-                        textAlign: 'center'
+                        textAlign: 'center',
                     }}
                 />
                 <button
