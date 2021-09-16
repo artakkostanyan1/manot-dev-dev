@@ -62,7 +62,7 @@ function RightBar() {
             <div className='full_annotation_btn_container'>
                 <div className='full_annotation_btn_border'>
                     <button className='full_annotation_btn'>
-                        Start full data annotation
+                        Detect on single image
                     </button>
                 </div>
             </div>
