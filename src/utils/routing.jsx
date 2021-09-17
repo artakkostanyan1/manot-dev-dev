@@ -7,7 +7,7 @@ const paths = {
     ResetPassword: '/resetpassword',
     OldVerification: '/verification',
     Profile: '/profile',
-    Pat: '/pay',
+    Payment: '/payment',
     Upgrade: '/upgrade',
     Desktop: '/desktop',
 }

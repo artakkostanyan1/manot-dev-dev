@@ -68,7 +68,7 @@ const routes = [
     component: Desktop,
   },
   {
-    path: paths.Registration,
+    path: paths.SignUp,
     exact: true,
     private: false,
     component: Registration,
