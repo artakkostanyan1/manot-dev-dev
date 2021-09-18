@@ -140,7 +140,7 @@ function Registration(props) {
                                     onClick={() => alert('The Privace Policy poage')}
                                     className='policy'
                                 >
-                                    Privace Policy
+                                    Privacy Policy
                                 </b>
                             </div>
                         </div>
