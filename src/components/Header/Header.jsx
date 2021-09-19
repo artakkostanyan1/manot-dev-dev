@@ -10,7 +10,7 @@ function Header(props) {
     const path = window.location.pathname;
 
     return (
-        <div className='header'>
+        <div className='header1'>
             <button
                 className="manot-logo-button"
                 onClick={() => history.push(paths.Main)}

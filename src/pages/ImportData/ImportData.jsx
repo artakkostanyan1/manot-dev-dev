@@ -46,8 +46,9 @@ function ImportData(props) {
 
     const isDataExist = isFolderNameCreated ? 'min' : 'max';
     return (
-        <>
+        <div className='import_container'>
             <UserHeader />
+            
             <div className={`comp-import-data-${isDataExist}`}>
                 <div className='folder-name-conatiner'>
                     {isFolderNameCreated
@@ -171,7 +172,7 @@ function ImportData(props) {
                     </Dialog>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
