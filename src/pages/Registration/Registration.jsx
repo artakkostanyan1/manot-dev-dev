@@ -53,7 +53,7 @@ function Registration(props) {
                             !(strongRegex.test(pass1) && strongRegex.test(pass2)) && setIsValidPassword(false)
                         }
 
-                        ((pass1 === pass2) && accept && strongRegex.test(pass1) && data) && history.push(paths.Verify)
+                        ((pass1 === pass2) && accept && strongRegex.test(pass1) && Object.keys(data).length) && history.push(paths.Verify)
                     })
                 }>
                     <div className='heading'>Sign up</div>

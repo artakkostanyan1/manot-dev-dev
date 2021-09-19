@@ -62,9 +62,8 @@ function Profile(props) {
                         placeholder='Email'
                         value='mays@gmail.com'
                         disabled
-                        {...register("email", { required: 'Please enter your email' })}
+                        // {...register("email", { required: 'Please enter your email' })}
                     />
-                    {errors.email && <div className='error_message'>{errors.email.message}</div>}
 
                     <br />
                     <div className='pass_wrapper'>
@@ -80,14 +79,14 @@ function Profile(props) {
                             }
                         </div>
                     </div>
-                    {errors.password && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {errors.password && <div className='error_message'>{errors.password.message}</div>}
 
                     <div className='pass_wrapper'>
                         <input
                             type={passwordType}
                             className='new_password_input'
                             placeholder='New Password'
-                            {...register("password", { required: 'Please enter password' })}
+                            {...register("newpassword", { required: 'Please enter new password' })}
                         />
                         <div className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
@@ -95,7 +94,7 @@ function Profile(props) {
                             }
                         </div>
                     </div>
-                    {errors.password && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
 
                     <div className='pass_wrapper'>
                         <input
@@ -110,7 +109,7 @@ function Profile(props) {
                             }
                         </div>
                     </div>
-                    {errors.repeatpassword && <div className='error_message'>{errors.newpassword.message}</div>}
+                    {errors.repeatpassword && <div className='error_message'>{errors.repeatpassword.message}</div>}
 
                     <button
                         className='submit_button'
