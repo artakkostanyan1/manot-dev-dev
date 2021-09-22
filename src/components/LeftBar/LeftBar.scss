@@ -34,45 +34,60 @@
         }
     }
 
-    .anotation-button-container {
+    .full_annotation_btn_container {
+        height: 65%;
+
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: flex-end;
 
-        width: 70%;
-        height: 34px;
+        margin-top: 20px;
 
-        border: 1px solid #a8a7a7;
-        box-sizing: border-box;
-        border-radius: 30px;
+        .full_annotation_btn_border {
+            height: 34px;
+            width: 168px;
 
-        margin: auto;
-        margin-top: 15px;
-
-        .anotation-button {
             display: flex;
             align-items: center;
             justify-content: center;
 
-            width: 98%;
-            height: 30px;
-
-            background-color: lightgray;
-            border: 1px solid #a8a7a7;
-            box-sizing: border-box;
+            border: 2px solid #FE4D61;
             border-radius: 30px;
-            cursor: pointer;
 
-            font-family: PT Sans;
-            font-style: normal;
-            font-weight: bold;
-            font-size: 12px;
-            line-height: 16px;
-            /* identical to box height */
+            .full_annotation_btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
-            color: #4d4f5c;
-            margin: auto;
+                height: 30px;
+                width: 164px;
+
+                background-color: #FE4D61;
+                color: white;
+
+                border-radius: 30px;
+
+                // width: 98%;
+                // height: 30px;
+
+                // background-color: lightgray;
+                // border: 1px solid #a8a7a7;
+                // box-sizing: border-box;
+                // border-radius: 30px;
+                // cursor: pointer;
+
+                // font-family: PT Sans;
+                // font-style: normal;
+                // font-weight: bold;
+                // font-size: 12px;
+                // line-height: 16px;
+                // /* identical to box height */
+
+                // color: #4d4f5c;
+                // margin: auto;
+            }
         }
+
     }
 
     .photos-container {

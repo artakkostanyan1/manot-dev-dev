@@ -1,11 +1,24 @@
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import FullscreenExit from '@material-ui/icons/FullscreenExit';
+
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Tooltip from '@mui/material/Tooltip';
+
 import { useState } from 'react';
 import './LeftBar.scss';
 
 function LeftBar(props) {
     const [isFullScreen, setIsFullscreen] = useState(true);
+    const [open, setOpen] = useState(false);
     const screen = isFullScreen ? 'full' : 'min';
+
+    const handleTooltipClose = () => {
+        setOpen(false);
+    };
+
+    const handleTooltipOpen = () => {
+        setOpen(true);
+    };
 
     return (
         <div className={`left-bar-conatainer ${screen}`}>
@@ -35,14 +48,36 @@ function LeftBar(props) {
                             <label>RB-box</label>
                         </div>
                     </div>
-                    <div className='anotation-button-container'>
-                        <div
-                            className='anotation-button'
-                            onClick={() => console.log('Anotation')}
-                        >
-                            Start full data annottation
+
+                    <ClickAwayListener onClickAway={handleTooltipClose}>
+                        <div>
+                            <Tooltip
+                                PopperProps={{
+                                    disablePortal: true,
+                                }}
+                                onClose={handleTooltipClose}
+                                open={open}
+                                disableFocusListener
+                                disableHoverListener
+                                disableTouchListener
+                                title="For full data anotation upgrade your plan"
+                                arrow={true}
+                                placement={'bottom'}
+                            >
+                                <div className='full_annotation_btn_container'>
+                                    <div className='full_annotation_btn_border'>
+                                        <button
+                                            className='full_annotation_btn'
+                                            onClick={handleTooltipOpen}
+                                        >
+                                            Start full data annottation
+                                        </button>
+                                    </div>
+                                </div>
+                            </Tooltip>
                         </div>
-                    </div>
+                    </ClickAwayListener>
+
                     <div className='photos-container'>
                         <div>
                             <img
