@@ -1,15 +1,26 @@
+import DoneIcon from '@material-ui/icons/Done';
+
 import './UpgradeCard.scss';
+
+function UpgradeRow(props) {
+    return (
+        <div style={{height: '15px', width: '280px', display: 'flex', alignItems: 'center', padding: '4px'}}>
+            <DoneIcon style={{ color: "green" }}/>
+            {props.text}
+        </div>
+    )
+}
 
 function UpgradeCard(props) {
     const shadow = props.hasShadow && 'shadow';
-    
+    console.log(props.body)
+
     return <div className={`upgrade_item1_container ${shadow}`}>
         <div className='upgrade_item1_header'>
             {props.header}
         </div>
         <div className='upgrade_item1_text'>
-            Lorem Ipsum is simply dummy text of the prining
-            and typesetting industry
+            {props.subHeader}
         </div>
 
         <div className='from'>
@@ -27,7 +38,9 @@ function UpgradeCard(props) {
         </div>
 
         <div className='annual_build'>
-            Billed Annualy
+            {props.body.map((el) => (
+                <UpgradeRow text={el}/>
+            ))}
         </div>
 
         <div className='upgrade_item1_button_container'>

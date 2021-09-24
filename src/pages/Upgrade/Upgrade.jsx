@@ -1,5 +1,7 @@
 import UserHeader from '../../components/UserHeader/UserHeader';
 import UpgradeCard from '../../components/UpgrageCard/UpgradeCard';
+
+import upgradeData from '../../utils/upgrade';
 import './Upgrade.scss';
 
 function Upgrade(props) {
@@ -12,9 +14,25 @@ function Upgrade(props) {
                 </div>
             </div>
             <div className='upgrade_container'>
-                <UpgradeCard header='Free' price='0' />
-                <UpgradeCard header='Standart' price='108' hasShadow={true} />
-                <UpgradeCard header='Enterprise' price='200' />
+                <UpgradeCard
+                    header='Free'
+                    subHeader={upgradeData.Free.subHeader}
+                    price={upgradeData.Free.price}
+                    body={upgradeData.Free.body}
+                />
+                <UpgradeCard
+                    header='Standart'
+                    subHeader={upgradeData.Business.subHeader}
+                    price={upgradeData.Business.price}
+                    body={upgradeData.Business.body}
+                    hasShadow={true}
+                />
+                <UpgradeCard
+                    header='Enterprise'
+                    subHeader={upgradeData.Enterprise.subHeader}
+                    price={upgradeData.Enterprise.price}
+                    body={upgradeData.Enterprise.body}
+                />
             </div>
         </>
     )

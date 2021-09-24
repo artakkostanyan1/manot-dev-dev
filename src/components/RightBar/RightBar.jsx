@@ -59,9 +59,9 @@ function RightBar() {
                 </div>
             </Paper>
 
-            <div className='full_annotation_btn_container'>
-                <div className='full_annotation_btn_border'>
-                    <button className='full_annotation_btn'>
+            <div className='single_annotation_btn_container'>
+                <div className='single_annotation_btn_border'>
+                    <button className='single_annotation_btn'>
                         Detect on single image
                     </button>
                 </div>

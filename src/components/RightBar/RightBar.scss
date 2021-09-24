@@ -5,7 +5,7 @@
     background-color: white;
 }
 
-.paper_inner_div{
+.paper_inner_div {
     width: 100%;
 
     display: flex;
@@ -31,32 +31,32 @@
     font-size: 12px;
 }
 
-.full_annotation_btn_container {
+.single_annotation_btn_container {
     height: 65%;
 
     display: flex;
     justify-content: center;
     align-items: flex-end;
-}
 
-.full_annotation_btn_border {
-    height: 34px;
-    width: 168px;
+    .single_annotation_btn_border {
+        height: 34px;
+        width: 168px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    border: 2px solid #FE4D61;
-    border-radius: 30px;
-}
+        border: 2px solid #FE4D61;
+        border-radius: 30px;
 
-.full_annotation_btn {
-    height: 30px;
-    width: 164px;
+        .single_annotation_btn {
+            height: 30px;
+            width: 164px;
 
-    background-color: #FE4D61;
-    color: white;
+            background-color: #FE4D61;
+            color: white;
 
-    border-radius: 30px;
+            border-radius: 30px;
+        }
+    }
 }
