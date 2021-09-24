@@ -17,6 +17,7 @@ function ImportData(props) {
     const [foldersNames, setFoldersNames] = useState([]);
     const [isFolderNameCreated, setIsFolderNameCreated] = useState(false);
     const [editFolderName, setEditFolderName] = useState(false);
+    const [toggle, setToggle] = useState(false);
     // const [errMessage, setErrMessage] = useState(false);
     const styles = {
         cancelButton: {
@@ -39,7 +40,7 @@ function ImportData(props) {
             cursor: 'pointer',
             position: 'absolute',
             top: '210px',
-            right: '60px'
+            left: '65px'
         }
     };
     const handleOpen = () => {
@@ -56,6 +57,8 @@ function ImportData(props) {
         setFoldersNames((foldersNames) => { return folderName && [...foldersNames, folderName] });
         folderName && setOpen(false);
         folderName && setIsFolderNameCreated(true);
+        setToggle(!toggle)
+        // console.log('done');
         // setErrMessage(!folderName);
     };
 
@@ -79,6 +82,7 @@ function ImportData(props) {
     const [images, setImages] = useState([]);
     const maxNumber = 69;
     const maxlimit = 15;
+    let imageList;
 
     const onChange = (imageList, addUpdateIndex) => {
         // data for submit
@@ -146,6 +150,30 @@ function ImportData(props) {
                         })
                         }
                     </div>}
+                    <Dialog
+                        className='folder-dialog'
+                        aria-labelledby="customized-dialog-title"
+                        open={toggle}
+                    >
+                        <DialogTitle
+                            className="dialog-title"
+                        >
+                            Confirm
+                        </DialogTitle>
+                        <DialogContent>
+                            {`You are ipotrdet ${imageList?.length} photos`}
+                        </DialogContent>
+                        <DialogActions className='dialog-action'>
+                            <button
+                                type='submit'
+                                className='continue-button'
+                                onClick={handleEditCreate}
+                                color="primary"
+                            >
+                                Confirm
+                            </button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
                 <div className='import-data-container'>
                     <span className='header-text'>
@@ -204,14 +232,34 @@ function ImportData(props) {
                                 required
                             />
                             <div className='dialog-action'>
-                                <button
-                                    type='submit'
-                                    className='continue-button'
-                                    // onClick={handleCreate}
-                                    color="primary"
+                                <ImageUploading
+                                    multiple
+                                    value={images}
+                                    onChange={onChange}
+                                    maxNumber={maxNumber}
+                                    dataURLKey="data_url"
                                 >
-                                    Create
-                                </button>
+                                    {({
+                                        imageList,
+                                        onImageUpload,
+                                        isDragging,
+                                        dragProps,
+                                    }) => (
+                                        <span>
+                                            <button
+                                                type='submit'
+                                                className='continue-button'
+                                                // onClick={handleCreate}
+                                                color="primary"
+                                                style={isDragging ? { color: 'red' } : undefined}
+                                                onClick={folderName && onImageUpload}
+                                                {...dragProps}
+                                            >
+                                                Create
+                                            </button>
+                                        </span>
+                                    )}
+                                </ImageUploading>
                             </div>
                         </form>
                         <button

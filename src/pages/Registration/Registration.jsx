@@ -6,7 +6,7 @@ import Recaptcha from 'react-recaptcha';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
-
+import { register } from '../../services/apicalls';
 import paths from '../../utils/routing';
 import './Registration.scss';
 
@@ -53,7 +53,8 @@ function Registration(props) {
                             !(strongRegex.test(pass1) && strongRegex.test(pass2)) && setIsValidPassword(false)
                         }
 
-                        ((pass1 === pass2) && accept && strongRegex.test(pass1) && Object.keys(data).length) && history.push(paths.Verify)
+                        ((pass1 === pass2) && accept && strongRegex.test(pass1) && Object.keys(data).length)
+                        && history.push(paths.Verify) && register(data);
                     })
                 }>
                     <div className='heading'>Sign up</div>
