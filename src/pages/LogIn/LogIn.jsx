@@ -10,6 +10,7 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 
 import paths from '../../utils/routing';
 import './LogIn.scss';
+import { login } from '../../services/apicalls';
 
 function LogIn(props) {
     const { register, formState: { errors }, handleSubmit } = useForm();
@@ -37,6 +38,7 @@ function LogIn(props) {
 
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit((data) => {
+                    login(data);
                     data && history.push(paths.Importdata)
                 })}>
                     <div className='heading'>Sign in</div>

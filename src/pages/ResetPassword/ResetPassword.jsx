@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
-
+import { resetPsswd } from '../../services/apicalls';
 import paths from '../../utils/routing';
 import './ResetPassword.scss';
 
@@ -34,7 +34,7 @@ function ResetPassword(props) {
                     pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
                     // console.log('pass1', pass1)
                     // console.log('pass2', pass2)
-                    (pass1 === pass2) && Object.keys(data).length && history.push(paths.Login)
+                    (pass1 === pass2) && Object.keys(data).length && history.push(paths.Login) && resetPsswd(data);
                 })}>
                     <div className='heading'>Reset Password</div>
                     <input
