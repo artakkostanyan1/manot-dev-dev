@@ -6,7 +6,7 @@ import './Upgrade.scss';
 
 function Upgrade(props) {
     return (
-        <>
+        <div className='updrade_card_container'>
             <UserHeader />
             <div className='most_popular_container'>
                 <div className='most_popular_div'>
@@ -21,7 +21,7 @@ function Upgrade(props) {
                     body={upgradeData.Free.body}
                 />
                 <UpgradeCard
-                    header='Standart'
+                    header='Business'
                     subHeader={upgradeData.Business.subHeader}
                     price={upgradeData.Business.price}
                     body={upgradeData.Business.body}
@@ -34,7 +34,7 @@ function Upgrade(props) {
                     body={upgradeData.Enterprise.body}
                 />
             </div>
-        </>
+        </div>
     )
 }
 

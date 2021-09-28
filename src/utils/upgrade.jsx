@@ -8,7 +8,7 @@ const upgradeData = {
     },
     Business: {
         subHeader: 'For solo preneurs, bootstrappers, early stage startups',
-        price: 29,
+        price: 17,
         body: [
             'up to 2000 images', 'single user', 'up to 1024x1024 resolution size', 'detection on single image', 'full data automated annotation', 'video annotation(coming soon)', 'manual rotated and bounding box annotation', '10-15% manual correction'
         ]

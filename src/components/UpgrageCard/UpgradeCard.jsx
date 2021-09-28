@@ -4,7 +4,7 @@ import './UpgradeCard.scss';
 
 function UpgradeRow(props) {
     return (
-        <div style={{height: '15px', width: '280px', display: 'flex', alignItems: 'center', padding: '4px'}}>
+        <div className='upgrade_row'>
             <DoneIcon style={{ color: "green" }}/>
             {props.text}
         </div>
@@ -13,7 +13,6 @@ function UpgradeRow(props) {
 
 function UpgradeCard(props) {
     const shadow = props.hasShadow && 'shadow';
-    console.log(props.body)
 
     return <div className={`upgrade_item1_container ${shadow}`}>
         <div className='upgrade_item1_header'>
