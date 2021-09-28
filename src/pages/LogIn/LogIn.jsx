@@ -19,7 +19,7 @@ function LogIn(props) {
     const history = useHistory();
     const preventDefault = (event) => {
         event.preventDefault();
-        history.push(paths.ResetPassword)
+        history.push(paths.Email)
     };
 
     function handleClick1() {

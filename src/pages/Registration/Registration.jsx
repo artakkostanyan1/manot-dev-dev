@@ -54,7 +54,7 @@ function Registration(props) {
             password,
             confirmed_pass
         }
-        console.log(' register(data)===========',  register(data));
+        // console.log(' register(data)===========',  register(data));
 
         password !== confirmed_pass ? setIsMatched(false) : setIsMatched(true);
         if (isMatched) {
@@ -66,7 +66,7 @@ function Registration(props) {
     };
 
     return (
-        <div >
+        <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit}>

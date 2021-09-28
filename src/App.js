@@ -6,13 +6,14 @@ import Verification from './pages/Verification/Verification';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import LogIn from './pages/LogIn/LogIn';
 import Payment from './pages/Payment/Payment';
-import  Profile  from './pages/Profile/Profile';
+import Profile from './pages/Profile/Profile';
 import Upgrade from './pages/Upgrade/Upgrade';
 import Desktop from './pages/Desktop/Desktop';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
+import Email from './pages/Email/Email';
+
 import paths from './utils/routing';
 import './App.css';
-
 
 const NoMatchPage = () => {
   return <h3>404 - Not found</h3>;
@@ -54,6 +55,12 @@ const routes = [
     exact: true,
     private: false,
     component: VerifyEmail,
+  },
+  {
+    path: paths.Email,
+    exact: true,
+    private: false,
+    component: Email,
   },
   {
     path: paths.Profile,

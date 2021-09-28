@@ -37,15 +37,14 @@ function ResetPassword(props) {
                     (pass1 === pass2) && Object.keys(data).length && history.push(paths.Login) && resetPsswd(data);
                 })}>
                     <div className='heading'>Reset Password</div>
-                    <input
+                    {/* <input
                         type='email'
                         className="email_input"
                         placeholder='Email'
                         {...register("email", { required: 'Please enter your email' })}
                     />
-                    {errors.email && <div className='error_message'>{errors.email.message}</div>}
+                    {errors.email && <div className='error_message'>{errors.email.message}</div>} */}
 
-                    <br />
                     <div className='pass_wrapper'>
                         <input
                             type={passwordType}
