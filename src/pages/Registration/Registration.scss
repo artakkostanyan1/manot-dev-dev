@@ -33,23 +33,6 @@
     color: #000000;
 }
 
-// .name_div,  .surname_div, .email_div, .new_password_div, .repeat_password_div {
-//     width: 482px;
-//     height: 40px;
-
-//     font-family: Roboto;
-//     font-style: normal;
-//     font-weight: normal;
-//     font-size: 14px;
-//     line-height: 40px;
-//     /* identical to box height, or 286% */
-
-//     display: flex;
-//     align-items: center;
-//     text-align: center;
-
-// }
-
 .name_input,
 .surname_input,
 .email_input {
@@ -126,28 +109,6 @@
     margin-left: 0px;
 }
 
-/* .submit_text {
-    position: absolute;
-    width: 134.32px;
-    height: 40px;
-    left: calc(50% - 134.32px/2 - 0px);
-    top: calc(50% - 40px/2 + 242px);
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 40px;
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #FFFFFF;
-
-    mix-blend-mode: normal;
-} */
-
 .accept-policy-container {
     display: flex;
     align-items: center;
@@ -179,6 +140,8 @@
 
                 margin-right: 5px;
                 margin-left: 5px;
+
+                color: #257aaf;
             }
 
             .policy {
@@ -186,6 +149,8 @@
                 cursor: pointer;
 
                 margin-left: 5px;
+
+                color: #257aaf;
             }
         }
     }

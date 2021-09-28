@@ -59,8 +59,8 @@ function LogIn(props) {
                             {...register("password", { required: 'Please enter password' })}
                         />
                         <div className='pass_button' onClick={handleClick1}>
-                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
+                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
+                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
                         </div>
                     </div>

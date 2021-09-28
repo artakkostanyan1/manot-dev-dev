@@ -59,8 +59,8 @@ function ResetPassword(props) {
                             }}
                         />
                         <button className='pass_button' onClick={handleClick1}>
-                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
+                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
+                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
                         </button>
                     </div>
@@ -76,8 +76,8 @@ function ResetPassword(props) {
                             {...register("newpassword", { required: 'Please enter password' })}
                         />
                         <button className='pass_button' onClick={handleClick2}>
-                            {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
+                            {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
+                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
                         </button>
                     </div>

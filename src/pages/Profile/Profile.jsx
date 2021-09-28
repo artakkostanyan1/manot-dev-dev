@@ -74,8 +74,8 @@ function Profile(props) {
                             {...register("password", { required: 'Please enter password' })}
                         />
                         <div className='pass_button' onClick={handleClick0}>
-                            {(oldPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
+                            {(oldPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
+                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
                         </div>
                     </div>
@@ -89,8 +89,8 @@ function Profile(props) {
                             {...register("newpassword", { required: 'Please enter new password' })}
                         />
                         <div className='pass_button' onClick={handleClick1}>
-                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
+                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
+                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
                         </div>
                     </div>
@@ -104,8 +104,8 @@ function Profile(props) {
                             {...register("repeatpassword", { required: 'Please enter password' })}
                         />
                         <div className='pass_button' onClick={handleClick2}>
-                            {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22' }} />
+                            {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
+                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
                         </div>
                     </div>
