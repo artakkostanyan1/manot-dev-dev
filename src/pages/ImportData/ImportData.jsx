@@ -69,6 +69,12 @@ function ImportData(props) {
         // editFolderName && setIsFolderNameCreated(true);
     }
 
+    const handleToggle = (e) => {
+        e.preventDefault();
+        setToggle(!toggle);
+        // editFolderName && setIsFolderNameCreated(true);
+    }
+
     const handleOpenEdit = () => {
         setOpenEdit(true);
         setEditFolderName(folderName);
@@ -167,7 +173,7 @@ function ImportData(props) {
                             <button
                                 type='submit'
                                 className='continue-button'
-                                onClick={handleEditCreate}
+                                onClick={handleToggle}
                                 color="primary"
                             >
                                 Confirm

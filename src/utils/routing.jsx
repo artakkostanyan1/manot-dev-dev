@@ -3,6 +3,7 @@ const paths = {
     Importdata: '/importdata',
     Login: '/login',
     Verify: '/verify',
+    Email: '/email',
     SignUp: '/registration',
     ResetPassword: '/resetpassword',
     OldVerification: '/verification',
