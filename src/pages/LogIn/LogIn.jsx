@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
-import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import Recaptcha from 'react-recaptcha';
 import { Link } from '@material-ui/core';
@@ -10,15 +9,38 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 
 import paths from '../../utils/routing';
 import './LogIn.scss';
-import { login } from '../../services/apicalls';
 
 function LogIn(props) {
-    const { register, formState: { errors }, handleSubmit } = useForm();
+    const history = useHistory();
     const [isVerified, setIsVerified] = useState(false);
     const [passwordType, setPasswordType] = useState('password');
-    const history = useHistory();
-    const preventDefault = (event) => {
-        event.preventDefault();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const login = (data) => {
+        console.log('data', data);
+        fetch('http://localhost:5000/api/v1/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    setError(response.statusText);
+                } else {
+                    history.push(paths.Importdata);
+                }
+                return response.json();
+            })
+            .catch((error) => {
+                setError(error.message);
+            });
+    }
+
+    const resetPassword = (event) => {
         history.push(paths.Email)
     };
 
@@ -32,15 +54,22 @@ function LogIn(props) {
         }
     }
 
+    function handleSubmit(event) {
+        event.preventDefault();
+        const data = {
+            email,
+            password,
+        };
+
+        login(data);
+    }
+
     return (
         <div className='verify_container'>
             <Header />
-
+            {error && <div>{error}</div>}
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => {
-                    login(data);
-                    data && history.push(paths.Importdata)
-                })}>
+                <form className='form' onSubmit={handleSubmit}>
                     <div className='heading'>Sign in</div>
 
                     {/* <div className='email_div'>Email</div> */}
@@ -48,15 +77,17 @@ function LogIn(props) {
                         type='email'
                         className="email_input"
                         placeholder='Email'
-                        {...register("email", { required: 'Please enter your email' })} />
-                    {errors.email && <div className='error_message'>{errors.email.message}</div>}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
 
                     <div className='pass_wrapper'>
                         <input
                             type={passwordType}
                             className='new_password_input'
                             placeholder='Password'
-                            {...register("password", { required: 'Please enter password' })}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <div className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
@@ -64,7 +95,6 @@ function LogIn(props) {
                             }
                         </div>
                     </div>
-                    {errors.password && <div className='error_message'>{errors.password.message}</div>}
 
                     <Recaptcha
                         className='login_recaptcha'
@@ -75,7 +105,7 @@ function LogIn(props) {
 
                     <Link
                         href="#"
-                        onClick={preventDefault}
+                        onClick={resetPassword}
                         className='forgot-password'
                     >
                         Forgot Password?

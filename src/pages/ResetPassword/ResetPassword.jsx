@@ -1,22 +1,46 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
-import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
-import { resetPsswd } from '../../services/apicalls';
+
 import paths from '../../utils/routing';
 import './ResetPassword.scss';
 
 function ResetPassword(props) {
-    const { register, formState: { errors }, handleSubmit } = useForm();
     const history = useHistory();
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
     const [pass1, setPass1] = useState();
     const [pass2, setPass2] = useState();
     const [isMatched, setIsMatched] = useState(true);
+    const [error, setError] = useState('');
+
+    // TO DO: /////////////////////////////////////////////////////resserpassword api path
+
+    const resetPassword = (data) => {
+        console.log('data', data);
+        fetch('http://localhost:5000/api/v1/resetPassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    setError(response.statusText);
+                } else {
+                    history.push(paths.Login);
+                }
+                console.log('res', response)
+                return response.json();
+            })
+            .catch((error) => {
+                setError(error.message);
+            });
+    }
 
     function handleClick1() {
         (passwordType === 'password') ? setPasswordType('password') : setPasswordType('text');
@@ -26,16 +50,24 @@ function ResetPassword(props) {
         (repeatPasswordType === 'password') ? setRepeatPasswordType('password') : setRepeatPasswordType('text');
     }
 
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        const data = {
+            pass1,
+            pass2,
+        }
+
+        pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
+        (pass1 === pass2) && Object.keys(data).length && resetPassword(data);
+    }
+
     return (
         <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit((data) => {
-                    pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
-                    // console.log('pass1', pass1)
-                    // console.log('pass2', pass2)
-                    (pass1 === pass2) && Object.keys(data).length && history.push(paths.Login) && resetPsswd(data);
-                })}>
+                {error && <div>{error}</div>}
+                <form className='form' onSubmit={handleSubmit}>
                     <div className='heading'>Reset Password</div>
                     {/* <input
                         type='email'
@@ -51,11 +83,7 @@ function ResetPassword(props) {
                             className='new_password_input'
                             placeholder='Password'
                             value={pass1}
-                            {...register("password", { required: 'Please enter password' })}
-                            onChange={(e) => {
-                                console.log(pass1)
-                                setPass1(e.target.value);
-                            }}
+                            onChange={(e) => setPass1(e.target.value)}
                         />
                         <button className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
@@ -63,7 +91,6 @@ function ResetPassword(props) {
                             }
                         </button>
                     </div>
-                    {errors.password && <div className='error_message'>{errors.password.message}</div>}
 
                     <div className='pass_wrapper'>
                         <input
@@ -72,7 +99,6 @@ function ResetPassword(props) {
                             placeholder='Repeat password'
                             value={pass2}
                             onChange={(e) => { setPass2(e.target.value) }}
-                            {...register("newpassword", { required: 'Please enter password' })}
                         />
                         <button className='pass_button' onClick={handleClick2}>
                             {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
@@ -80,7 +106,6 @@ function ResetPassword(props) {
                             }
                         </button>
                     </div>
-                    {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>}
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
                     <button
                         className='submit_button'

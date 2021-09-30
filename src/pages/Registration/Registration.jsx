@@ -1,29 +1,61 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
-// import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router';
 import Recaptcha from 'react-recaptcha';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
-import { register } from '../../services/apicalls';
 import paths from '../../utils/routing';
 import './Registration.scss';
 
 function Registration(props) {
-    // const { register, formState: { errors }, handleSubmit } = useForm();
-    const [passwordType, setPasswordType] = useState('password');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState();
-    const [confirmed_pass, setConfirmed_pass] = useState();
+    const [password, setPassword] = useState('');
+    const [confirmed_pass, setConfirmed_pass] = useState('');
+
+    const [nameError, setNameError] = useState('');
+    const [surnameError, setSurnameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+
+    const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
+
     const [isVerified, setIsVerified] = useState(false);
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
-    const [isValidPassword, setIsValidPassword] = useState(true);
+    const [error, setError] = useState('');
     const history = useHistory();
+
+    const register = (data) => {
+        console.log('data', data);
+        fetch('http://localhost:5000/api/v1/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    setError(response.statusText);
+                } else {
+                    history.push(paths.Verify);
+                }
+                console.log('res', response)
+                return response.json();
+            })
+            .catch((error) => {
+                setError(error.message);
+            });
+    }
+
+    function validate() {
+        if (name === '') { setNameError('Please enter your name') }
+        if (surname === '') { setSurnameError('Please enter your surname') }
+        if (email === '') { setEmailError('Please enter your email') }
+    }
 
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 
@@ -54,21 +86,20 @@ function Registration(props) {
             password,
             confirmed_pass
         }
-        // console.log(' register(data)===========',  register(data));
 
-        password !== confirmed_pass ? setIsMatched(false) : setIsMatched(true);
-        if (isMatched) {
-            !(strongRegex.test(password) && strongRegex.test(confirmed_pass)) && setIsValidPassword(false)
-        }
+        validate();
 
-        ((password === confirmed_pass) && accept && strongRegex.test(password) && Object.keys(data).length)
-        &&  register(data) && history.push(paths.Verify);
+         password !== confirmed_pass ? setIsMatched(false) : setIsMatched(true);
+
+        ((password === confirmed_pass) && accept && Object.keys(data).length)
+            && register(data);
     };
 
     return (
         <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
+                {error && <div>{error}</div>}
                 <form className='form' onSubmit={handleSubmit}>
                     <div className='heading'>Sign up</div>
 
@@ -78,9 +109,8 @@ function Registration(props) {
                         placeholder='Name'
                         onChange={(e) => setName(e.target.value)}
                         value={name}
-                    // {...register("name", { required: 'Please enter your name' })}
                     />
-                    {!name && <div className='error_message'>Please enter your name</div>}
+                    {nameError && <div className='error_message'>{nameError}</div>}
 
                     <input
                         type='text'
@@ -88,9 +118,8 @@ function Registration(props) {
                         placeholder='Surname'
                         onChange={(e) => setSurname(e.target.value)}
                         value={surname}
-                    // {...register("surname", { required: 'Please enter your full name' })}
                     />
-                    {/* {errors.surname && <div className='error_message'>{errors.surname.message}</div>} */}
+                    {surnameError && <div className='error_message'>{surnameError}</div>}
 
                     <input
                         type='email'
@@ -98,17 +127,14 @@ function Registration(props) {
                         placeholder='Email'
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
-                    // {...register("email", { required: 'Please enter your email' })}
                     />
-                    {/* {errors.email && <div className='error_message'>{errors.email.message}</div>} */}
+                    {emailError && <div className='error_message'>{emailError}</div>}
 
-                    <br />
                     <div className='pass_wrapper'>
                         <input
                             type={passwordType}
                             className='new_password_input'
                             placeholder='Password'
-                            // {...register("password", { required: 'Please enter password' })}
                             onChange={(e) => { setPassword(e.target.value) }}
                             value={password}
                         />
@@ -118,14 +144,14 @@ function Registration(props) {
                             }
                         </div>
                     </div>
-                    {/* {errors.password && <div className='error_message'>{errors.newpassword.message}</div>} */}
+                    {!strongRegex.test(password) && password !== '' &&
+                        <div className='error_message'>Not sequre password</div>}
 
                     <div className='pass_wrapper'>
                         <input
                             type={repeatPasswordType}
                             className='new_password_input'
                             placeholder='Repeat password'
-                            // {...register("newpassword", { required: 'Please enter password' })}
                             onChange={(e) => { setConfirmed_pass(e.target.value) }}
                             value={confirmed_pass}
                         />
@@ -135,9 +161,7 @@ function Registration(props) {
                             }
                         </div>
                     </div>
-                    {/* {errors.newpassword && <div className='error_message'>{errors.newpassword.message}</div>} */}
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
-                    {isMatched && !isValidPassword && <div className='error_message'>Password format is not valid</div>}
 
                     <div className='accept-policy-container'>
                         <div>
@@ -145,7 +169,6 @@ function Registration(props) {
                                 className='policy-checkbox'
                                 type='checkbox'
                                 onClick={handleAccept}
-                                // {...register("checkbox", { required: 'Please check' })}
                             />
                             <div className='policy-container'>
                                 Accept our
@@ -164,7 +187,6 @@ function Registration(props) {
                                 </b>
                             </div>
                         </div>
-                        {/* {errors.checkbox && <div className='error_message'>{errors.checkbox.message}</div>} */}
                     </div>
 
                     <Recaptcha
