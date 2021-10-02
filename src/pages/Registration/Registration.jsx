@@ -18,6 +18,7 @@ function Registration(props) {
     const [nameError, setNameError] = useState('');
     const [surnameError, setSurnameError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [confirmed_passError, setConfirmed_passError] = useState('');
 
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
@@ -55,6 +56,7 @@ function Registration(props) {
         if (name === '') { setNameError('Please enter your name') }
         if (surname === '') { setSurnameError('Please enter your surname') }
         if (email === '') { setEmailError('Please enter your email') }
+        if (confirmed_pass === '') {setConfirmed_passError('Please enter password')}
     }
 
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
@@ -110,7 +112,7 @@ function Registration(props) {
                         onChange={(e) => setName(e.target.value)}
                         value={name}
                     />
-                    {nameError && <div className='error_message'>{nameError}</div>}
+                    {!name && nameError && <div className='error_message'>{nameError}</div>}
 
                     <input
                         type='text'
@@ -119,7 +121,7 @@ function Registration(props) {
                         onChange={(e) => setSurname(e.target.value)}
                         value={surname}
                     />
-                    {surnameError && <div className='error_message'>{surnameError}</div>}
+                    {!surname && surnameError && <div className='error_message'>{surnameError}</div>}
 
                     <input
                         type='email'
@@ -128,7 +130,7 @@ function Registration(props) {
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
                     />
-                    {emailError && <div className='error_message'>{emailError}</div>}
+                    {!email && emailError && <div className='error_message'>{emailError}</div>}
 
                     <div className='pass_wrapper'>
                         <input
@@ -161,6 +163,7 @@ function Registration(props) {
                             }
                         </div>
                     </div>
+                    {!confirmed_pass && <div className='error_message'>{confirmed_passError}</div>}
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
 
                     <div className='accept-policy-container'>

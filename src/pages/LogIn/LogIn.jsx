@@ -14,8 +14,13 @@ function LogIn(props) {
     const history = useHistory();
     const [isVerified, setIsVerified] = useState(false);
     const [passwordType, setPasswordType] = useState('password');
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
     const [error, setError] = useState('');
 
     const login = (data) => {
@@ -54,14 +59,22 @@ function LogIn(props) {
         }
     }
 
+    function validate() {
+        if (email === '') { setEmailError('Please enter your email') }
+        if (password === '') { setPasswordError('Please enter your password') }
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
+
         const data = {
             email,
             password,
         };
 
-        login(data);
+        validate();
+
+       Object.keys(data).length && login(data);
     }
 
     return (
@@ -72,7 +85,6 @@ function LogIn(props) {
                 <form className='form' onSubmit={handleSubmit}>
                     <div className='heading'>Sign in</div>
 
-                    {/* <div className='email_div'>Email</div> */}
                     <input
                         type='email'
                         className="email_input"
@@ -80,6 +92,7 @@ function LogIn(props) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
+                    {!email && emailError && <div className='error_message'>{emailError}</div>}
 
                     <div className='pass_wrapper'>
                         <input
@@ -95,6 +108,7 @@ function LogIn(props) {
                             }
                         </div>
                     </div>
+                    { !password && passwordError && <div className='error_message'>{passwordError}</div>}
 
                     <Recaptcha
                         className='login_recaptcha'
