@@ -187,19 +187,6 @@
 //     border-radius: 13px
 // }
 
-.delete-context {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-bottom: 30px;
-
-    img {
-        width: 20px;
-        margin-right: 8px;
-    }
-}
-
 .dialog-title > .MuiTypography-h6 {
     width: 100%;
     height: 36px;
@@ -245,7 +232,7 @@
 .dialog-action {
     display: flex;
     justify-content: flex-end;
-    width: 400px;
+    width: 420px;
 
     margin: auto;
 
@@ -278,5 +265,4 @@
         background: #257aaf;
         border: 1px solid #257aaf;
     }
-
 }
