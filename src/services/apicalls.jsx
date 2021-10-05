@@ -37,6 +37,20 @@ const register = (data) => {
 
 const sendEmail = (data) => {
     console.log('data', data);
+    fetch('http://localhost:5000/url', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 const resetPsswd = (data) => {
@@ -57,9 +71,28 @@ const resetPsswd = (data) => {
         });
 }
 
+const createPicFoder = (data) => {
+    console.log('data', data);
+    fetch('http://localhost:5000/url', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
 export {
     login,
     register,
     sendEmail,
-    resetPsswd
+    resetPsswd,
+    createPicFoder
 };
