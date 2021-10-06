@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useState } from 'react';
 import UserHeader from '../../components/UserHeader/UserHeader';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -91,23 +91,23 @@ function ImportData(props) {
         createPicFoder(
             {
                 folderName,
-                imagesArray
+                // imagesArray
             }
         )
         // editFolderName && setIsFolderNameCreated(true);
     }
 
-    const handleOpenEdit = () => {
-        setOpenEdit(true);
-        setEditFolderName(folderName);
-    };
+    // const handleOpenEdit = () => {
+    //     setOpenEdit(true);
+    //     setEditFolderName(folderName);
+    // };
 
     const editFileName = () => {
         setOpen(true);
         setEditFolderName(true);
     }
-
-    const [imagesArray, setImagesArray] = useState([]);
+    let imagesArray = [];
+    // const [imagesArray, setImagesArray] = useState([]);
     //useEffect for rendering folders------------------------------------------------------------------
 
     const isDataExist = isFolderNameCreated ? 'min' : 'max';
