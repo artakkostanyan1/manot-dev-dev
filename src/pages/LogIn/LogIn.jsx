@@ -12,7 +12,7 @@ import './LogIn.scss';
 
 function LogIn(props) {
     const history = useHistory();
-    const [isVerified, setIsVerified] = useState(false);
+    const [isVerified, setIsVerified] = useState(true);
     const [passwordType, setPasswordType] = useState('password');
 
     const [email, setEmail] = useState('');

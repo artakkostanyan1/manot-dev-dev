@@ -1,4 +1,4 @@
-import React from 'react';
+// import { useEffect } from 'react';
 import { useState } from 'react';
 import UserHeader from '../../components/UserHeader/UserHeader';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -8,6 +8,8 @@ import CloseIcon from '@material-ui/icons/Close';
 // import ImageUpload from '../../components/ImageUpload/ImageUpload';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import QuestionMark from '../../styles/images/question-mark.svg';
+import { createPicFoder } from '../../services/apicalls';
 import './ImportData.scss';
 
 function ImportData(props) {
@@ -18,6 +20,7 @@ function ImportData(props) {
     const [isFolderNameCreated, setIsFolderNameCreated] = useState(false);
     const [editFolderName, setEditFolderName] = useState(false);
     const [toggle, setToggle] = useState(false);
+    const [deleteToggle, setDeleteToggle] = useState(false);
     // const [errMessage, setErrMessage] = useState(false);
     const styles = {
         cancelButton: {
@@ -43,6 +46,18 @@ function ImportData(props) {
             left: '65px'
         }
     };
+
+    const [images, setImages] = useState([]);
+    const maxNumber = 69;
+    const maxlimit = 15;
+    // let imageList;
+
+    const onChange = (imageList, addUpdateIndex) => {
+        // data for submit
+        console.log('aaaaaaaa', imageList, addUpdateIndex);
+        setImages(imageList);
+    };
+
     const handleOpen = () => {
         setOpen(true);
         setFolderName('');
@@ -72,30 +87,28 @@ function ImportData(props) {
     const handleToggle = (e) => {
         e.preventDefault();
         setToggle(!toggle);
+        setImages(images);
+        createPicFoder(
+            {
+                folderName,
+                // imagesArray
+            }
+        )
         // editFolderName && setIsFolderNameCreated(true);
     }
 
-    const handleOpenEdit = () => {
-        setOpenEdit(true);
-        setEditFolderName(folderName);
-    };
+    // const handleOpenEdit = () => {
+    //     setOpenEdit(true);
+    //     setEditFolderName(folderName);
+    // };
 
     const editFileName = () => {
         setOpen(true);
         setEditFolderName(true);
     }
-
-    const [images, setImages] = useState([]);
-    const maxNumber = 69;
-    const maxlimit = 15;
-    let imageList;
-
-    const onChange = (imageList, addUpdateIndex) => {
-        // data for submit
-        console.log(imageList, addUpdateIndex);
-        setImages(imageList);
-    };
-
+    let imagesArray = [];
+    // const [imagesArray, setImagesArray] = useState([]);
+    //useEffect for rendering folders------------------------------------------------------------------
 
     const isDataExist = isFolderNameCreated ? 'min' : 'max';
     return (
@@ -144,12 +157,43 @@ function ImportData(props) {
                                         <span onClick={editFileName}>
                                             <img src='edit.svg' alt='edit' />
                                         </span>
-                                        <span onClick={() => {
-                                            setIsFolderNameCreated(false);
-                                        }
-                                        }>
+                                        <span onClick={() => setDeleteToggle(true)}>
                                             <img src='delete.svg' alt='delete folder' />
                                         </span>
+                                        <Dialog
+                                            className='folder-dialog'
+                                            aria-labelledby="customized-dialog-title"
+                                            open={deleteToggle}
+                                        >
+                                            <div className='header-icons-container'>
+                                                <div onClick={() => setDeleteToggle(false)}>
+                                                    <CloseIcon />
+                                                </div>
+                                            </div>
+                                            <DialogContent className='delete-context'>
+                                                <img src={QuestionMark} alt="Question mark" />
+                                                Are you sure you want to delete this item?
+                                            </DialogContent>
+                                            <DialogActions className='dialog-action'>
+                                                <button
+                                                    className='continue-button'
+                                                    onClick={() => {
+                                                        setIsFolderNameCreated(false);
+                                                        setDeleteToggle(false);
+                                                    }}
+                                                    color="primary"
+                                                >
+                                                    OK
+                                                </button>
+                                                <button
+                                                    className='continue-button'
+                                                    onClick={() => setDeleteToggle(false)}
+                                                    color="primary"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </DialogActions>
+                                        </Dialog>
                                     </div>
                                 </>
                             )
@@ -167,7 +211,7 @@ function ImportData(props) {
                             Confirm
                         </DialogTitle>
                         <DialogContent>
-                            {`You are ipotrdet ${imageList?.length} photos`}
+                            {`You are ipotrdet ${imagesArray?.length} photos`}
                         </DialogContent>
                         <DialogActions className='dialog-action'>
                             <button

@@ -23,7 +23,7 @@ function Registration(props) {
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
 
-    const [isVerified, setIsVerified] = useState(false);
+    const [isVerified, setIsVerified] = useState(true);
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
     const [error, setError] = useState('');
@@ -94,7 +94,7 @@ function Registration(props) {
          password !== confirmed_pass ? setIsMatched(false) : setIsMatched(true);
 
         ((password === confirmed_pass) && accept && Object.keys(data).length)
-            && register(data);
+            && isVerified && register(data);
     };
 
     return (
