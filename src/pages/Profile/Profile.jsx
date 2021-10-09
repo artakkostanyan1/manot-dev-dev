@@ -29,6 +29,24 @@ function Profile(props) {
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
     const history = useHistory();
 
+    useEffect(() => {
+        fetch(`http://localhost:5000/api/v1/get-user`, {
+            method: 'GET',
+            headers: {
+                "x-access-token": localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                setName(data.message.name);
+                setSurname(data.message.surname);
+                setEmail(data.message.email);
+            })
+    }, [])
+
     function validate() {
         if (name === '') { setNameError('Please enter your name') }
         if (surname === '') { setSurnameError('Please enter your surname') }
@@ -66,27 +84,6 @@ function Profile(props) {
         // Object.keys(data).length && history.push(paths.Importdata);
     }
 
-    useEffect(() => {
-        fetch('http://localhost:5000/api/v1/get_user', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => {
-                if (!response.ok) {
-                    setError(response.statusText);
-                } else {
-                    console.log('res =======', response);
-                }
-                console.log('res', response)
-                return response.json();
-            })
-            .catch((error) => {
-                setError(error.message);
-            });
-    })
-
     return (
         <div className='registration_container'>
             <UserHeader />
@@ -116,7 +113,7 @@ function Profile(props) {
                         type='email'
                         className="email_input"
                         placeholder='Email'
-                        value='mays@gmail.com'
+                        value={email}
                         disabled
                     />
 
