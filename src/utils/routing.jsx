@@ -1,7 +1,7 @@
 const paths = {
     Main: '/',
     Importdata: '/importdata',
-    Login: '/login',
+    Login: '/login/:id',
     Verify: '/verify',
     Email: '/email',
     SignUp: '/registration',

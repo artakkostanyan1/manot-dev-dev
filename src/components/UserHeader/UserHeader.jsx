@@ -32,6 +32,11 @@ function UserHeader(props) {
         setAnchorEl(null);
     };
 
+    const handleCloseLogout = () => {
+        setAnchorEl(null);
+        localStorage.removeItem('token');
+    }
+
     return (
         <div className='header'>
             <button
@@ -55,7 +60,7 @@ function UserHeader(props) {
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Payment method</MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleCloseLogout}>
                     <Link className='menu_link' to={paths.Main}>
                         Logout
                     </Link>

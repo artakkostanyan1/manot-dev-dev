@@ -22,15 +22,17 @@ function Email() {
             .then(response => {
                 if (!response.ok) {
                     setError(response.statusText);
-                } else {
-                    history.push(paths.ResetPassword);
                 }
                 return response.json();
+            })
+            .then((data) => {
+                console.log(data.token);
+                history.push(paths.ResetPassword);
             })
             .catch((error) => {
                 setError(error.message);
             });
-        }
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
