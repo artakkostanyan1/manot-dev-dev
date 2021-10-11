@@ -30,8 +30,11 @@ function LogIn(props) {
     useEffect(() => {
         let endpoint = window.location.pathname.slice(7,);
 
-        fetch(`http://localhost:5000/verify-account/${endpoint}`, {
-            method: 'POST'
+        fetch(`http://localhost:5000/api/v1/verify-account`, {
+            method: 'POST',
+            headers: {
+                "x-access-token": endpoint
+            }
         })
             .then(response => {
                 return response.json();
