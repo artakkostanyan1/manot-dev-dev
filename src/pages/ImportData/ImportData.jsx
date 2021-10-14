@@ -9,7 +9,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import QuestionMark from '../../styles/images/question-mark.svg';
-import { createPicFoder } from '../../services/apicalls';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { Box, Typography, Button, ListItem, withStyles } from '@material-ui/core';
 import './ImportData.scss';
 
 function ImportData(props) {
@@ -19,13 +20,13 @@ function ImportData(props) {
     const [foldersNames, setFoldersNames] = useState([]);
     const [isFolderNameCreated, setIsFolderNameCreated] = useState(false);
     const [editFolderName, setEditFolderName] = useState(false);
-    const [toggle, setToggle] = useState(false);
     const [deleteToggle, setDeleteToggle] = useState(false);
+    const [images, setImages] = useState([]);
+    // const maxNumber = 69;
+    const maxlimit = 15;
     // const [errMessage, setErrMessage] = useState(false);
     const styles = {
-        cancelButton: {
-            background: 'lightgray',
-            border: '1px solid lightgray',
+        Button: {
             width: '162px',
             height: '33px',
             boxSizing: 'border-box',
@@ -38,23 +39,45 @@ function ImportData(props) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#ffffff',
-            marginBottom: '10px',
             cursor: 'pointer',
             position: 'absolute',
-            top: '210px',
             left: '65px'
+        },
+        chooseButton: {
+            background: 'lightblue',
+            border: '1px solid lightblue',
+            color: '#ffffff',
+            top: '200px',
+        },
+        cancelButton: {
+            background: 'lightgray',
+            border: '1px solid lightgray',
+            color: '#ffffff',
+            top: '210px',
+            marginBottom: '10px',
+            marginTop: '40px',
         }
     };
 
-    const [images, setImages] = useState([]);
-    const maxNumber = 69;
-    const maxlimit = 15;
-    // let imageList;
+    const createPicFoder = (data) => {
+        fetch('http://localhost:5000/url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
     const onChange = (imageList, addUpdateIndex) => {
-        // data for submit
-        console.log('aaaaaaaa', imageList, addUpdateIndex);
+        // console.log(imageList, addUpdateIndex);
         setImages(imageList);
     };
 
@@ -67,14 +90,23 @@ function ImportData(props) {
         setOpen(false);
         // setErrMessage(false)
     };
+
     const handleCreate = (e) => {
+        let imagesArray = [];
         e.preventDefault();
         setFoldersNames((foldersNames) => { return folderName && [...foldersNames, folderName] });
         folderName && setOpen(false);
+        images.map((el) => { imagesArray.push(el.data_url) })
+        const data = {
+            folderName,
+            imagesArray,
+        }
+        createPicFoder(data)
         folderName && setIsFolderNameCreated(true);
-        setToggle(!toggle)
+        //editFolderName && setIsFolderNameCreated(true);
         // console.log('done');
         // setErrMessage(!folderName);
+        console.log('imagesArray', data);
     };
 
     const handleEditCreate = (e) => {
@@ -84,38 +116,23 @@ function ImportData(props) {
         // editFolderName && setIsFolderNameCreated(true);
     }
 
-    const handleToggle = (e) => {
-        e.preventDefault();
-        setToggle(!toggle);
-        setImages(images);
-        createPicFoder(
-            {
-                folderName,
-                // imagesArray
-            }
-        )
-        // editFolderName && setIsFolderNameCreated(true);
-    }
-
-    // const handleOpenEdit = () => {
-    //     setOpenEdit(true);
-    //     setEditFolderName(folderName);
-    // };
+    const handleOpenEdit = () => {
+        setOpenEdit(true);
+        setEditFolderName(folderName);
+    };
 
     const editFileName = () => {
         setOpen(true);
         setEditFolderName(true);
     }
-    let imagesArray = [];
-    // const [imagesArray, setImagesArray] = useState([]);
     //useEffect for rendering folders------------------------------------------------------------------
 
     const isDataExist = isFolderNameCreated ? 'min' : 'max';
+    const chooseBtn = { ...styles.chooseButton, ...styles.Button };
+    const cancelBtn = { ...styles.cancelButton, ...styles.Button };
     return (
         <div className='import_container'>
-
             <UserHeader />
-
             <div className={`comp-import-data-${isDataExist}`}>
                 <div className='folder-name-conatiner'>
                     {isFolderNameCreated && <h3 className='imported-data-title'>Your imported data.</h3>}
@@ -134,22 +151,17 @@ function ImportData(props) {
                                             multiple
                                             value={images}
                                             onChange={onChange}
-                                            maxNumber={maxNumber}
+                                            // maxNumber={maxNumber}
                                             dataURLKey="data_url"
                                         >
                                             {({
-                                                imageList,
-                                                onImageUpload,
-                                                isDragging,
-                                                dragProps,
+                                                onImageUpload
                                             }) => (
                                                 <span>
                                                     <img
                                                         alt='add'
                                                         src='photo.svg'
-                                                        style={isDragging ? { color: 'red' } : undefined}
                                                         onClick={onImageUpload}
-                                                        {...dragProps}
                                                     />
                                                 </span>
                                             )}
@@ -200,30 +212,6 @@ function ImportData(props) {
                         })
                         }
                     </div>}
-                    <Dialog
-                        className='folder-dialog'
-                        aria-labelledby="customized-dialog-title"
-                        open={toggle}
-                    >
-                        <DialogTitle
-                            className="dialog-title"
-                        >
-                            Confirm
-                        </DialogTitle>
-                        <DialogContent>
-                            {`You are ipotrdet ${imagesArray?.length} photos`}
-                        </DialogContent>
-                        <DialogActions className='dialog-action'>
-                            <button
-                                type='submit'
-                                className='continue-button'
-                                onClick={handleToggle}
-                                color="primary"
-                            >
-                                Confirm
-                            </button>
-                        </DialogActions>
-                    </Dialog>
                 </div>
                 <div className='import-data-container'>
                     <span className='header-text'>
@@ -246,7 +234,6 @@ function ImportData(props) {
                     </button>
 
                     <Dialog
-                        // className='folder-dialog'
                         PaperProps={{
                             style: {
                                 borderRadius: '25px',
@@ -282,38 +269,43 @@ function ImportData(props) {
                                 required
                             />
                             <div className='dialog-action'>
-                                <ImageUploading
-                                    multiple
-                                    value={images}
-                                    onChange={onChange}
-                                    maxNumber={maxNumber}
-                                    dataURLKey="data_url"
-                                >
-                                    {({
-                                        imageList,
-                                        onImageUpload,
-                                        isDragging,
-                                        dragProps,
-                                    }) => (
-                                        <span>
-                                            <button
-                                                type='submit'
-                                                className='continue-button'
-                                                // onClick={handleCreate}
-                                                color="primary"
-                                                style={isDragging ? { color: 'red' } : undefined}
-                                                onClick={folderName && onImageUpload}
-                                                {...dragProps}
-                                            >
-                                                Create
-                                            </button>
-                                        </span>
-                                    )}
-                                </ImageUploading>
+                                <span>
+                                    <button
+                                        type='submit'
+                                        className='continue-button'
+                                        color="primary"
+                                    >
+                                        Create
+                                    </button>
+                                </span>
                             </div>
                         </form>
+                        <ImageUploading
+                            multiple
+                            value={images}
+                            onChange={onChange}
+                            // maxNumber={maxNumber}
+                            acceptType={['jpg', 'gif', 'png']}
+                            dataURLKey="data_url"
+                        >
+                            {({
+                                onImageUpload
+                            }) => (
+                                <span>
+                                    <button
+                                        className='choose-button'
+                                        color="primary"
+                                        onClick={onImageUpload}
+                                        style={chooseBtn}
+                                    >
+                                        Choose photo
+                                    </button>
+                                    {images.length !== 0 && <div>{`YOU CHOSSED ${images.length} PHOTOS`}</div>}
+                                </span>
+                            )}
+                        </ImageUploading>
                         <button
-                            style={styles.cancelButton}
+                            style={cancelBtn}
                             onClick={handleClose}
                             color="primary"
                         >
