@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -21,8 +21,25 @@ export const useStyles = makeStyles((theme) => ({
 function UserHeader(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [userName, setUserName] = React.useState('');
     const open = Boolean(anchorEl);
     const history = useHistory();
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/api/v1/get-user`, {
+            method: 'GET',
+            headers: {
+                "x-access-token": localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                setUserName(data.message.name);
+            })
+    }, [])
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -31,6 +48,11 @@ function UserHeader(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleCloseLogout = () => {
+        setAnchorEl(null);
+        localStorage.removeItem('token');
+    }
 
     return (
         <div className='header'>
@@ -55,7 +77,7 @@ function UserHeader(props) {
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Payment method</MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleCloseLogout}>
                     <Link className='menu_link' to={paths.Main}>
                         Logout
                     </Link>
@@ -64,7 +86,7 @@ function UserHeader(props) {
             <div className='user-name'>
 
                 <Link to={paths.Importdata}>
-                    User
+                    {userName}
                 </Link>
                 <div
                     className='user-account-container'

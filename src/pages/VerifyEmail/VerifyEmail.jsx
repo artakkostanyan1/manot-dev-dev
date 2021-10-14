@@ -26,12 +26,6 @@ function VerifyEmail() {
                         another email sent to you.
                     </p>
                     <div
-                        className='verify-email-button'
-                        onClick={() => history.push(paths.Login)}
-                    >
-                        Continue
-                    </div>
-                    <div
                         className='verify-email-link'
                         onClick={console.log('resend the verification email')}
                     >
