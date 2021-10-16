@@ -64,7 +64,7 @@ function Registration(props) {
         if (confirmed_pass === '') { setConfirmed_passError('Please enter password') }
     }
 
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
 
     function handleClick1() {
         (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
