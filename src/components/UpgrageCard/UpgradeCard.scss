@@ -3,7 +3,7 @@
     width: 280px;
     display: flex;
     align-items: center;
-    padding: 4px
+    padding: 7px
 }
 
 .upgrade_item1_container {
@@ -16,7 +16,7 @@
 
 .upgrade_item1_header {
     height: 72px;
-    width: 51px;
+    width: 100%;
 
     font-family: Inter;
     font-style: normal;
@@ -26,13 +26,12 @@
 
     letter-spacing: -0.581818px;
 
-    margin-left: 28px;
-    margin-top: 11px;
+    text-align: center;
 }
 
 .upgrade_item1_text {
-    height: 81px;
-    width: 279px;
+    height: 50px;
+    width: 100%;
 
     font-family: Inter;
     font-style: normal;
@@ -42,7 +41,7 @@
 
     letter-spacing: -0.581818px;
 
-    margin-left: 25px;
+    text-align: center;
 
     color: #4D4F5C;
 }
@@ -57,6 +56,10 @@
     line-height: 52px;
 }
 
+.price_container {
+    text-align: center;
+}
+
 .price {
     height: 46px;
     width: 33px;
@@ -67,6 +70,7 @@
     font-size: 48px;
     line-height: 72px;
     letter-spacing: -0.581818px;
+
 }
 
 .per_month {
@@ -98,16 +102,16 @@
 }
 
 .upgrade_item1_button_container {
-    height: 35%;
-
     display: flex;
     justify-content: center;
     align-items: flex-end;
+
+    margin-top: 255px;
 }
 
 .upgrade_item1_button {
-    height: 60px;
-    width: 260px;
+    height: 50px;
+    width: 250px;
 
     background: #FE4D61;
     border: 0.3px solid #FE4D61;

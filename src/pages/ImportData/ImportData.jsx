@@ -60,7 +60,7 @@ function ImportData(props) {
     };
 
     const createPicFoder = (data) => {
-        fetch('http://localhost:5000/url', {
+        fetch('http://localhost:5000/api/v1/add-image', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
