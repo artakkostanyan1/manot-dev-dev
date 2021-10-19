@@ -503,6 +503,7 @@ function Terms() {
                         form of these Terms of Use and the lack of signing by the parties hereto to execute these Terms of Use.</span></p>
                     <p className='single_gap'></p>
                     <p className='single_gap'></p>
+                    <p className='single_gap'></p>
                 </div>
             </div>
         </>
