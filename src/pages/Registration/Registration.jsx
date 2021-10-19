@@ -3,6 +3,9 @@ import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import Recaptcha from 'react-recaptcha';
 
+import {Redirect, Link} from "react-router-dom";
+import Terms from '../Terms/Terms';
+
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import paths from '../../utils/routing';
@@ -182,12 +185,7 @@ function Registration(props) {
                                     />
                                     <div className='policy-container'>
                                         Accept our
-                                        <b
-                                            onClick={() => alert('The Terms of Use page')}
-                                            className='terms'
-                                        >
-                                            Terms of Use
-                                        </b>
+                                        <Link to="/terms" target="_blank">Terms Of Use</Link>
                                         and
                                         <b
                                             onClick={() => alert('The Privace Policy poage')}

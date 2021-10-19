@@ -22,17 +22,13 @@ function UpgradeCard(props) {
             {props.subHeader}
         </div>
 
-        <div className='from'>
-            from
-        </div>
-
         <div className='price_container'>
             <span className='price'>
-                {props.price + '$'}
+                {props.header === 'Enterprise' ? props.price + '%' : props.price + '$'}
             </span>
 
             <span className='per_month'>
-                /mo
+               {props.header === 'Enterprise' ? 'custom' : '/month'}
             </span>
         </div>
 
@@ -44,7 +40,7 @@ function UpgradeCard(props) {
 
         <div className='upgrade_item1_button_container'>
             <button className='upgrade_item1_button'>
-                TRY NOW
+                {props.button_text}
             </button>
         </div>
 
