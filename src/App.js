@@ -14,6 +14,7 @@ import Email from './pages/Email/Email';
 
 import paths from './utils/routing';
 import './App.css';
+import Terms from './pages/Terms/Terms';
 
 const NoMatchPage = () => {
   return <h3>404 - Not found</h3>;
@@ -97,6 +98,12 @@ const routes = [
     exact: true,
     private: false,
     component: Desktop,
+  },
+  {
+    path: '/terms',
+    exact: true,
+    private: false,
+    component: Terms,
   },
   {
     private: false,
