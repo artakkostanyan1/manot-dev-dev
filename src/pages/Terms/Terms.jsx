@@ -12,11 +12,13 @@ function Terms() {
                     <p className='single_gap'></p>
                     <h3><span>AGREEMENT TO TERMS</span></h3>
                     <p className='single_gap'></p>
-                    <p><span>These Terms of Use constitute a legally binding agreement
-                        made between you, whether personally or on behalf of an entity
-                        (“you”) and manot, Inc. ("Company," “we," “us," or “our”), concerning
-                        your access to and use of the https://manot.tech/ website as well as
-                        any other media form, media channel, mobile website or mobile application
+                    <p><span>These Terms of Use constitute a legally binding agreement made between
+                        you, whether personally or on behalf of an entity (“you”) and manot, Inc.
+                        ("Company," “we," “us," or “our”), concerning your access to and use of the
+                        <a href="https://manot.tech/ " target="_blank">
+                            {'  ' + 'https://manot.tech/  '}
+                        </a>
+                        website as well as any other media form, media channel, mobile website or mobile application
                         related, linked, or otherwise connected thereto (collectively, the “Site”).
                         We are registered in Delaware, United States and have our registered office
                         at 651 N Broad St, Suite 206 Middletown, DE, 19709, Middletown, DE 19709.
@@ -383,7 +385,7 @@ function Terms() {
                         be entirely performed within the State of Delaware, without regard to its conflict of
                         law principles.</span></p>
                     <p className='single_gap'></p>
-                    <p><span>DISPUTE RESOLUTION</span></p>
+                    <h4><span>DISPUTE RESOLUTION</span></h4>
                     <p className='single_gap'></p>
                     <p><span>Any legal action of whatever nature brought by either you or us (collectively,
                         the “Parties” and individually, a “Party”) shall be commenced or prosecuted in the
@@ -465,7 +467,7 @@ function Terms() {
                         data, and you hereby waive any right of action against us arising from any such loss or
                         corruption of such data.</span></p>
                     <p className='single_gap'></p>
-                    <p><span>ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</span></p>
+                    <h4><span>ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</span></h4>
                     <p className='single_gap'></p>
                     <p><span>Visiting the Site, sending us emails, and completing online forms constitute
                         electronic communications. You consent to receive electronic communications, and you
@@ -485,7 +487,11 @@ function Terms() {
                     <p><span>If any complaint with us is not satisfactorily resolved, you can contact the
                         Complaint Assistance Unit of the Division of Consumer Services of the California
                         Department of Consumer Affairs in writing at 1625 North Market Blvd., Suite N 112,
-                        Sacramento, California 95834 or by telephone at (800) 952-5210 or (916) 445-1254. MISCELLANEOUS</span></p>
+                        Sacramento, California 95834 or by telephone at (800) 952-5210 or (916) 445-1254.</span></p>
+                    <p className='single_gap'></p>
+                    <h4><span>MISCELLANEOUS</span></h4>
+                    <p className='single_gap'></p>
+                    <p className='single_gap'></p>
                     <p><span>These Terms of Use and any policies or operating rules posted by us on the Site
                         or in respect to the Site constitute the entire agreement and understanding between you
                         and us. Our failure to exercise or enforce any right or provision of these Terms of Use
@@ -502,6 +508,23 @@ function Terms() {
                         drafted them. You hereby waive any and all defences you may have based on the electronic
                         form of these Terms of Use and the lack of signing by the parties hereto to execute these Terms of Use.</span></p>
                     <p className='single_gap'></p>
+                    <p className='single_gap'></p>
+                    <h4><span>CONTACT US</span></h4>
+                    <p className='single_gap'></p>
+                    <p><span>In order to resolve a complaint regarding the Site or to receive further
+                        information regarding use of the Site, please contact us at:</span></p>
+                    <p className='single_gap'></p>
+                    <p><span>manot, Inc.</span></p>
+                    <p><span>651 N Broad St, Suite 206 Middletown, DE, 19709</span></p>
+                    <p><span>Middletown, DE 19709</span></p>
+                    <p><span>United States</span></p>
+                    <p><span>info@manot.tech</span></p>
+                    <p className='single_gap'></p>
+                    <p><span>These terms of use were created using Termly's Terms and Conditions Generator
+                        <a href="https://termly.io/products/terms-and-conditions-generator/?ftseo" target="_blank">
+                            {' ' + 'https://termly.io/products/terms-and-conditions-generator/?ftseo.'}
+                        </a>
+                    </span></p>
                     <p className='single_gap'></p>
                     <p className='single_gap'></p>
                 </div>
