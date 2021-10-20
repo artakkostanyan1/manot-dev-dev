@@ -12,6 +12,9 @@ import Desktop from './pages/Desktop/Desktop';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Email from './pages/Email/Email';
 
+import Terms from './pages/Terms/Terms';
+import Policy from './pages/Policy/Policy';
+
 import paths from './utils/routing';
 import './App.css';
 
@@ -97,6 +100,18 @@ const routes = [
     exact: true,
     private: false,
     component: Desktop,
+  },
+  {
+    path: '/terms',
+    exact: true,
+    private: false,
+    component: Terms,
+  },
+  {
+    path: '/policy',
+    exact: true,
+    private: false,
+    component: Policy,
   },
   {
     private: false,
