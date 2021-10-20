@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import Recaptcha from 'react-recaptcha';
+import {Link} from "react-router-dom";
 
-import { Redirect, Link } from "react-router-dom";
-import Terms from '../Terms/Terms';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
