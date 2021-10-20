@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import Recaptcha from 'react-recaptcha';
-
 import {Link} from "react-router-dom";
+
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
@@ -184,14 +184,11 @@ function Registration(props) {
                                     />
                                     <div className='policy-container'>
                                         Accept our
-                                        <Link to="/terms" target="_blank">Terms Of Use</Link>
+                                        <Link className='terms' to="/terms" target="_blank">
+                                            <b>Terms Of Use</b></Link>
                                         and
-                                        <b
-                                            onClick={() => alert('The Privace Policy poage')}
-                                            className='policy'
-                                        >
-                                            Privacy Policy
-                                        </b>
+                                        <Link className='policy' to="/policy" target="_blank">
+                                            <b>Privacy Policy</b></Link>
                                     </div>
                                 </div>
                             </div>
