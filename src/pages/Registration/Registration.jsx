@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import Recaptcha from 'react-recaptcha';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import paths from '../../utils/routing';
+
+import { APIURL } from '../../env.js';
 
 import Loader from '../../components/Loader/Loader';
 import './Registration.scss';
@@ -36,7 +38,7 @@ function Registration(props) {
 
     const register = (data) => {
         isLoading = true;
-        fetch('http://localhost:5000/api/v1/register', {
+        fetch(`${APIURL}api/v1/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

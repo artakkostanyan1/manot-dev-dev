@@ -6,6 +6,7 @@ import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
 import paths from '../../utils/routing';
+import { APIURL } from '../../env.js';
 import './Profile.scss';
 
 function Profile(props) {
@@ -30,7 +31,7 @@ function Profile(props) {
     const history = useHistory();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/get-user`, {
+        fetch(`${APIURL}api/v1/get-user`, {
             method: 'GET',
             headers: {
                 "x-access-token": localStorage.getItem('token')

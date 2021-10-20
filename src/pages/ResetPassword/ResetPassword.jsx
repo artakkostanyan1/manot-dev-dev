@@ -5,6 +5,8 @@ import { useHistory } from 'react-router';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
+import { APIURL } from '../../env.js';
+
 import paths from '../../utils/routing';
 import './ResetPassword.scss';
 
@@ -21,7 +23,7 @@ function ResetPassword(props) {
 
     const resetPassword = (data) => {
         console.log('data', data);
-        fetch('http://localhost:5000/api/v1/resetPassword', {
+        fetch(`${APIURL}api/v1/resetPassword`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

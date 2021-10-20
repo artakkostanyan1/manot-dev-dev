@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import paths from '../../utils/routing';
+import { APIURL } from '../../env.js';
 import './Email.scss';
 
 function Email() {
@@ -12,7 +13,7 @@ function Email() {
     // TO DO: /////////////////////////////////////////////////////Email api path
     const sendEmail = (data) => {
         console.log('data', data);
-        fetch('http://localhost:5000/api/v1/email', {
+        fetch(`${APIURL}api/v1/email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

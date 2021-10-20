@@ -8,6 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import QuestionMark from '../../styles/images/question-mark.svg';
+import { APIURL } from '../../env.js';
 import './ImportData.scss';
 
 function ImportData(props) {
@@ -55,7 +56,7 @@ function ImportData(props) {
     };
 
     const createPicFoder = (data) => {
-        fetch('http://localhost:5000/api/v1/add-image', {
+        fetch(`${APIURL}api/v1/add-image`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

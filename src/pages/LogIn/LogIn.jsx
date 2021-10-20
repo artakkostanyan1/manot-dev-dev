@@ -12,6 +12,8 @@ import AlertTitle from '@mui/material/AlertTitle';
 
 import Loader from '../../components/Loader/Loader';
 
+import { APIURL } from '../../env.js';
+
 import paths from '../../utils/routing';
 import './LogIn.scss';
 
@@ -33,7 +35,7 @@ function LogIn(props) {
     useEffect(() => {
         let endpoint = window.location.pathname.slice(7,);
 
-        fetch(`http://localhost:5000/api/v1/verify-account`, {
+        fetch(`${APIURL}api/v1/verify-account`, {
             method: 'POST',
             headers: {
                 "x-access-token": endpoint
@@ -48,7 +50,7 @@ function LogIn(props) {
     }, [])
 
     const login = (data) => {
-        fetch('http://localhost:5000/api/v1/login', {
+        fetch(`${APIURL}api/v1/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +112,7 @@ function LogIn(props) {
             {isLoading ? <Loader /> :
                 <div className='verify_container'>
                     <Header />
-{/* TODO discuss css of error messages and move to css file */}
+                    {/* TODO discuss css of error messages and move to css file */}
                     {error && <Alert severity="error"
                         style={{
                             marginTop: '18px',

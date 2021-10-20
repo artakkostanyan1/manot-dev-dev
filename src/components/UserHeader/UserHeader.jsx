@@ -7,6 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import PersonIcon from '@material-ui/icons/Person';
 import paths from '../../utils/routing';
+import { APIURL } from '../../env.js';
 import './UserHeader.scss';
 
 export const useStyles = makeStyles((theme) => ({
@@ -26,7 +27,7 @@ function UserHeader(props) {
     const history = useHistory();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/get-user`, {
+        fetch(`${APIURL}api/v1/get-user`, {
             method: 'GET',
             headers: {
                 "x-access-token": localStorage.getItem('token')
