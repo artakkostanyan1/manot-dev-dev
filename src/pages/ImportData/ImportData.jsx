@@ -2,15 +2,12 @@ import { useState } from 'react';
 import UserHeader from '../../components/UserHeader/UserHeader';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloseIcon from '@material-ui/icons/Close';
-// import MinimizeIcon from '@material-ui/icons/Minimize';
-// import Crop169Icon from '@material-ui/icons/Crop169';
-// import ImageUpload from '../../components/ImageUpload/ImageUpload';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import QuestionMark from '../../styles/images/question-mark.svg';
 import './ImportData.scss';
 
-function ImportData(props) {
+function ImportData() {
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [folderName, setFolderName] = useState('');
@@ -19,7 +16,9 @@ function ImportData(props) {
     const [editFolderName, setEditFolderName] = useState(false);
     const [deleteToggle, setDeleteToggle] = useState(false);
     const [images, setImages] = useState([]);
+    const token = localStorage.getItem('token');
     const maxlimit = 15;
+
     const styles = {
         Button: {
             width: '162px',
@@ -59,6 +58,7 @@ function ImportData(props) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                "x-access-token": token,
             },
             body: JSON.stringify(data),
         })
@@ -71,10 +71,67 @@ function ImportData(props) {
             });
     }
 
+    const addPhotos = (data) => {
+        fetch('http://localhost:5000/url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "x-access-token": token,
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then((data) => {
+                setOpen(true);
+                setEditFolderName(true);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    const editFileName = (data) => {
+        fetch('http://localhost:5000/url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "x-access-token": token,
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then((data) => {
+                setOpen(true);
+                setEditFolderName(true);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    const deleteFile = (data) => {
+        fetch('http://localhost:5000/url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "x-access-token": token,
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then((data) => {
+                setOpen(true);
+                setEditFolderName(true);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+
     const onChange = (imageList) => {
         setImages(imageList);
     };
-
     const handleOpen = () => {
         setOpen(true);
         setFolderName('');
@@ -82,19 +139,38 @@ function ImportData(props) {
     const handleClose = () => {
         setOpen(false);
     };
-
+    const handleEditOpen = () => {
+        setOpenEdit(true);
+    }
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
+    }
+    const handleDelete = () => {
+        setDeleteToggle(true);
+        deleteFile();
+    }
     const handleCreate = (e) => {
         let imagesArray = [];
         e.preventDefault();
         setFoldersNames((foldersNames) => { return folderName && [...foldersNames, folderName] });
         folderName && setOpen(false);
-        // console.log('images', images);
-        images.map((el) => { imagesArray.push(el.data_url, el.width, el.length) })
+        images.map((el) => {
+            let i = new Image();
+            i.onload = function () {
+                imagesArray.push({
+                    image: el.data_url,
+                    width: i.width,
+                    height: i.height,
+                    size: el.file.size,
+                })
+            };
+            i.src = el.data_url;
+        })
         const data = {
             folderName,
             imagesArray,
         }
-        createPicFoder(data)
+        createPicFoder(data);
         folderName && setIsFolderNameCreated(true);
         //editFolderName && setIsFolderNameCreated(true);
         console.log('imagesArray', data);
@@ -104,13 +180,10 @@ function ImportData(props) {
         e.preventDefault();
         setFoldersNames((foldersNames) => { return editFolderName && [...foldersNames, editFolderName] });
         editFolderName && setOpenEdit(false);
+        editFileName();
         // editFolderName && setIsFolderNameCreated(true);
     }
 
-    const editFileName = () => {
-        setOpen(true);
-        setEditFolderName(true);
-    }
     //useEffect for rendering folders------------------------------------------------------------------
 
     const isDataExist = isFolderNameCreated ? 'min' : 'max';
@@ -137,6 +210,10 @@ function ImportData(props) {
                                             multiple
                                             value={images}
                                             onChange={onChange}
+                                            acceptType={['jpg', 'jpeg', 'png']}
+                                            maxFileSize={100000}
+                                            resolutionWidth={1024}
+                                            resolutionHeight={1024}
                                             dataURLKey="data_url"
                                         >
                                             {({
@@ -151,10 +228,10 @@ function ImportData(props) {
                                                 </span>
                                             )}
                                         </ImageUploading>
-                                        <span onClick={editFileName}>
+                                        <span onClick={handleEditOpen}>
                                             <img src='edit.svg' alt='edit' />
                                         </span>
-                                        <span onClick={() => setDeleteToggle(true)}>
+                                        <span onClick={() => setDeleteToggle}>
                                             <img src='delete.svg' alt='delete folder' />
                                         </span>
                                         <Dialog
@@ -230,8 +307,6 @@ function ImportData(props) {
                         open={open}
                     >
                         <div className='header-icons-container'>
-                            {/* <MinimizeIcon /> */}
-                            {/* <Crop169Icon />  */}
                             <div onClick={handleClose}>
                                 <CloseIcon />
                             </div>
@@ -269,7 +344,10 @@ function ImportData(props) {
                             multiple
                             value={images}
                             onChange={onChange}
-                            acceptType={['jpg', 'gif', 'png']}
+                            acceptType={['jpg', 'jpeg', 'png']}
+                            maxFileSize={100000}
+                            resolutionWidth={1024}
+                            resolutionHeight={1024}
                             dataURLKey="data_url"
                         >
                             {({
@@ -299,20 +377,17 @@ function ImportData(props) {
 
                     <Dialog
                         className='folder-dialog'
-                        // onClose={handleClose}
+                        onClose={handleEditOpen}
                         aria-labelledby="customized-dialog-title"
                         open={openEdit}
                     >
                         <div className='header-icons-container'>
-                            {/* <MinimizeIcon /> */}
-                            {/* <Crop169Icon /> */}
-                            <div onClick={handleClose}>
+                            <div onClick={handleCloseEdit}>
                                 <CloseIcon />
                             </div>
                         </div>
                         <DialogTitle
                             className="dialog-title"
-                        // onClose={handleClose}
                         >
                             Edit Folder Name
                         </DialogTitle>
@@ -322,7 +397,6 @@ function ImportData(props) {
                                     className="folder-name-input"
                                     onChange={(e) => {
                                         setEditFolderName(e.target.value);
-                                        console.log('e', e.target.value)
                                     }}
                                     type='text'
                                     autoFocus
@@ -345,7 +419,7 @@ function ImportData(props) {
                                 </button>
                                 <button
                                     className='continue-button'
-                                    onClick={handleClose}
+                                    onClick={handleCloseEdit}
                                     color="primary"
                                 >
                                     Cancle
