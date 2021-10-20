@@ -12,9 +12,11 @@ import Desktop from './pages/Desktop/Desktop';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Email from './pages/Email/Email';
 
+import Terms from './pages/Terms/Terms';
+import Policy from './pages/Policy/Policy';
+
 import paths from './utils/routing';
 import './App.css';
-import Terms from './pages/Terms/Terms';
 
 const NoMatchPage = () => {
   return <h3>404 - Not found</h3>;
@@ -104,6 +106,12 @@ const routes = [
     exact: true,
     private: false,
     component: Terms,
+  },
+  {
+    path: '/policy',
+    exact: true,
+    private: false,
+    component: Policy,
   },
   {
     private: false,
