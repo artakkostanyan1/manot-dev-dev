@@ -10,12 +10,12 @@ import './ImportData.scss';
 function ImportData() {
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const [folderName, setFolderName] = useState('');
+    const [folder_name, setFolderName] = useState('');
     const [foldersNames, setFoldersNames] = useState([]);
     const [isFolderNameCreated, setIsFolderNameCreated] = useState(false);
     const [editFolderName, setEditFolderName] = useState(false);
     const [deleteToggle, setDeleteToggle] = useState(false);
-    const [images, setImages] = useState([]);
+    const [imagesArray, setImagesArray] = useState([]);
     const token = localStorage.getItem('token');
     const maxlimit = 15;
 
@@ -83,7 +83,6 @@ function ImportData() {
             .then(response => response.json())
             .then((data) => {
                 setOpen(true);
-                setEditFolderName(true);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -111,7 +110,7 @@ function ImportData() {
 
     const deleteFile = (data) => {
         fetch('http://localhost:5000/url/api/v1/delete-folder', {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 "x-access-token": token,
@@ -130,7 +129,7 @@ function ImportData() {
 
 
     const onChange = (imageList) => {
-        setImages(imageList);
+        setImagesArray(imageList);
     };
     const handleOpen = () => {
         setOpen(true);
@@ -150,14 +149,14 @@ function ImportData() {
         deleteFile();
     }
     const handleCreate = (e) => {
-        let imagesArray = [];
+        let images = [];
         e.preventDefault();
-        setFoldersNames((foldersNames) => { return folderName && [...foldersNames, folderName] });
-        folderName && setOpen(false);
-        images.map((el) => {
+        setFoldersNames((foldersNames) => { return folder_name && [...foldersNames, folder_name] });
+        folder_name && setOpen(false);
+        imagesArray.map((el) => {
             let i = new Image();
             i.onload = function () {
-                imagesArray.push({
+                images.push({
                     image: el.data_url,
                     width: i.width,
                     height: i.height,
@@ -167,13 +166,13 @@ function ImportData() {
             i.src = el.data_url;
         })
         const data = {
-            folderName,
-            imagesArray,
+            folder_name,
+            images,
         }
-        createPicFoder(data);
-        folderName && setIsFolderNameCreated(true);
+        images ? createPicFoder(data.folder_name) : addPhotos(data);
+        folder_name && setIsFolderNameCreated(true);
         //editFolderName && setIsFolderNameCreated(true);
-        console.log('imagesArray', data);
+        console.log('images', data);
     };
 
     const handleEditCreate = (e) => {
@@ -184,7 +183,6 @@ function ImportData() {
         // editFolderName && setIsFolderNameCreated(true);
     }
 
-    //useEffect for rendering folders------------------------------------------------------------------
     useEffect(() => {
         fetch(`http://localhost:5000/api/v1/get-folders`, {
             method: 'GET',
@@ -222,7 +220,7 @@ function ImportData() {
                                         </span>
                                         <ImageUploading
                                             multiple
-                                            value={images}
+                                            value={imagesArray}
                                             onChange={onChange}
                                             acceptType={['jpg', 'jpeg', 'png']}
                                             maxFileSize={100000}
@@ -267,7 +265,7 @@ function ImportData() {
                                                     className='continue-button'
                                                     onClick={() => {
                                                         setIsFolderNameCreated(false);
-                                                        setDeleteToggle(false);
+                                                        handleDelete(false);
                                                     }}
                                                     color="primary"
                                                 >
@@ -339,7 +337,7 @@ function ImportData() {
                                 type='text'
                                 autoFocus
                                 placeholder='Folder Name'
-                                value={folderName}
+                                value={folder_name}
                                 required
                             />
                             <div className='dialog-action'>
@@ -356,7 +354,7 @@ function ImportData() {
                         </form>
                         <ImageUploading
                             multiple
-                            value={images}
+                            value={imagesArray}
                             onChange={onChange}
                             acceptType={['jpg', 'jpeg', 'png']}
                             maxFileSize={100000}
@@ -376,7 +374,7 @@ function ImportData() {
                                     >
                                         Choose photo
                                     </button>
-                                    {images.length !== 0 && <div>{`YOU CHOSSED ${images.length} PHOTOS`}</div>}
+                                    {imagesArray.length !== 0 && <div>{`YOU CHOSSED ${imagesArray.length} PHOTOS`}</div>}
                                 </span>
                             )}
                         </ImageUploading>
