@@ -1,21 +1,16 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
+     agent any
+     stages {
+        stage("Build") {
             steps {
+                sh "npm install"
                 sh "npm run build"
-                echo 'Building..'
             }
         }
-        stage('Test') {
+        stage("Deploy") {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+               // sh "sudo rm -rf /var/www/manot-ui"
+                scp -r ./build/* jenkins@dev.app.manot.tech:/var/www/dev/manot-ui/
             }
         }
     }
