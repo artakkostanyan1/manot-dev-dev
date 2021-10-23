@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UserHeader from '../../components/UserHeader/UserHeader';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloseIcon from '@material-ui/icons/Close';
@@ -54,7 +54,7 @@ function ImportData() {
     };
 
     const createPicFoder = (data) => {
-        fetch('http://localhost:5000/url', {
+        fetch('http://localhost:5000/api/v1/create-folder', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ function ImportData() {
     }
 
     const addPhotos = (data) => {
-        fetch('http://localhost:5000/url', {
+        fetch('http://localhost:5000/api/v1/add-img', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ function ImportData() {
     }
 
     const editFileName = (data) => {
-        fetch('http://localhost:5000/url', {
+        fetch('http://localhost:5000/url/api/v1/rename-folder', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ function ImportData() {
     }
 
     const deleteFile = (data) => {
-        fetch('http://localhost:5000/url', {
+        fetch('http://localhost:5000/url/api/v1/delete-folder', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -185,6 +185,20 @@ function ImportData() {
     }
 
     //useEffect for rendering folders------------------------------------------------------------------
+    useEffect(() => {
+        fetch(`http://localhost:5000/api/v1/get-folders`, {
+            method: 'GET',
+            headers: {
+                "x-access-token": localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+    }, [])
 
     const isDataExist = isFolderNameCreated ? 'min' : 'max';
     const chooseBtn = { ...styles.chooseButton, ...styles.Button };
