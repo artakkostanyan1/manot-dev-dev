@@ -7,8 +7,9 @@ import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
 import PersonIcon from '@material-ui/icons/Person';
 import paths from '../../utils/routing';
-import { APIURL } from '../../env.js';
 import './UserHeader.scss';
+
+require('dotenv').config();
 
 export const useStyles = makeStyles((theme) => ({
     menuStyle: {
@@ -25,9 +26,10 @@ function UserHeader(props) {
     const [userName, setUserName] = React.useState('');
     const open = Boolean(anchorEl);
     const history = useHistory();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        fetch(`${APIURL}api/v1/get-user`, {
+        fetch(`${apiUrl}get-user`, {
             method: 'GET',
             headers: {
                 "x-access-token": localStorage.getItem('token')

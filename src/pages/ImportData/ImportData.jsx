@@ -8,8 +8,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import QuestionMark from '../../styles/images/question-mark.svg';
-import { APIURL } from '../../env.js';
 import './ImportData.scss';
+
+require('dotenv').config();
 
 function ImportData(props) {
     const [open, setOpen] = useState(false);
@@ -20,6 +21,7 @@ function ImportData(props) {
     const [editFolderName, setEditFolderName] = useState(false);
     const [deleteToggle, setDeleteToggle] = useState(false);
     const [images, setImages] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
     const maxlimit = 15;
     const styles = {
         Button: {
@@ -56,7 +58,7 @@ function ImportData(props) {
     };
 
     const createPicFoder = (data) => {
-        fetch(`${APIURL}api/v1/add-image`, {
+        fetch(`${apiUrl}add-image`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

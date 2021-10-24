@@ -12,10 +12,10 @@ import AlertTitle from '@mui/material/AlertTitle';
 
 import Loader from '../../components/Loader/Loader';
 
-import { APIURL } from '../../env.js';
-
 import paths from '../../utils/routing';
 import './LogIn.scss';
+
+require('dotenv').config();
 
 function LogIn(props) {
     const history = useHistory();
@@ -31,11 +31,12 @@ function LogIn(props) {
     const [error, setError] = useState('');
 
     const [isLoading, setIsLoading] = useState(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         let endpoint = window.location.pathname.slice(7,);
 
-        fetch(`${APIURL}api/v1/verify-account`, {
+        fetch(`${apiUrl}verify-account`, {
             method: 'POST',
             headers: {
                 "x-access-token": endpoint
@@ -50,7 +51,7 @@ function LogIn(props) {
     }, [])
 
     const login = (data) => {
-        fetch(`${APIURL}api/v1/login`, {
+        fetch(`${apiUrl}login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

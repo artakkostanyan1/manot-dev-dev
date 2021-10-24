@@ -9,10 +9,10 @@ import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import paths from '../../utils/routing';
 
-import { APIURL } from '../../env.js';
-
 import Loader from '../../components/Loader/Loader';
 import './Registration.scss';
+
+require('dotenv').config();
 
 function Registration(props) {
     const [name, setName] = useState('');
@@ -34,11 +34,12 @@ function Registration(props) {
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
     const [error, setError] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
     const history = useHistory();
 
     const register = (data) => {
         isLoading = true;
-        fetch(`${APIURL}api/v1/register`, {
+        fetch(`${apiUrl}register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

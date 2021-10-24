@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import paths from '../../utils/routing';
-import { APIURL } from '../../env.js';
 import './Email.scss';
+
+require('dotenv').config();
 
 function Email() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     // TO DO: /////////////////////////////////////////////////////Email api path
     const sendEmail = (data) => {
         console.log('data', data);
-        fetch(`${APIURL}api/v1/email`, {
+        fetch(`${apiUrl}email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
