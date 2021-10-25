@@ -1,4 +1,3 @@
-// import { useEffect } from 'react';
 import { useState } from 'react';
 import UserHeader from '../../components/UserHeader/UserHeader';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -9,9 +8,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import QuestionMark from '../../styles/images/question-mark.svg';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { Box, Typography, Button, ListItem, withStyles } from '@material-ui/core';
 import './ImportData.scss';
+
+require('dotenv').config();
 
 function ImportData(props) {
     const [open, setOpen] = useState(false);
@@ -22,9 +21,8 @@ function ImportData(props) {
     const [editFolderName, setEditFolderName] = useState(false);
     const [deleteToggle, setDeleteToggle] = useState(false);
     const [images, setImages] = useState([]);
-    // const maxNumber = 69;
+    const apiUrl = process.env.REACT_APP_API_URL;
     const maxlimit = 15;
-    // const [errMessage, setErrMessage] = useState(false);
     const styles = {
         Button: {
             width: '162px',
@@ -60,7 +58,7 @@ function ImportData(props) {
     };
 
     const createPicFoder = (data) => {
-        fetch('http://localhost:5000/api/v1/add-image', {
+        fetch(`${apiUrl}add-image`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,19 +74,16 @@ function ImportData(props) {
             });
     }
 
-    const onChange = (imageList, addUpdateIndex) => {
-        // console.log(imageList, addUpdateIndex);
+    const onChange = (imageList) => {
         setImages(imageList);
     };
 
     const handleOpen = () => {
         setOpen(true);
         setFolderName('');
-        // setErrMessage(false)
     };
     const handleClose = () => {
         setOpen(false);
-        // setErrMessage(false)
     };
 
     const handleCreate = (e) => {
@@ -96,7 +91,8 @@ function ImportData(props) {
         e.preventDefault();
         setFoldersNames((foldersNames) => { return folderName && [...foldersNames, folderName] });
         folderName && setOpen(false);
-        images.map((el) => { imagesArray.push(el.data_url) })
+        // console.log('images', images);
+        images.map((el) => { imagesArray.push(el.data_url, el.width, el.length) })
         const data = {
             folderName,
             imagesArray,
@@ -104,8 +100,6 @@ function ImportData(props) {
         createPicFoder(data)
         folderName && setIsFolderNameCreated(true);
         //editFolderName && setIsFolderNameCreated(true);
-        // console.log('done');
-        // setErrMessage(!folderName);
         console.log('imagesArray', data);
     };
 
@@ -115,11 +109,6 @@ function ImportData(props) {
         editFolderName && setOpenEdit(false);
         // editFolderName && setIsFolderNameCreated(true);
     }
-
-    const handleOpenEdit = () => {
-        setOpenEdit(true);
-        setEditFolderName(folderName);
-    };
 
     const editFileName = () => {
         setOpen(true);
@@ -151,7 +140,6 @@ function ImportData(props) {
                                             multiple
                                             value={images}
                                             onChange={onChange}
-                                            // maxNumber={maxNumber}
                                             dataURLKey="data_url"
                                         >
                                             {({
@@ -284,7 +272,6 @@ function ImportData(props) {
                             multiple
                             value={images}
                             onChange={onChange}
-                            // maxNumber={maxNumber}
                             acceptType={['jpg', 'gif', 'png']}
                             dataURLKey="data_url"
                         >
