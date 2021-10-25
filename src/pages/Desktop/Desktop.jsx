@@ -6,9 +6,9 @@ import './Desktop.scss';
 function Desktop() {
     return (
         <div className='comp-desktop'>
-            <UserHeader />
+            <UserHeader className='user_header_desktop'/>
             <div className='main-content-container'>
-                <LeftBar />
+                <LeftBar className='left_bar'/>
                 <div className='main-photo'>
                     Main photo
                 </div>

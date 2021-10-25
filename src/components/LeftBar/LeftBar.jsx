@@ -29,7 +29,7 @@ function LeftBar(props) {
                 {isFullScreen ? <FullscreenIcon /> : <FullscreenExit />}
             </div>
             {isFullScreen
-                ? <div>
+                ? <div className='full_screen_leftbar'>
                     <div className='radio-buttons-container'>
                         <div>
                             <input
@@ -82,7 +82,7 @@ function LeftBar(props) {
                         <div>
                             <img
                                 alt='girl'
-                                src="img.webp"
+                                src="horses-1.png"
                                 className='label-photo'
                             />
                             <label>Image1</label>
@@ -90,7 +90,7 @@ function LeftBar(props) {
                         <div>
                             <img
                                 alt='girl'
-                                src="img.webp"
+                                src="horses-1.png"
                                 className='label-photo'
                             />
                             <label>Image2</label>
@@ -98,7 +98,7 @@ function LeftBar(props) {
                         <div>
                             <img
                                 alt='girl'
-                                src="img.webp"
+                                src="horses-1.png"
                                 className='label-photo'
                             />
                             <label>Image3</label>
@@ -106,7 +106,7 @@ function LeftBar(props) {
                         <div>
                             <img
                                 alt='girl'
-                                src="img.webp"
+                                src="horses-1.png"
                                 className='label-photo'
                             />
                             <label>Image3</label>
@@ -114,11 +114,20 @@ function LeftBar(props) {
                         <div>
                             <img
                                 alt='girl'
-                                src="img.webp"
+                                src="horses-1.png"
                                 className='label-photo'
                             />
                             <label>Image3</label>
                         </div>
+                        <div>
+                            <img
+                                alt='girl'
+                                src="horses-1.png"
+                                className='label-photo'
+                            />
+                            <label>Image3</label>
+                        </div>
+    
                     </div>
                 </div>
                 : <div className='icons-container'>
