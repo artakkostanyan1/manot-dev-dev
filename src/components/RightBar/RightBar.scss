@@ -1,5 +1,4 @@
 .right_bar_conatainer {
-    // height: 850px;
     width: 18%;
 
     background-color: white;
@@ -39,7 +38,7 @@
 
 .single_annotation_btn_container {
     position: absolute;
-    bottom: 11.5%;
+    bottom: 7%;
 
     .single_annotation_btn_border {
         height: 34px;
@@ -49,14 +48,14 @@
         align-items: center;
         justify-content: center;
 
-        border: 2px solid #FE4D61;
+        border: 2px solid #257AAF;
         border-radius: 30px;
 
         .single_annotation_btn {
             height: 30px;
             width: 164px;
 
-            background-color: #FE4D61;
+            background-color: #257AAF;
             color: white;
 
             border-radius: 30px;

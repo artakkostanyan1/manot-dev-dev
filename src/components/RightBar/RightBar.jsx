@@ -6,22 +6,26 @@ const useStyles = makeStyles((theme) => ({
     first_part: {
         height: '7%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '3px'
     },
     second_part: {
         height: '7%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '7px'
     },
     third_part: {
         height: '7%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '7px'
     },
     fourth_part: {
         height: '13.5%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '7px'
     }
 }));
 
