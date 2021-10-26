@@ -1,6 +1,4 @@
 .left-bar-conatainer {
-    // height: 850px;
-
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
@@ -17,7 +15,7 @@
 
     .full_screen_leftbar {
         height: 90%;
-        
+
         .radio-buttons-container {
             display: flex;
             align-items: center;
@@ -26,7 +24,6 @@
             div {
                 display: flex;
                 align-items: center;
-                // width: 100%;
 
                 .box-input {
                     width: 30px;
@@ -38,8 +35,6 @@
         }
 
         .full_annotation_btn_container {
-
-            // height: 65%;
 
             display: flex;
             justify-content: center;
@@ -70,29 +65,11 @@
                     color: white;
 
                     border-radius: 30px;
-
-                    // width: 98%;
-                    // height: 30px;
-
-                    // background-color: lightgray;
-                    // border: 1px solid #a8a7a7;
-                    // box-sizing: border-box;
-                    // border-radius: 30px;
-                    // cursor: pointer;
-
-                    // font-family: PT Sans;
-                    // font-style: normal;
-                    // font-weight: bold;
-                    // font-size: 12px;
-                    // line-height: 16px;
-                    // /* identical to box height */
-
-                    // color: #4d4f5c;
-                    // margin: auto;
                 }
             }
 
         }
+
         .photos-container {
             display: flex;
             align-items: center;
@@ -103,7 +80,6 @@
             overflow-y: auto;
             overflow-x: hidden;
             margin: 20px 10px 0 10px;
-            // background: wheat;
 
             div {
                 width: 100%;
@@ -131,7 +107,7 @@
 
 
     .photos-container::-webkit-scrollbar {
-        width: 12px;
+        width: 10px;
     }
 
     .photos-container::-webkit-scrollbar-track {
@@ -142,8 +118,7 @@
     }
 
     .photos-container::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 8px;
+        background: lightgray;
     }
 
 
