@@ -14,6 +14,7 @@ import Email from './pages/Email/Email';
 
 import Terms from './pages/Terms/Terms';
 import Policy from './pages/Policy/Policy';
+import ContactUs from './pages/ContactUs/ContactUs';
 
 import paths from './utils/routing';
 import './App.css';
@@ -112,6 +113,12 @@ const routes = [
     exact: true,
     private: false,
     component: Policy,
+  },
+  {
+    path: '/contact-us',
+    exact: true,
+    private: false,
+    component: ContactUs,
   },
   {
     private: false,

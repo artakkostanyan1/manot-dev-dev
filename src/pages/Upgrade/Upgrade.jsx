@@ -1,10 +1,15 @@
 import UserHeader from '../../components/UserHeader/UserHeader';
 import UpgradeCard from '../../components/UpgrageCard/UpgradeCard';
 
+import { useHistory } from 'react-router-dom';
+import paths from '../../utils/routing';
+
 import upgradeData from '../../utils/upgrade';
 import './Upgrade.scss';
 
 function Upgrade(props) {
+    const history = useHistory();
+
     return (
         <div className='updrade_card_container'>
             <UserHeader />
@@ -35,6 +40,7 @@ function Upgrade(props) {
                     price={upgradeData.Enterprise.price}
                     body={upgradeData.Enterprise.body}
                     button_text={upgradeData.Enterprise.button_text}
+                    handleUpgradeButtonClick={() => history.push(paths.ContactUs)}
                 />
             </div>
         </div>
