@@ -79,7 +79,7 @@ function LeftBar(props) {
                     </ClickAwayListener>
 
                     <div className='photos-container'>
-                        <div>
+                        <div className='image_container'>
                             <img
                                 alt='girl'
                                 src="horses-1.png"
@@ -87,7 +87,7 @@ function LeftBar(props) {
                             />
                             <label>Image1</label>
                         </div>
-                        <div>
+                        <div className='image_container'>
                             <img
                                 alt='girl'
                                 src="horses-1.png"
@@ -95,7 +95,7 @@ function LeftBar(props) {
                             />
                             <label>Image2</label>
                         </div>
-                        <div>
+                        <div className='image_container'>
                             <img
                                 alt='girl'
                                 src="horses-1.png"
@@ -103,7 +103,7 @@ function LeftBar(props) {
                             />
                             <label>Image3</label>
                         </div>
-                        <div>
+                        <div className='image_container'>
                             <img
                                 alt='girl'
                                 src="horses-1.png"
@@ -111,7 +111,7 @@ function LeftBar(props) {
                             />
                             <label>Image3</label>
                         </div>
-                        <div>
+                        <div className='image_container'>
                             <img
                                 alt='girl'
                                 src="horses-1.png"
@@ -119,7 +119,7 @@ function LeftBar(props) {
                             />
                             <label>Image3</label>
                         </div>
-                        <div>
+                        <div className='image_container' >
                             <img
                                 alt='girl'
                                 src="horses-1.png"
