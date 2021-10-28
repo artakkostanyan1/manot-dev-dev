@@ -7,8 +7,8 @@ import { Link } from '@material-ui/core';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+// import Alert from '@mui/material/Alert';
+// import AlertTitle from '@mui/material/AlertTitle';
 
 import Loader from '../../components/Loader/Loader';
 
@@ -111,13 +111,13 @@ function LogIn(props) {
                 <div className='verify_container'>
                     <Header />
 {/* TODO discuss css of error messages and move to css file */}
-                    {error && <Alert severity="error"
+                    {/* {error && <Alert severity="error"
                         style={{
                             marginTop: '18px',
                             backgroundColor: 'transparent',
                             display: 'flex',
                             justifyContent: 'center'
-                        }}>{error}</Alert>}
+                        }}>{error}</Alert>} */}
                     <div className='form_wrapper'>
                         <form className='form' onSubmit={handleSubmit}>
                             <div className='heading'>Sign in</div>
