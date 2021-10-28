@@ -2,9 +2,16 @@ import './ContactUs.scss';
 
 function ContactUs() {
     return (
-        <>
-        I am contact us page
-        </>
+        <div>
+            <div>
+                <div>
+                    <input type="text" />
+                    <input type="text" />
+                </div>
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+        
+        </div>
     )
 }
 
