@@ -9,6 +9,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import paths from '../../utils/routing';
 import './UserHeader.scss';
 
+require('dotenv').config();
+
 export const useStyles = makeStyles((theme) => ({
     menuStyle: {
         backgroundColor: '#257AAF',
@@ -24,9 +26,10 @@ function UserHeader(props) {
     const [userName, setUserName] = React.useState('');
     const open = Boolean(anchorEl);
     const history = useHistory();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/get-user`, {
+        fetch(`${apiUrl}get-user`, {
             method: 'GET',
             headers: {
                 "x-access-token": localStorage.getItem('token')

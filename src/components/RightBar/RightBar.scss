@@ -1,5 +1,4 @@
 .right_bar_conatainer {
-    height: 850px;
     width: 18%;
 
     background-color: white;
@@ -28,15 +27,19 @@
 .fourth_text_part {
     margin-left: 5px;
 
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.btn_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .single_annotation_btn_container {
-    height: 65%;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    position: absolute;
+    bottom: 7%;
 
     .single_annotation_btn_border {
         height: 34px;
@@ -46,14 +49,14 @@
         align-items: center;
         justify-content: center;
 
-        border: 2px solid #FE4D61;
+        border: 2px solid #257AAF;
         border-radius: 30px;
 
         .single_annotation_btn {
             height: 30px;
             width: 164px;
 
-            background-color: #FE4D61;
+            background-color: #257AAF;
             color: white;
 
             border-radius: 30px;

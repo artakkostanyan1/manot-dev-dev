@@ -15,6 +15,8 @@ import Loader from '../../components/Loader/Loader';
 import paths from '../../utils/routing';
 import './LogIn.scss';
 
+require('dotenv').config();
+
 function LogIn(props) {
     const history = useHistory();
     const [isVerified, setIsVerified] = useState(true);
@@ -29,11 +31,12 @@ function LogIn(props) {
     const [error, setError] = useState('');
 
     const [isLoading, setIsLoading] = useState(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         let endpoint = window.location.pathname.slice(7,);
 
-        fetch(`http://localhost:5000/api/v1/verify-account`, {
+        fetch(`${apiUrl}verify-account`, {
             method: 'POST',
             headers: {
                 "x-access-token": endpoint
@@ -48,7 +51,7 @@ function LogIn(props) {
     }, [])
 
     const login = (data) => {
-        fetch('http://localhost:5000/api/v1/login', {
+        fetch(`${apiUrl}login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -112,6 +115,8 @@ function LogIn(props) {
                     <Header />
 {/* TODO discuss css of error messages and move to css file */}
                     {/* {error && <Alert severity="error"
+                    {/* TODO discuss css of error messages and move to css file */}
+                    {error && <Alert severity="error"
                         style={{
                             marginTop: '18px',
                             backgroundColor: 'transparent',
