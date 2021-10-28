@@ -32,17 +32,17 @@ function ContactUs() {
     }
 
     const handleClick = () => {
-        // let data = {
-        //     name,
-        //     email,
-        //     msg
-        // }
+        let data = {
+            name,
+            email,
+            msg
+        }
 
         if (!(name && email && msg)) {
             onShowAlert('error')
         }
 
-        // console.log(data);
+        console.log(data);
     }
 
     return (
@@ -90,10 +90,25 @@ function ContactUs() {
                 onClosePress={onCloseAlert}
                 pressCloseOnOutsideClick={true}
                 showBorderBottom={true}
-                alertStyles={{}}
+                alertStyles={{
+                height: '200px',
+                width: '50px'
+                }}
                 headerStyles={{}}
                 textStyles={{}}
-                buttonStyles={{}}
+                buttonStyles={{
+                    width: '200px',
+                    height: '40px',
+                
+                    marginTop: '15px',
+                
+                    background: '#f86878',
+                    border: '1px solid #f86878',
+                    boxSizing: 'border-box',
+                    borderRadius: '30px',
+                
+                    color: 'white'
+                }}
             />
 
         </div>
