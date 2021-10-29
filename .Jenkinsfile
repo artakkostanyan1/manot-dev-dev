@@ -2,8 +2,23 @@ pipeline {
 
     agent any
 
+    options {
+        buildDiscarder(
+            logRotator(
+                daysToKeepStr: '30',
+                artifactDaysToKeepStr: '15',
+                artifactNumToKeepStr: '15'
+            )
+        ) // Save disk space
+        durabilityHint('PERFORMANCE_OPTIMIZED')
+        timeout(time: 480, unit: 'MINUTES') // Timeout for pipeline
+    }
+
     environment {
-        CI = 'true'
+        CI = 'false'
+        GIT_REPO_NAME = "${env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')}"
+        HOSTNAME = "${env.GIT_REPO_NAME} + '-' + ${(env.CHANGE_ID) ? 'pr' + env.CHANGE_ID : env.GIT_BRANCH_NAME}"
+
     }
     
     stages {
