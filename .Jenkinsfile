@@ -9,10 +9,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Installing packages..'
-                sh "npm install"
-                echo 'Building..'
-                sh "npm run build"
+                sh label: "Installing packages...", script: 'npm ci --prefer-offline'
+                sh label: "Building...", script: 'npm run build'
             }
         }
         stage('Deploy') {
