@@ -39,7 +39,7 @@ function UpgradeCard(props) {
         </div>
 
         <div className='upgrade_item1_button_container'>
-            <button className='upgrade_item1_button'>
+            <button className='upgrade_item1_button' onClick={props.handleUpgradeButtonClick}>
                 {props.button_text}
             </button>
         </div>

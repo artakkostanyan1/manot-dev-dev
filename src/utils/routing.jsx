@@ -11,6 +11,7 @@ const paths = {
     Payment: '/payment',
     Upgrade: '/upgrade',
     Desktop: '/desktop',
+    ContactUs: '/contact-us',
 }
 
 export default paths;
