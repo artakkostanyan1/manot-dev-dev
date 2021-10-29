@@ -115,7 +115,6 @@ function LogIn(props) {
                     <Header />
 {/* TODO discuss css of error messages and move to css file */}
                     {/* {error && <Alert severity="error"
-                    {/* TODO discuss css of error messages and move to css file */}
                     {error && <Alert severity="error"
                         style={{
                             marginTop: '18px',
