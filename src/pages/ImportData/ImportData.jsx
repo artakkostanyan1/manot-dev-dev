@@ -23,6 +23,10 @@ function ImportData(props) {
     const [openSendPhotos, setOpenSendPhotos] = useState(false);
     const token = localStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
+
+    const [elementToEdit, setElementToEdit] = useState('');
+    const [elementToDelete, setElementToDelete] = useState('');
+
     const history = useHistory();
     const maxlimit = 15;
 
@@ -97,6 +101,7 @@ function ImportData(props) {
     // }
 
     const editFileName = (data) => {
+        console.log('I am data', data);
         fetch(`http://localhost:5000/api/v1/rename-folder?folder_name=${data.folder_name}`, {
             method: 'PUT',
             headers: {
@@ -116,6 +121,7 @@ function ImportData(props) {
 
 
     const deleteFile = (data) => {
+        console.log('delete dats', data)
         fetch(`http://localhost:5000/api/v1/delete-folder?folder_name=${data}`, {
             method: 'DELETE',
             headers: {
@@ -143,18 +149,15 @@ function ImportData(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleEditToggle = () => {
+    const handleEditToggle = (el) => {
         setOpenEdit(!openEdit);
+        setEditFolderName(el);
     }
     const ToggleDelete = (el = null) => {
         setDeleteToggle(el);
     }
     const ToggleOpenSendPhotos = () => {
         setOpenSendPhotos(!openSendPhotos);
-    }
-    const handleDelete = (data) => {
-        deleteFile(data);
-        ToggleDelete();
     }
     const handleCreate = (e) => {
         let images = [];
@@ -184,14 +187,20 @@ function ImportData(props) {
         console.log('images', data);
     };
 
-    const handleEditCreate = (e) => {
-        e.preventDefault();
+    const handleEditCreate = (el) => {
+        // e.preventDefault();
         editFolderName && setOpenEdit(false);
         const data = {
-            folder_name: folder_name,
-            new_folder_name: editFileName,
+            folder_name: el,
+            new_folder_name: editFolderName,
         }
         editFileName(data);
+        let newNames = foldersNames.filter((element) => {
+            return element !== el;
+        })
+        console.log('newnames', newNames)
+        // let newNames = [...foldersNames];
+        setFolderName(newNames);
         // editFolderName && setIsFolderNameCreated(true);
     }
 
@@ -210,7 +219,7 @@ function ImportData(props) {
                 setFoldersNames(data.message);
                 setIsFolderNameCreated(true);
             })
-    }, [])
+    }, [folder_name, elementToDelete])
 
     const isDataExist = isFolderNameCreated ? 'min' : 'max';
     const chooseBtn = { ...styles.chooseButton, ...styles.Button };
@@ -222,7 +231,6 @@ function ImportData(props) {
                 <div className='folder-name-conatiner'>
                     {isFolderNameCreated && <h3 className='imported-data-title'>Your imported data.</h3>}
                     {isFolderNameCreated && <div className='folders-container'>
-                        {console.log('foldersNmae', foldersNames)}
                         {foldersNames?.map((el, index) => {
                             return (
                                 <>
@@ -285,40 +293,18 @@ function ImportData(props) {
                                                 </button>
                                             </DialogActions>
                                         </Dialog>
-                                        <span onClick={() => handleEditToggle(el)}>
+                                        <span onClick={() => {
+                                            setElementToEdit(el)
+                                            handleEditToggle(el)
+                                        }}>
                                             <img src='edit.svg' alt='edit' />
                                         </span>
-                                        <EditDialog
-                                            handleEditToggle={handleEditToggle}
-                                            openEdit={openEdit}
-                                            handleEditCreate={handleEditCreate}
-                                            setEditFolderName={setEditFolderName}
-                                            el={el}
-                                        />
-                                        <span onClick={() => ToggleDelete(el)}>
+                                        <span onClick={() => {
+                                            setElementToDelete(el)
+                                            ToggleDelete(el)
+                                        }}>
                                             <img src='delete.svg' alt='delete folder' />
                                         </span>
-                                        <Dialog
-                                            className='folder-dialog'
-                                            aria-labelledby="customized-dialog-title"
-                                            open={!!deleteToggle}
-                                        >
-                                            <div className='header-icons-container'>
-                                                <div onClick={() => setDeleteToggle(null)}>
-                                                    <CloseIcon />
-                                                </div>
-                                            </div>
-                                            <DialogContent className='delete-context'>
-                                                <img src={QuestionMark} alt="Question mark" />
-                                                Are you sure you want to delete this item?
-                                            </DialogContent>
-                                            here was dialog
-                                            <DeleteDialog
-                                                folderNameToBeDeleted={el}
-                                                deleteFolder={deleteFile.bind(this, deleteToggle)}
-                                                ToggleDelete={ToggleDelete.bind(this, null)}
-                                            />
-                                        </Dialog>
                                     </div>
                                 </>
                             )
@@ -326,6 +312,139 @@ function ImportData(props) {
                         }
                     </div>}
                 </div>
+                {/* This is Add images dialog
+                <Dialog
+                    className='folder-dialog'
+                    aria-labelledby="customized-dialog-title"
+                    open={!!deleteToggle}
+                >
+                    <div className='header-icons-container'>
+                        <div onClick={(el) => {
+                            setElementToDelete(el);
+                            setDeleteToggle(null)
+                        }}>
+                            <CloseIcon />
+                        </div>
+                    </div>
+                    <DialogContent className='delete-context'>
+                        <img src={QuestionMark} alt="Question mark" />
+                        Are you sure you want to delete this item?
+                    </DialogContent>
+                    here was dialog
+                    <DialogActions className='dialog-action'>
+                        <button
+                            className='continue-button'
+                            onClick={() => {
+                                deleteFile(elementToDelete);
+                                setElementToDelete('')
+                             }}
+                            color="primary"
+                        >
+                            OK
+                        </button>
+                        <button
+                            className='continue-button'
+                            onClick={ToggleDelete}
+                            color="primary"
+                        >
+                            Cancel
+                        </button>
+                    </DialogActions>
+                </Dialog> */}
+
+                {/* This is Edit dialog*/}
+                <Dialog
+                    className='folder-dialog'
+                    onClose={handleEditToggle}
+                    aria-labelledby="customized-dialog-title"
+                    open={openEdit}
+                >
+                    <div className='header-icons-container'>
+                        <div onClick={handleEditToggle}>
+                            <CloseIcon />
+                        </div>
+                    </div>
+                    <DialogTitle
+                        className="dialog-title"
+                    >
+                        Edit Folder Name
+                    </DialogTitle>
+                    <>
+                        <DialogContent>
+                            <input
+                                className="folder-name-input"
+                                onChange={(e) => {
+                                    setEditFolderName(e.target.value);
+                                }}
+                                type='text'
+                                autoFocus
+                                placeholder='Folder Name'
+                                value={editFolderName}
+                                required
+                                validationErrors={{
+                                    isDefaultRequiredValue: 'Field is required'
+                                }}
+                            />
+                        </DialogContent>
+                        <DialogActions className='dialog-action'>
+                            <button
+                                className='continue-button'
+                                onClick={() => handleEditCreate(elementToEdit)}
+                                color="primary"
+                            >
+                                Confirm
+                            </button>
+                            <button
+                                className='continue-button'
+                                onClick={handleEditToggle}
+                                color="primary"
+                            >
+                                Cancle
+                            </button>
+                        </DialogActions>
+                    </>
+                </Dialog>
+
+                {/* This is Delete dialog*/}
+                <Dialog
+                    className='folder-dialog'
+                    aria-labelledby="customized-dialog-title"
+                    open={!!deleteToggle}
+                >
+                    <div className='header-icons-container'>
+                        <div onClick={(el) => {
+                            setElementToDelete(el);
+                            setDeleteToggle(null)
+                        }}>
+                            <CloseIcon />
+                        </div>
+                    </div>
+                    <DialogContent className='delete-context'>
+                        <img src={QuestionMark} alt="Question mark" />
+                        Are you sure you want to delete this item?
+                    </DialogContent>
+                    here was dialog
+                    <DialogActions className='dialog-action'>
+                        <button
+                            className='continue-button'
+                            onClick={() => {
+                                deleteFile(elementToDelete);
+                                setElementToDelete('')
+                             }}
+                            color="primary"
+                        >
+                            OK
+                        </button>
+                        <button
+                            className='continue-button'
+                            onClick={ToggleDelete}
+                            color="primary"
+                        >
+                            Cancel
+                        </button>
+                    </DialogActions>
+                </Dialog>
+
                 <div className='import-data-container'>
                     <span className='header-text'>
                         Welcome to <b>manot</b> annotation studio!
@@ -432,84 +551,3 @@ function ImportData(props) {
 }
 
 export default ImportData;
-
-
-function DeleteDialog(props) {
-    return (
-        <>
-            <DialogActions className='dialog-action'>
-                <button
-                    className='continue-button'
-                    onClick={() => { props.deleteFolder(props.folderNameToBeDeleted) }}
-                    color="primary"
-                >
-                    OK
-                </button>
-                <button
-                    className='continue-button'
-                    onClick={props.ToggleDelete}
-                    color="primary"
-                >
-                    Cancel
-                </button>
-            </DialogActions>
-        </>
-    )
-}
-
-function EditDialog(props) {
-    return (
-        <Dialog
-            className='folder-dialog'
-            onClose={props.handleEditToggle}
-            aria-labelledby="customized-dialog-title"
-            open={props.openEdit}
-        >
-            <div className='header-icons-container'>
-                <div onClick={props.handleEditToggle}>
-                    <CloseIcon />
-                </div>
-            </div>
-            <DialogTitle
-                className="dialog-title"
-            >
-                Edit Folder Name
-            </DialogTitle>
-            <form onSubmit={props.handleEditCreate}>
-                <DialogContent>
-                    <input
-                        className="folder-name-input"
-                        onChange={(e) => {
-                            props.setEditFolderName(e.target.value);
-                        }}
-                        type='text'
-                        autoFocus
-                        placeholder='Folder Name'
-                        value={props.el}
-                        required
-                        validationErrors={{
-                            isDefaultRequiredValue: 'Field is required'
-                        }}
-                    />
-                </DialogContent>
-                <DialogActions className='dialog-action'>
-                    <button
-                        type='submit'
-                        className='continue-button'
-                        onClick={props.handleEditCreate}
-                        color="primary"
-                    >
-                        Confirm
-                    </button>
-                    <button
-                        className='continue-button'
-                        onClick={props.handleEditToggle}
-                        color="primary"
-                    >
-                        Cancle
-                    </button>
-                </DialogActions>
-            </form>
-        </Dialog>
-    )
-}
