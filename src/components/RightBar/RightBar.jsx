@@ -4,24 +4,28 @@ import './RightBar.scss';
 
 const useStyles = makeStyles((theme) => ({
     first_part: {
-        height: '30px',
+        height: '7%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '3px'
     },
     second_part: {
-        height: '60px',
+        height: '7%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '7px'
     },
     third_part: {
-        height: '60px',
+        height: '7%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '7px'
     },
     fourth_part: {
-        height: '110px',
+        height: '13.5%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '7px'
     }
 }));
 
@@ -59,11 +63,14 @@ function RightBar() {
                 </div>
             </Paper>
 
-            <div className='single_annotation_btn_container'>
-                <div className='single_annotation_btn_border'>
-                    <button className='single_annotation_btn'>
-                        Detect on single image
-                    </button>
+            <div className='btn_container'>
+
+                <div className='single_annotation_btn_container'>
+                    <div className='single_annotation_btn_border'>
+                        <button className='single_annotation_btn'>
+                            Detect on single image
+                        </button>
+                    </div>
                 </div>
             </div>
 

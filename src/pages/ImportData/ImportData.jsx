@@ -9,7 +9,9 @@ import QuestionMark from '../../styles/images/question-mark.svg';
 import './ImportData.scss';
 import paths from '../../utils/routing';
 
-function ImportData() {
+require('dotenv').config();
+
+function ImportData(props) {
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(null);
     const [folder_name, setFolderName] = useState('');
@@ -20,6 +22,7 @@ function ImportData() {
     const [imagesArray, setImagesArray] = useState([]);
     const [openSendPhotos, setOpenSendPhotos] = useState(false);
     const token = localStorage.getItem('token');
+    const apiUrl = process.env.REACT_APP_API_URL;
     const history = useHistory();
     const maxlimit = 15;
 
@@ -58,7 +61,7 @@ function ImportData() {
     };
 
     const createPicFoder = (folderName, data) => {
-        fetch(`http://localhost:5000/api/v1/create-folder?folder_name=${folderName}`, {
+        fetch(`${apiUrl}create-folder?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import Recaptcha from 'react-recaptcha';
+import { Link } from "react-router-dom";
+
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
@@ -9,6 +11,8 @@ import paths from '../../utils/routing';
 
 import Loader from '../../components/Loader/Loader';
 import './Registration.scss';
+
+require('dotenv').config();
 
 function Registration(props) {
     const [name, setName] = useState('');
@@ -30,11 +34,12 @@ function Registration(props) {
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
     const [error, setError] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
     const history = useHistory();
 
     const register = (data) => {
         isLoading = true;
-        fetch('http://localhost:5000/api/v1/register', {
+        fetch(`${apiUrl}register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -182,19 +187,11 @@ function Registration(props) {
                                     />
                                     <div className='policy-container'>
                                         Accept our
-                                        <b
-                                            onClick={() => alert('The Terms of Use page')}
-                                            className='terms'
-                                        >
-                                            Terms of Use
-                                        </b>
+                                        <Link className='terms' to="/terms" target="_blank">
+                                            <b>Terms Of Use</b></Link>
                                         and
-                                        <b
-                                            onClick={() => alert('The Privace Policy poage')}
-                                            className='policy'
-                                        >
-                                            Privacy Policy
-                                        </b>
+                                        <Link className='policy' to="/policy" target="_blank">
+                                            <b>Privacy Policy</b></Link>
                                     </div>
                                 </div>
                             </div>

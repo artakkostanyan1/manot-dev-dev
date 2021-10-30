@@ -8,6 +8,8 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 import paths from '../../utils/routing';
 import './ResetPassword.scss';
 
+require('dotenv').config();
+
 function ResetPassword(props) {
     const history = useHistory();
     const [passwordType, setPasswordType] = useState('password');
@@ -16,12 +18,12 @@ function ResetPassword(props) {
     const [pass2, setPass2] = useState();
     const [isMatched, setIsMatched] = useState(true);
     const [error, setError] = useState('');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     // TO DO: /////////////////////////////////////////////////////resserpassword api path
 
     const resetPassword = (data) => {
         console.log('data', data);
-        fetch('http://localhost:5000/api/v1/resetPassword', {
+        fetch(`${apiUrl}resetPassword`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

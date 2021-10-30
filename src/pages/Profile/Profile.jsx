@@ -8,6 +8,8 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 import paths from '../../utils/routing';
 import './Profile.scss';
 
+require('dotenv').config();
+
 function Profile(props) {
 
     const [name, setName] = useState('');
@@ -27,10 +29,11 @@ function Profile(props) {
     const [oldPasswordType, setOldPasswordType] = useState('password');
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
+    const apiUrl = process.env.REACT_APP_API_URL;
     const history = useHistory();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/get-user`, {
+        fetch(`${apiUrl}get-user`, {
             method: 'GET',
             headers: {
                 "x-access-token": localStorage.getItem('token')

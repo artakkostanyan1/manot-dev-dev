@@ -1,0 +1,63 @@
+.contact_us_container {
+    height: 100vh;
+}
+
+.contact_us_sub_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    height: 85%;
+}
+
+.contact_us_header_txt {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.inputs_container {
+    input {
+        height: 25px;
+        width: 335px;
+        margin-bottom: 8px;
+        padding: 12px;
+        padding-right: 2px;
+        font-size: 14px;
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+
+    .contact_us_name_input {
+        margin-right: 8px;
+    }
+}
+
+.contact_us_textarea {
+    height: 110px;
+    width: 690px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    padding: 12px;
+    padding-right: 2px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.contact_us_button_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+        height: 50px;
+        width: 115px;
+
+        font-size: 16px;
+        color: white;
+        background-color: #f86878;
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+}

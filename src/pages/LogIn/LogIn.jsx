@@ -7,10 +7,15 @@ import { Link } from '@material-ui/core';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
+// import Alert from '@mui/material/Alert';
+// import AlertTitle from '@mui/material/AlertTitle';
+
 import Loader from '../../components/Loader/Loader';
 
 import paths from '../../utils/routing';
 import './LogIn.scss';
+
+require('dotenv').config();
 
 function LogIn(props) {
     const history = useHistory();
@@ -25,12 +30,13 @@ function LogIn(props) {
 
     const [error, setError] = useState('');
 
-    const [isLoading, setIsLoading] = useState('true');
+    const [isLoading, setIsLoading] = useState(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         let endpoint = window.location.pathname.slice(7,);
 
-        fetch(`http://localhost:5000/api/v1/verify-account`, {
+        fetch(`${apiUrl}verify-account`, {
             method: 'POST',
             headers: {
                 "x-access-token": endpoint
@@ -40,13 +46,12 @@ function LogIn(props) {
                 return response.json();
             })
             .then(data => {
-                console.log(data)
                 setIsLoading(false)
             })
     }, [])
 
     const login = (data) => {
-        fetch('http://localhost:5000/api/v1/login', {
+        fetch(`${apiUrl}login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,12 +63,16 @@ function LogIn(props) {
                 return response.json();
             })
             .then((data) => {
-                // console.log(data.token); //3
+                console.log('m.s', data)
+                if (data.status === 'fail') {
+                    throw Error(data.message.email);
+                }
                 localStorage.setItem('token', data.token)
                 history.push(paths.Importdata);
             })
             .catch((error) => {
                 setError(error.message);
+                console.log('error.m', error.message)
             });
     }
 
@@ -104,7 +113,15 @@ function LogIn(props) {
             {isLoading ? <Loader /> :
                 <div className='verify_container'>
                     <Header />
-                    {error && <div>{error}</div>}
+{/* TODO discuss css of error messages and move to css file */}
+                    {/* {error && <Alert severity="error"
+                    {error && <Alert severity="error"
+                        style={{
+                            marginTop: '18px',
+                            backgroundColor: 'transparent',
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}>{error}</Alert>} */}
                     <div className='form_wrapper'>
                         <form className='form' onSubmit={handleSubmit}>
                             <div className='heading'>Sign in</div>
