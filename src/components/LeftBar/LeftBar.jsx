@@ -11,6 +11,7 @@ function LeftBar(props) {
     const [isFullScreen, setIsFullscreen] = useState(true);
     const [open, setOpen] = useState(false);
     const screen = isFullScreen ? 'full' : 'min';
+    const imagesList = props.imagesList;
 
     const handleTooltipClose = () => {
         setOpen(false);
@@ -79,55 +80,18 @@ function LeftBar(props) {
                     </ClickAwayListener>
 
                     <div className='photos-container'>
-                        <div className='image_container'>
-                            <img
-                                alt='girl'
-                                src="horses-1.png"
-                                className='label-photo'
-                            />
-                            <label>Image1</label>
-                        </div>
-                        <div className='image_container'>
-                            <img
-                                alt='girl'
-                                src="horses-1.png"
-                                className='label-photo'
-                            />
-                            <label>Image2</label>
-                        </div>
-                        <div className='image_container'>
-                            <img
-                                alt='girl'
-                                src="horses-1.png"
-                                className='label-photo'
-                            />
-                            <label>Image3</label>
-                        </div>
-                        <div className='image_container'>
-                            <img
-                                alt='girl'
-                                src="horses-1.png"
-                                className='label-photo'
-                            />
-                            <label>Image3</label>
-                        </div>
-                        <div className='image_container'>
-                            <img
-                                alt='girl'
-                                src="horses-1.png"
-                                className='label-photo'
-                            />
-                            <label>Image3</label>
-                        </div>
-                        <div className='image_container' >
-                            <img
-                                alt='girl'
-                                src="horses-1.png"
-                                className='label-photo'
-                            />
-                            <label>Image3</label>
-                        </div>
-    
+                        {imagesList.map((el) => {
+                            return (
+                                <div className='image_container'>
+                                    <img
+                                        alt='girl'
+                                        src={el.image}
+                                        className='label-photo'
+                                    />
+                                    <label>Image1</label>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
                 : <div className='icons-container'>
