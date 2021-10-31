@@ -317,7 +317,7 @@ function Policy() {
                     <p className='single_gap'></p>
                     <p><span>• By email: info@manot.tech</span></p>
                     <p className='single_gap'></p>
-                    <p><span>By visiting this page on our website:
+                    <p><span>• By visiting this page on our website:
                         <a href="https://manot.tech/" target='blank'>{' ' + 'https://manot.tech/'}</a>
                     </span></p>
                     <p className='single_gap'></p>
