@@ -88,7 +88,7 @@ function LeftBar(props) {
                                         src={el.image}
                                         className='label-photo'
                                     />
-                                    <label>Image1</label>
+                                    <label>{el.label}</label>
                                 </div>
                             )
                         })}
