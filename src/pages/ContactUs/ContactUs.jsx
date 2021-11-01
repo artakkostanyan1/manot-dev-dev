@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Header from '../../components/Header/Header';
-import Alert from 'react-popup-alert'
+import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
+
 import './ContactUs.scss';
 
 function ContactUs() {
@@ -8,38 +9,17 @@ function ContactUs() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [msg, setMsg] = useState('');
-    const [alert, setAlert] = useState({
-        type: 'error',
-        text: 'This is a alert message',
-        show: false
-    })
-
-
-    function onCloseAlert() {
-        setAlert({
-            type: '',
-            text: '',
-            show: false
-        })
-    }
-
-    function onShowAlert(type) {
-        setAlert({
-            type: type,
-            text: 'Demo alert',
-            show: true
-        })
-    }
+    const [togglePopup, setTogglePopup] = useState(false);
 
     const handleClick = () => {
+        if (!(name && email && msg)) {
+            setTogglePopup(!togglePopup)
+        }
+
         let data = {
             name,
             email,
             msg
-        }
-
-        if (!(name && email && msg)) {
-            onShowAlert('error')
         }
 
         console.log(data);
@@ -81,36 +61,7 @@ function ContactUs() {
                     </button>
                 </div>
             </div>
-            <Alert
-                header={'Header'}
-                btnText={'Close'}
-                text={alert.text}
-                type={alert.type}
-                show={alert.show}
-                onClosePress={onCloseAlert}
-                pressCloseOnOutsideClick={true}
-                showBorderBottom={true}
-                alertStyles={{
-                height: '200px',
-                width: '50px'
-                }}
-                headerStyles={{}}
-                textStyles={{}}
-                buttonStyles={{
-                    width: '200px',
-                    height: '40px',
-                
-                    marginTop: '15px',
-                
-                    background: '#f86878',
-                    border: '1px solid #f86878',
-                    boxSizing: 'border-box',
-                    borderRadius: '30px',
-                
-                    color: 'white'
-                }}
-            />
-
+           {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg='All fields are required' />}
         </div>
     )
 }

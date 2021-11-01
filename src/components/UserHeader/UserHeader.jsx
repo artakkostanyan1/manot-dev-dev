@@ -28,21 +28,21 @@ function UserHeader(props) {
     const history = useHistory();
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
-        fetch(`${apiUrl}get-user`, {
-            method: 'GET',
-            headers: {
-                "x-access-token": localStorage.getItem('token')
-            }
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                console.log(data)
-                setUserName(data.message.name);
-            })
-    }, [])
+    // useEffect(() => {
+    //     fetch(`${apiUrl}get-user`, {
+    //         method: 'GET',
+    //         headers: {
+    //             "x-access-token": localStorage.getItem('token')
+    //         }
+    //     })
+    //         .then(response => {
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             console.log(data)
+    //             setUserName(data.message.name);
+    //         })
+    // }, [])
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
