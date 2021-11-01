@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import Header from '../../components/Header/Header';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
-
+import UserHeader from '../../components/UserHeader/UserHeader';
 import './ContactUs.scss';
 
 function ContactUs() {
@@ -27,7 +26,7 @@ function ContactUs() {
 
     return (
         <div className='contact_us_container'>
-            <Header />
+            <UserHeader />
             <div className='contact_us_sub_container'>
                 <h7 className='contact_us_header_txt'>
                     We would love to hear from you! Contact us and share any feedback or questions you may have.
