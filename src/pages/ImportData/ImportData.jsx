@@ -20,12 +20,14 @@ function ImportData(props) {
     const [editFolderName, setEditFolderName] = useState('');
     const [deleteToggle, setDeleteToggle] = useState(null);
     const [imagesArray, setImagesArray] = useState([]);
-    const [openSendPhotos, setOpenSendPhotos] = useState(false);
+    const [newImagesArray, setNewImagesArray] = useState([]);
+    const [toggleAddImages, setToggleAddImages] = useState(false);//
     const token = localStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const [elementToEdit, setElementToEdit] = useState('');
     const [elementToDelete, setElementToDelete] = useState('');
+    const [elementToAdd, setElementToAdd] = useState('');
 
     const history = useHistory();
     const maxlimit = 15;
@@ -64,7 +66,7 @@ function ImportData(props) {
         }
     };
 
-    const createPicFoder = (folderName, data) => {
+    const createPicFoder = (folderName, images) => {
         fetch(`${apiUrl}create-folder?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
@@ -73,36 +75,45 @@ function ImportData(props) {
             },
         })
             .then(response => response.json())
+            .then(response => (response.status === 'success' && images.length)
+                ? addPhotos(images)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('addimage', data);
+                    })
+                    .catch(err => {
+                        console.log('err', err);
+                    })
+                : response)
             .then(data => {
-                console.log('Success:', data);
-                history.push(paths.Desktop);
+                console.log('Success:', data.status);
+                // history.push(paths.Desktop);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
 
-    // const addPhotos = (data) => {
-    //     fetch('http://localhost:5000/api/v1/add-img', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             "x-access-token": token,
-    //         },
-    //         body: JSON.stringify(data),
-    //     })
-    //         .then(response => response.json())
-    //         .then((data) => {
-    //             setOpen(true);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error:', error);
-    //         });
-    // }
+    const addPhotos = (data) => {
+        fetch(`${apiUrl}add-image`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "x-access-token": token,
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then((data) => {
+                handleAddImages();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
     const editFileName = (data) => {
-        console.log('I am data', data);
-        fetch(`http://localhost:5000/api/v1/rename-folder?folder_name=${data.folder_name}`, {
+        fetch(`${apiUrl}rename-folder?folder_name=${data.folder_name}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -121,8 +132,7 @@ function ImportData(props) {
 
 
     const deleteFile = (data) => {
-        console.log('delete dats', data)
-        fetch(`http://localhost:5000/api/v1/delete-folder?folder_name=${data}`, {
+        fetch(`${apiUrl}delete-folder?folder_name=${data}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -141,6 +151,7 @@ function ImportData(props) {
 
     const onChange = (imageList) => {
         setImagesArray(imageList);
+        setNewImagesArray(imageList);
     };
     const handleOpen = () => {
         setOpen(true);
@@ -156,8 +167,8 @@ function ImportData(props) {
     const ToggleDelete = (el = null) => {
         setDeleteToggle(el);
     }
-    const ToggleOpenSendPhotos = () => {
-        setOpenSendPhotos(!openSendPhotos);
+    const handleAddImages = (el = null) => {
+        setToggleAddImages(!toggleAddImages);
     }
     const handleCreate = (e) => {
         let images = [];
@@ -180,15 +191,11 @@ function ImportData(props) {
             folder_name,
             images,
         }
-        // images.length ? addPhotos(data) : createPicFoder(data.folder_name, data);
-        createPicFoder(data.folder_name, data);
+        createPicFoder(data.folder_name, data.images);
         folder_name && setIsFolderNameCreated(true);
-        //editFolderName && setIsFolderNameCreated(true);
-        console.log('images', data);
     };
 
     const handleEditCreate = (el) => {
-        // e.preventDefault();
         editFolderName && setOpenEdit(false);
         const data = {
             folder_name: el,
@@ -198,14 +205,16 @@ function ImportData(props) {
         let newNames = foldersNames.filter((element) => {
             return element !== el;
         })
-        console.log('newnames', newNames)
-        // let newNames = [...foldersNames];
         setFolderName(newNames);
-        // editFolderName && setIsFolderNameCreated(true);
+    }
+
+    const addImages = (el) => {
+        newImagesArray.length && addPhotos(el);
+        handleAddImages();
     }
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/get-folders`, {
+        fetch(`${apiUrl}get-folders`, {
             method: 'GET',
             headers: {
                 "x-access-token": localStorage.getItem('token')
@@ -215,7 +224,6 @@ function ImportData(props) {
                 return response.json();
             })
             .then(data => {
-                console.log('data', data);
                 setFoldersNames(data.message);
                 setIsFolderNameCreated(true);
             })
@@ -231,7 +239,7 @@ function ImportData(props) {
                 <div className='folder-name-conatiner'>
                     {isFolderNameCreated && <h3 className='imported-data-title'>Your imported data.</h3>}
                     {isFolderNameCreated && <div className='folders-container'>
-                        {foldersNames?.map((el, index) => {
+                        {foldersNames.length && foldersNames.map((el, index) => {
                             return (
                                 <>
                                     <div key={index}>
@@ -241,58 +249,14 @@ function ImportData(props) {
                                                 (((el).substring(0, maxlimit - 3)) + '...') :
                                                 el}
                                         </span>
-                                        <ImageUploading
-                                            multiple
-                                            value={imagesArray}
-                                            onChange={onChange}
-                                            acceptType={['jpg', 'jpeg', 'png']}
-                                            maxFileSize={100000}
-                                            resolutionWidth={1024}
-                                            resolutionHeight={1024}
-                                            dataURLKey="data_url"
-                                        >
-                                            {({
-                                                onImageUpload
-                                            }) => (
-                                                <span>
-                                                    <img
-                                                        alt='add'
-                                                        src='photo.svg'
-                                                        onClick={onImageUpload}
-                                                    />
-                                                </span>
-                                            )}
-                                        </ImageUploading>
-                                        <Dialog
-                                            className='folder-dialog'
-                                            aria-labelledby="customized-dialog-title"
-                                            open={openSendPhotos}
-                                        >
-                                            <div className='header-icons-container'>
-                                                <div onClick={ToggleOpenSendPhotos}>
-                                                    <CloseIcon />
-                                                </div>
-                                            </div>
-                                            <DialogContent className='delete-context'>
-                                                {`You imported ${imagesArray.length} photos`}
-                                            </DialogContent>
-                                            <DialogActions className='dialog-action'>
-                                                <button
-                                                    className='continue-button'
-                                                    // onClick={addPhotos(imagesArray)}
-                                                    color="primary"
-                                                >
-                                                    OK
-                                                </button>
-                                                <button
-                                                    className='continue-button'
-                                                    onClick={ToggleOpenSendPhotos}
-                                                    color="primary"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </DialogActions>
-                                        </Dialog>
+
+                                        <span onClick={() => {
+                                            setElementToAdd(el)
+                                            handleAddImages(el)
+                                        }}>
+                                            <img alt='add' src='photo.svg' />
+                                        </span>
+
                                         <span onClick={() => {
                                             setElementToEdit(el)
                                             handleEditToggle(el)
@@ -312,48 +276,85 @@ function ImportData(props) {
                         }
                     </div>}
                 </div>
-                {/* This is Add images dialog
+
+                {/* This is Add image dialog */}
                 <Dialog
-                    className='folder-dialog'
-                    aria-labelledby="customized-dialog-title"
-                    open={!!deleteToggle}
+                    PaperProps={{
+                        style: {
+                            borderRadius: '25px',
+                            background: '#FFFFFF',
+                            border: '3px solid #257AAF'
+                        }
+                    }}
+                    open={toggleAddImages}
                 >
                     <div className='header-icons-container'>
-                        <div onClick={(el) => {
-                            setElementToDelete(el);
-                            setDeleteToggle(null)
-                        }}>
+                        <div onClick={handleAddImages}>
                             <CloseIcon />
                         </div>
                     </div>
-                    <DialogContent className='delete-context'>
-                        <img src={QuestionMark} alt="Question mark" />
-                        Are you sure you want to delete this item?
-                    </DialogContent>
-                    here was dialog
-                    <DialogActions className='dialog-action'>
-                        <button
-                            className='continue-button'
-                            onClick={() => {
-                                deleteFile(elementToDelete);
-                                setElementToDelete('')
-                             }}
-                            color="primary"
-                        >
-                            OK
-                        </button>
-                        <button
-                            className='continue-button'
-                            onClick={ToggleDelete}
-                            color="primary"
-                        >
-                            Cancel
-                        </button>
-                    </DialogActions>
-                </Dialog> */}
+                    <DialogTitle
+                        className="dialog-title"
+                    >
+                        Upload images to choosen folder
+                    </DialogTitle>
+                    <ImageUploading
+                        multiple
+                        value={newImagesArray}
+                        onChange={onChange}
+                        acceptType={['jpg', 'jpeg', 'png']}
+                        maxFileSize={100000}
+                        resolutionWidth={1024}
+                        resolutionHeight={1024}
+                        dataURLKey="data_url"
+                    >
+                        {({
+                            onImageUpload
+                        }) => (
+                            <span>
+                                <button
+                                    className='choose-button'
+                                    color="primary"
+                                    onClick={onImageUpload}
+                                    style={chooseBtn}
+                                >
+                                    Choose photo
+                                </button>
+                                {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
+                            </span>
+                        )}
+                    </ImageUploading>
+                    <div className='dialog-action'>
+                        <span>
+                            <button
+                                type='submit'
+                                className='continue-button'
+                                color="primary"
+                                // disabled={newImagesArray.length}
+                                onClick={() => addImages(elementToAdd)}
+                            >
+                                Create
+                            </button>
+                        </span>
+                    </div>
+                    <button
+                        style={cancelBtn}
+                        onClick={handleAddImages}
+                        color="primary"
+                    >
+                        Cancel
+                    </button>
+                </Dialog>
 
                 {/* This is Edit dialog*/}
                 <Dialog
+                    PaperProps={{
+                        style: {
+                            borderRadius: '25px',
+                            background: '#FFFFFF',
+                            border: '3px solid #257AAF'
+                        }
+                    }}
                     className='folder-dialog'
                     onClose={handleEditToggle}
                     aria-labelledby="customized-dialog-title"
@@ -407,6 +408,13 @@ function ImportData(props) {
 
                 {/* This is Delete dialog*/}
                 <Dialog
+                    PaperProps={{
+                        style: {
+                            borderRadius: '25px',
+                            background: '#FFFFFF',
+                            border: '3px solid #257AAF'
+                        }
+                    }}
                     className='folder-dialog'
                     aria-labelledby="customized-dialog-title"
                     open={!!deleteToggle}
@@ -423,14 +431,13 @@ function ImportData(props) {
                         <img src={QuestionMark} alt="Question mark" />
                         Are you sure you want to delete this item?
                     </DialogContent>
-                    here was dialog
                     <DialogActions className='dialog-action'>
                         <button
                             className='continue-button'
                             onClick={() => {
                                 deleteFile(elementToDelete);
                                 setElementToDelete('')
-                             }}
+                            }}
                             color="primary"
                         >
                             OK

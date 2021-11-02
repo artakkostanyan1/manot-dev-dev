@@ -37,7 +37,7 @@ function LogIn(props) {
         let endpoint = window.location.pathname.slice(7,);
 
         fetch(`${apiUrl}verify-account`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 "x-access-token": endpoint
             }
