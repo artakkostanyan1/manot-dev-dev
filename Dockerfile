@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:16.13-buster-slim
 
 RUN mkdir -p /app
 WORKDIR /app
