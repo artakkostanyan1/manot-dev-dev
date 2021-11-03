@@ -175,7 +175,11 @@ function ImportData(props) {
     const handleCreate = (e) => {
         let images = [];
         e.preventDefault();
-        setFoldersNames((foldersNames) => { return folder_name && [...foldersNames, folder_name] });
+        setFoldersNames((foldersNames) => {
+            return foldersNames.includes(folder_name)
+                ? setError('You have folder with this name')
+                : folder_name && [...foldersNames, folder_name]
+        });
         folder_name && setOpen(false);
         imagesArray.map((el) => {
             let i = new Image();
@@ -223,7 +227,7 @@ function ImportData(props) {
             }
         })
             .then(response => {
-                if(response.status === 422) {
+                if (response.status === 422) {
                     throw Error('Do not have folders');
                 }
                 return response.json();
@@ -244,7 +248,7 @@ function ImportData(props) {
         <div className='import_container'>
             <UserHeader />
             <div className={`comp-import-data-${isDataExist}`}>
-             <div className='folder-name-conatiner'>
+                <div className='folder-name-conatiner'>
                     {!error && isFolderNameCreated && <h3 className='imported-data-title'>Your imported data.</h3>}
                     {isFolderNameCreated && <div className='folders-container'>
                         {!error && foldersNames.map((el, index) => {
@@ -332,6 +336,9 @@ function ImportData(props) {
                             </span>
                         )}
                     </ImageUploading>
+                    <div>
+                        {error}
+                    </div>
                     <div className='dialog-action'>
                         <span>
                             <button
