@@ -29,6 +29,8 @@ function ImportData(props) {
     const [elementToDelete, setElementToDelete] = useState('');
     const [elementToAdd, setElementToAdd] = useState('');
 
+    const [error, setError] = useState('');
+
     const history = useHistory();
     const maxlimit = 15;
 
@@ -221,25 +223,31 @@ function ImportData(props) {
             }
         })
             .then(response => {
+                if(response.status === 422) {
+                    throw Error('Do not have folders');
+                }
                 return response.json();
             })
             .then(data => {
                 setFoldersNames(data.message);
                 setIsFolderNameCreated(true);
             })
+            .catch(err => {
+                setError(err.message)
+            })
     }, [folder_name, elementToDelete])
 
-    const isDataExist = isFolderNameCreated ? 'min' : 'max';
+    const isDataExist = !error ? 'min' : 'max';
     const chooseBtn = { ...styles.chooseButton, ...styles.Button };
     const cancelBtn = { ...styles.cancelButton, ...styles.Button };
     return (
         <div className='import_container'>
             <UserHeader />
             <div className={`comp-import-data-${isDataExist}`}>
-                <div className='folder-name-conatiner'>
-                    {isFolderNameCreated && <h3 className='imported-data-title'>Your imported data.</h3>}
+             <div className='folder-name-conatiner'>
+                    {!error && isFolderNameCreated && <h3 className='imported-data-title'>Your imported data.</h3>}
                     {isFolderNameCreated && <div className='folders-container'>
-                        {foldersNames.length && foldersNames.map((el, index) => {
+                        {!error && foldersNames.map((el, index) => {
                             return (
                                 <>
                                     <div key={index}>
