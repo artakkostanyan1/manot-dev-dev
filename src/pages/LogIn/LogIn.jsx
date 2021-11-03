@@ -7,10 +7,8 @@ import { Link } from '@material-ui/core';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
-// import Alert from '@mui/material/Alert';
-// import AlertTitle from '@mui/material/AlertTitle';
-
 import Loader from '../../components/Loader/Loader';
+import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 
 import paths from '../../utils/routing';
 import './LogIn.scss';
@@ -29,6 +27,7 @@ function LogIn(props) {
     const [passwordError, setPasswordError] = useState('');
 
     const [error, setError] = useState('');
+    const [togglePopup, setTogglePopup] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -60,19 +59,20 @@ function LogIn(props) {
             body: JSON.stringify(data),
         })
             .then(response => {
+                if (response.status === 401) {
+                    throw Error('Invalid name or password');
+                } else if (response.status === 422) {
+                    throw Error('Your account is not active. Please check Your email and verify account.');
+                }
                 return response.json();
             })
             .then((data) => {
-                console.log('m.s', data)
-                if (data.status === 'fail') {
-                    throw Error(data.message.email);
-                }
                 localStorage.setItem('token', data.token)
                 history.push(paths.Importdata);
             })
             .catch((error) => {
                 setError(error.message);
-                console.log('error.m', error.message)
+                setTogglePopup(true);
             });
     }
 
@@ -113,15 +113,6 @@ function LogIn(props) {
             {isLoading ? <Loader /> :
                 <div className='verify_container'>
                     <Header />
-{/* TODO discuss css of error messages and move to css file */}
-                    {/* {error && <Alert severity="error"
-                    {error && <Alert severity="error"
-                        style={{
-                            marginTop: '18px',
-                            backgroundColor: 'transparent',
-                            display: 'flex',
-                            justifyContent: 'center'
-                        }}>{error}</Alert>} */}
                     <div className='form_wrapper'>
                         <form className='form' onSubmit={handleSubmit}>
                             <div className='heading'>Sign in</div>
@@ -177,6 +168,7 @@ function LogIn(props) {
                     </div>
                 </div>
             }
+            {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={error} />}
         </>
     )
 }
