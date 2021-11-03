@@ -18,6 +18,7 @@ pipeline {
         CI = 'false'
         GIT_REPO_NAME = "${env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')}"
         HOSTNAME = "${env.GIT_REPO_NAME} + '-' + ${(env.CHANGE_ID) ? 'pr' + env.CHANGE_ID : env.GIT_BRANCH_NAME}"
+        REACT_APP_API_URL=http://localhost:5000/api/v1/
 
     }
     
