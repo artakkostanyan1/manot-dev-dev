@@ -10,6 +10,7 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 import paths from '../../utils/routing';
 
 import Loader from '../../components/Loader/Loader';
+import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 import './Registration.scss';
 
 require('dotenv').config();
@@ -34,6 +35,7 @@ function Registration(props) {
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
     const [error, setError] = useState('');
+    const [togglePopup, setTogglePopup] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
     const history = useHistory();
 
@@ -47,11 +49,10 @@ function Registration(props) {
             body: JSON.stringify(data),
         })
             .then(response => {
-                if (!response.ok) {
-                    setError(response.statusText);
-                } else {
-                    return response.json();
+                if (response.status === 422) {
+                    throw Error('You already registered with this credentials')
                 }
+                return response.json();
             })
             .then(response => {
                 setIsLoading(false)
@@ -59,6 +60,7 @@ function Registration(props) {
             })
             .catch((error) => {
                 setError(error.message);
+                setTogglePopup(true);
             });
     }
 
@@ -113,7 +115,6 @@ function Registration(props) {
                 <div className='registration_container'>
                     <Header />
                     <div className='form_wrapper'>
-                        {error && <div>{error}</div>}
                         <form className='form' onSubmit={handleSubmit}>
                             <div className='heading'>Sign up</div>
 
@@ -211,6 +212,7 @@ function Registration(props) {
                             </button>
                         </form>
                     </div>
+                    {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={error} />}
                 </div>
             }
         </>
