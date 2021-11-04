@@ -6,6 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import QuestionMark from '../../styles/images/question-mark.svg';
+import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 import './ImportData.scss';
 import paths from '../../utils/routing';
 
@@ -21,7 +22,8 @@ function ImportData(props) {
     const [deleteToggle, setDeleteToggle] = useState(null);
     const [imagesArray, setImagesArray] = useState([]);
     const [newImagesArray, setNewImagesArray] = useState([]);
-    const [toggleAddImages, setToggleAddImages] = useState(false);//
+    const [toggleAddImages, setToggleAddImages] = useState(false);
+    const [togglePopup, setTogglePopup] = useState(false);
     const token = localStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -30,6 +32,7 @@ function ImportData(props) {
     const [elementToAdd, setElementToAdd] = useState('');
 
     const [error, setError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const history = useHistory();
     const maxlimit = 15;
@@ -89,7 +92,13 @@ function ImportData(props) {
                 : response)
             .then(data => {
                 console.log('Success:', data.status);
-                // history.push(paths.Desktop);
+                if (data.status === 'success') {
+                    setOpen(false);
+                    history.push(paths.Desktop)
+                } else if (data.status === 'fail') {
+                    setErrorMessage(data.message);
+                    setTogglePopup(!togglePopup);
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -175,12 +184,10 @@ function ImportData(props) {
     const handleCreate = (e) => {
         let images = [];
         e.preventDefault();
-        setFoldersNames((foldersNames) => {
-            return foldersNames.includes(folder_name)
-                ? setError('You have folder with this name')
-                : folder_name && [...foldersNames, folder_name]
-        });
-        folder_name && setOpen(false);
+        !foldersNames.includes(folder_name)
+            && setFoldersNames((foldersNames) => {
+                return folder_name && [...foldersNames, folder_name]
+            });
         imagesArray.map((el) => {
             let i = new Image();
             i.onload = function () {
@@ -336,16 +343,12 @@ function ImportData(props) {
                             </span>
                         )}
                     </ImageUploading>
-                    <div>
-                        {error}
-                    </div>
                     <div className='dialog-action'>
                         <span>
                             <button
                                 type='submit'
                                 className='continue-button'
                                 color="primary"
-                                // disabled={newImagesArray.length}
                                 onClick={() => addImages(elementToAdd)}
                             >
                                 Create
@@ -508,6 +511,7 @@ function ImportData(props) {
                         >
                             Data’s folder creation
                         </DialogTitle>
+                        {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={errorMessage} />}
                         <form onSubmit={handleCreate}>
                             <input
                                 className="folder-name-input"
