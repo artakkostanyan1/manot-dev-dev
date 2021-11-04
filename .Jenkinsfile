@@ -18,7 +18,7 @@ pipeline {
         CI = 'false'
         GIT_REPO_NAME = "${env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')}"
         HOSTNAME = "${env.GIT_REPO_NAME} + '-' + ${(env.CHANGE_ID) ? 'pr' + env.CHANGE_ID : env.GIT_BRANCH_NAME}"
-        REACT_APP_API_URL="http://dev.app.manot.tech:5000/api/v1/"
+        REACT_APP_API_URL="https://dev.app.manot.tech/api/v1"
 
     }
     
