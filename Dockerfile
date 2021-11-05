@@ -1,15 +1,19 @@
-FROM node:16.13-buster-slim
+FROM node:14.18-alpine as build-step
 
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY package.json ./
-ENV PATH /app/node_modules/.bin:$PATH
-RUN npm install --legacy-peer-deps
+COPY package.json package-lock.json ./
+RUN npm install
 
 COPY ./src ./src
 COPY ./public ./public
 
-EXPOSE 3000
+RUN npm run build
 
-CMD ["npm", "start"]
+FROM nginx:stable-alpine
+COPY --from=build-step /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
