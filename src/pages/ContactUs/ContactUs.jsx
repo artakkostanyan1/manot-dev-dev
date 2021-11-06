@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Header from '../../components/Header/Header';
-import Alert from 'react-popup-alert'
+import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
+import UserHeader from '../../components/UserHeader/UserHeader';
 import './ContactUs.scss';
 
 function ContactUs() {
@@ -8,38 +8,17 @@ function ContactUs() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [msg, setMsg] = useState('');
-    const [alert, setAlert] = useState({
-        type: 'error',
-        text: 'This is a alert message',
-        show: false
-    })
-
-
-    function onCloseAlert() {
-        setAlert({
-            type: '',
-            text: '',
-            show: false
-        })
-    }
-
-    function onShowAlert(type) {
-        setAlert({
-            type: type,
-            text: 'Demo alert',
-            show: true
-        })
-    }
+    const [togglePopup, setTogglePopup] = useState(false);
 
     const handleClick = () => {
+        if (!(name && email && msg)) {
+            setTogglePopup(!togglePopup)
+        }
+
         let data = {
             name,
             email,
             msg
-        }
-
-        if (!(name && email && msg)) {
-            onShowAlert('error')
         }
 
         console.log(data);
@@ -47,7 +26,7 @@ function ContactUs() {
 
     return (
         <div className='contact_us_container'>
-            <Header />
+            <UserHeader />
             <div className='contact_us_sub_container'>
                 <h7 className='contact_us_header_txt'>
                     We would love to hear from you! Contact us and share any feedback or questions you may have.
@@ -81,36 +60,7 @@ function ContactUs() {
                     </button>
                 </div>
             </div>
-            <Alert
-                header={'Header'}
-                btnText={'Close'}
-                text={alert.text}
-                type={alert.type}
-                show={alert.show}
-                onClosePress={onCloseAlert}
-                pressCloseOnOutsideClick={true}
-                showBorderBottom={true}
-                alertStyles={{
-                height: '200px',
-                width: '50px'
-                }}
-                headerStyles={{}}
-                textStyles={{}}
-                buttonStyles={{
-                    width: '200px',
-                    height: '40px',
-                
-                    marginTop: '15px',
-                
-                    background: '#f86878',
-                    border: '1px solid #f86878',
-                    boxSizing: 'border-box',
-                    borderRadius: '30px',
-                
-                    color: 'white'
-                }}
-            />
-
+           {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg='All fields are required' />}
         </div>
     )
 }
