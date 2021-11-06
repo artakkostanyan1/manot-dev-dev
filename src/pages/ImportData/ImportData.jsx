@@ -30,7 +30,7 @@ function ImportData(props) {
     const [elementToAdd, setElementToAdd] = useState('');
 
     const history = useHistory();
-    const maxlimit = 15;
+    const maxlimit = 10;
 
     const styles = {
         Button: {
@@ -66,8 +66,8 @@ function ImportData(props) {
         }
     };
 
-    const createPicFoder = (folderName, images) => {
-        fetch(`${apiUrl}create-folder?folder_name=${folderName}`, {
+    const createPicFoder = (data) => {
+        fetch(`${apiUrl}create-folder?folder_name=${data.folder_name}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,8 +75,8 @@ function ImportData(props) {
             },
         })
             .then(response => response.json())
-            .then(response => (response.status === 'success' && images.length)
-                ? addPhotos(images)
+            .then(response => (response.status === 'success' && data.images.length)
+                ? addPhotos(data, false)
                     .then(response => response.json())
                     .then(data => {
                         console.log('addimage', data);
@@ -87,14 +87,14 @@ function ImportData(props) {
                 : response)
             .then(data => {
                 console.log('Success:', data.status);
-                // history.push(paths.Desktop);
+                history.push(paths.Desktop);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
 
-    const addPhotos = (data) => {
+    const addPhotos = (data, isAddData) => {
         fetch(`${apiUrl}add-image`, {
             method: 'POST',
             headers: {
@@ -105,7 +105,8 @@ function ImportData(props) {
         })
             .then(response => response.json())
             .then((data) => {
-                handleAddImages();
+                isAddData && handleAddImages();
+                history.push(paths.Desktop);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -191,7 +192,7 @@ function ImportData(props) {
             folder_name,
             images,
         }
-        createPicFoder(data.folder_name, data.images);
+        createPicFoder(data);
         folder_name && setIsFolderNameCreated(true);
     };
 
