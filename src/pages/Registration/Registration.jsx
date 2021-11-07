@@ -71,7 +71,7 @@ function Registration(props) {
         if (confirmed_pass === '') { setConfirmed_passError('Please enter password') }
     }
 
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
     function handleClick1() {
         (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
@@ -160,7 +160,7 @@ function Registration(props) {
                                 </div>
                             </div>
                             {!strongRegex.test(password) && password !== '' &&
-                                <div className='error_message'>Not sequre password</div>}
+                                <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
                             <div className='pass_wrapper'>
                                 <input
