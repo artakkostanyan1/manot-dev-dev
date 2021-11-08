@@ -30,7 +30,7 @@ function Registration(props) {
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
 
-    let [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isVerified, setIsVerified] = useState(true);
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
