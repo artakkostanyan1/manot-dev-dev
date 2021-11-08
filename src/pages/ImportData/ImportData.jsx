@@ -82,16 +82,8 @@ function ImportData(props) {
             .then(response => response.json())
             .then(response => (response.status === 'success' && data.images.length)
                 ? addPhotos(data, false)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('addimage', data);
-                    })
-                    .catch(err => {
-                        console.log('err', err);
-                    })
                 : response)
             .then(data => {
-                console.log('Success:', data.status);
                 if (data.status === 'success') {
                     setOpen(false);
                     history.push(paths.Desktop)
@@ -117,7 +109,10 @@ function ImportData(props) {
             .then(response => response.json())
             .then((data) => {
                 isAddData && handleAddImages();
-                history.push(paths.Desktop);
+                if(data.status === 'success') {
+                    handleAddImages();
+                    history.push(paths.Desktop);
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -224,12 +219,10 @@ function ImportData(props) {
 
     const addImages = (el) => {
         const images = [];
-        console.log('newImagesArray', newImagesArray);
         Promise.all(newImagesArray.map((element) => {
             return new Promise((res) => {
                 let i = new Image();
-                i.onload = (e) => {
-                    console.log('looooooooooooog', e);
+                i.onload = () => {
                     res({
                         image: element.data_url,
                         width: i.width,
@@ -238,51 +231,15 @@ function ImportData(props) {
                     })
                 };
                 i.src = element.data_url;
-                // res()
             })
         }))
-            .then((a) => {
-                console.log('dtrytft', a)
+            .then((images) => {
                 const data = {
                     folder_name: el,
-                    images: a,
+                    images: images,
                 }
-                addPhotos(data);
+                images.length ?  addPhotos(data) : setTogglePopup(true);
             })
-
-        // const myPromise = new Promise((resolve, reject) => {
-        //     const images = [];
-        //     newImagesArray.forEach((element) => {
-        //         let i = new Image();
-        //         i.onload = (e) => {
-        //             console.log('looooooooooooog', e);
-        //             images.push({
-        //                 image: element.data_url,
-        //                 width: i.width,
-        //                 height: i.height,
-        //                 size: element.file.size,
-        //             })
-        //         };
-        //         i.src = element.data_url;
-        //     })
-        //     resolve(images)
-        // })
-        //     // Promise.all([myPromise])
-        //     .then((images) => {
-        //         console.log('valodik', images);
-        //         const data = {
-        //             folder_name: el,
-        //             images,
-        //         }
-        //         addPhotos(data);
-        //         // return (images.length !== 0 && data);
-        //         return data;
-        //     })
-        // .then((data) => {
-        //     // console.log('images array length is : ', data.images.length)
-        //     console.log('dataaaaaa', data)
-        // })
-        handleAddImages();
     }
 
     useEffect(() => {
@@ -413,6 +370,7 @@ function ImportData(props) {
                                 Create
                             </button>
                         </span>
+                        {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={'Please choose photo'} />}
                     </div>
                     <button
                         style={cancelBtn}
