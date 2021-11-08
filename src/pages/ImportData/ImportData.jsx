@@ -258,7 +258,7 @@ function ImportData(props) {
         })
             .then(response => {
                 if (response.status === 422) {
-                    throw Error('Do not have folders');
+                    setError(true)
                 }
                 return response.json();
             })
@@ -268,7 +268,7 @@ function ImportData(props) {
                 setIsLoading(false);
             })
             .catch(err => {
-                setError(err.message)
+                console.log('Errrr', err);
             })
     }, [elementToAdd, elementToDelete])
 
