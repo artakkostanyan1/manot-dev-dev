@@ -223,7 +223,59 @@ function ImportData(props) {
     }
 
     const addImages = (el) => {
-        newImagesArray.length && addPhotos(el);
+        const images = [];
+        // Promise.all(newImagesArray.map((element) => {
+        //     return new Promise((res) => {
+        //         let i = new Image();
+        //         i.onload = (e) => {
+        //             console.log('looooooooooooog', e);
+        //             return images.push({
+        //                 image: element.data_url,
+        //                 width: i.width,
+        //                 height: i.height,
+        //                 size: element.file.size,
+        //             })
+        //         };
+        //         i.src = element.data_url;
+        //         res(images)
+        //     })
+        // }))
+        // .then((a) => {
+        //     console.log('dtrytft', a)
+        // })
+
+        const myPromise = new Promise((resolve, reject) => {
+            const images = [];
+            newImagesArray.forEach((element) => {
+                let i = new Image();
+                i.onload = (e) => {
+                    console.log('looooooooooooog', e);
+                    images.push({
+                        image: element.data_url,
+                        width: i.width,
+                        height: i.height,
+                        size: element.file.size,
+                    })
+                };
+                i.src = element.data_url;
+            })
+            resolve(images)
+        })
+            // Promise.all([myPromise])
+            .then((images) => {
+                console.log('valodik', images);
+                const data = {
+                    folder_name: el,
+                    images,
+                }
+                addPhotos(data);
+                // return (images.length !== 0 && data);
+                return data;
+            })
+        // .then((data) => {
+        //     // console.log('images array length is : ', data.images.length)
+        //     console.log('dataaaaaa', data)
+        // })
         handleAddImages();
     }
 
