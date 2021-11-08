@@ -30,7 +30,7 @@ function Registration(props) {
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
 
-    let [isLoading, setIsLoading] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [isVerified, setIsVerified] = useState(true);
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
@@ -40,7 +40,8 @@ function Registration(props) {
     const history = useHistory();
 
     const register = (data) => {
-        isLoading = true;
+        setIsLoading(true);
+        
         fetch(`${apiUrl}register`, {
             method: 'POST',
             headers: {
@@ -71,7 +72,7 @@ function Registration(props) {
         if (confirmed_pass === '') { setConfirmed_passError('Please enter password') }
     }
 
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
     function handleClick1() {
         (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
@@ -160,7 +161,7 @@ function Registration(props) {
                                 </div>
                             </div>
                             {!strongRegex.test(password) && password !== '' &&
-                                <div className='error_message'>Not sequre password</div>}
+                                <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
                             <div className='pass_wrapper'>
                                 <input
