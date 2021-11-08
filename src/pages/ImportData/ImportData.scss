@@ -64,6 +64,25 @@
     justify-content: center;
     flex-direction: column;
 
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 8px;
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: lightgray;
+    }
+
     .folders-container {
         display: flex;
         align-items: center;
@@ -71,8 +90,8 @@
         flex-direction: column;
         // height: 500px;
 
-        // overflow-y: auto;
-        // overflow-x: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
 
         div {
             width: 300px;
@@ -193,13 +212,14 @@
     justify-content: center;
 
     margin-bottom: 30px;
+
     img {
         width: 20px;
         margin-right: 10px;
     }
 }
 
-.dialog-title > .MuiTypography-h6 {
+.dialog-title>.MuiTypography-h6 {
     width: 100%;
     height: 36px;
 
