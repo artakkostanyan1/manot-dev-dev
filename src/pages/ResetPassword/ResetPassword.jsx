@@ -18,6 +18,7 @@ function ResetPassword(props) {
     const [pass2, setPass2] = useState('');
     const [isMatched, setIsMatched] = useState(true);
     const [emptyPasswordErr, setEmptyPasswordErr] = useState('');
+    const [hasFocus, setHasFocus] = useState(false);
     const [error, setError] = useState('');
 
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -85,6 +86,11 @@ function ResetPassword(props) {
                             placeholder='Password'
                             value={pass1}
                             onChange={(e) => setPass1(e.target.value)}
+                            onFocus={() => {
+                                if(emptyPasswordErr) {
+                                    setEmptyPasswordErr('')
+                                }
+                            }}
                         />
                         <div className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
