@@ -73,7 +73,7 @@ function ImportData(props) {
         }
     };
 
-    const createPicFoder = (data) => {
+    const createPicFoder = (data, isAbleToRedirect) => {
         fetch(`${apiUrl}create-folder?folder_name=${data.folder_name}`, {
             method: 'POST',
             headers: {
@@ -88,7 +88,7 @@ function ImportData(props) {
             .then(data => {
                 if (data?.status === 'success') {
                     setOpen(false);
-                    history.push(paths.Desktop)
+                    isAbleToRedirect && history.push(paths.Desktop)
                 } else if (data?.status === 'fail') {
                     setErrorMessage(data.message);
                     setTogglePopup(!togglePopup);
@@ -206,7 +206,7 @@ function ImportData(props) {
                     folder_name: folder_name,
                     images: images,
                 }
-                createPicFoder(data);
+                createPicFoder(data, images.length);
             })
         folder_name && setIsFolderNameCreated(true);
     };
