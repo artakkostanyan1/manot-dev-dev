@@ -615,7 +615,7 @@ function ImportData(props) {
                             </button>
                             <button
                                 className='continue-button'
-                                onClick={ToggleDelete}
+                                onClick={() => ToggleDelete()}
                                 color="primary"
                             >
                                 Cancel
