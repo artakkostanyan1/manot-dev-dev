@@ -17,7 +17,9 @@ function ResetPassword(props) {
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
     const [isMatched, setIsMatched] = useState(true);
+    const [emptyPasswordErr, setEmptyPasswordErr] = useState('');
     const [error, setError] = useState('');
+
     const apiUrl = process.env.REACT_APP_API_URL;
     // TO DO: /////////////////////////////////////////////////////resserpassword api path
 
@@ -57,13 +59,17 @@ function ResetPassword(props) {
     function handleSubmit(event) {
         event.preventDefault();
 
+        if (pass1 === '' && pass2 === '') {
+            setEmptyPasswordErr('Passwords are required')
+        }
+
         const data = {
             pass1,
             pass2,
         }
 
         pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
-        (pass1 === pass2) && Object.keys(data).length && resetPassword(data);
+        (emptyPasswordErr === '') && (pass1 === pass2) && Object.keys(data).length && resetPassword(data);
     }
 
     return (
@@ -87,7 +93,7 @@ function ResetPassword(props) {
                         </div>
                     </div>
                     {!strongRegex.test(pass1) && pass1 !== '' &&
-                    <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
+                        <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
                     <div className='pass_wrapper'>
                         <input
@@ -104,6 +110,8 @@ function ResetPassword(props) {
                         </div>
                     </div>
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
+                    {emptyPasswordErr && <div className='error_message'>{emptyPasswordErr}</div>}
+
                     <button
                         className='submit_button'
                         type='submit'
