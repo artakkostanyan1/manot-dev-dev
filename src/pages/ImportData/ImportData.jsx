@@ -84,20 +84,12 @@ function ImportData(props) {
             .then(response => response.json())
             .then(response => (response.status === 'success' && data.images.length)
                 ? addPhotos(data, false)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('addimage', data);
-                    })
-                    .catch(err => {
-                        console.log('err', err);
-                    })
                 : response)
             .then(data => {
-                console.log('Success:', data.status);
-                if (data.status === 'success') {
+                if (data?.status === 'success') {
                     setOpen(false);
                     history.push(paths.Desktop)
-                } else if (data.status === 'fail') {
+                } else if (data?.status === 'fail') {
                     setErrorMessage(data.message);
                     setTogglePopup(!togglePopup);
                 }
@@ -119,7 +111,10 @@ function ImportData(props) {
             .then(response => response.json())
             .then((data) => {
                 isAddData && handleAddImages();
-                history.push(paths.Desktop);
+                if (data.status === 'success') {
+                    handleAddImages();
+                    history.push(paths.Desktop);
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -191,23 +186,28 @@ function ImportData(props) {
             && setFoldersNames((foldersNames) => {
                 return folder_name && [...foldersNames, folder_name]
             });
-        imagesArray.map((el) => {
-            let i = new Image();
-            i.onload = function () {
-                images.push({
-                    image: el.data_url,
-                    width: i.width,
-                    height: i.height,
-                    size: el.file.size,
-                })
-            };
-            i.src = el.data_url;
-        })
-        const data = {
-            folder_name,
-            images,
-        }
-        createPicFoder(data);
+
+        Promise.all(imagesArray.map((element) => {
+            return new Promise((res) => {
+                let i = new Image();
+                i.onload = () => {
+                    res({
+                        image: element.data_url,
+                        width: i.width,
+                        height: i.height,
+                        size: element.file.size,
+                    })
+                };
+                i.src = element.data_url;
+            })
+        }))
+            .then((images) => {
+                const data = {
+                    folder_name: folder_name,
+                    images: images,
+                }
+                createPicFoder(data);
+            })
         folder_name && setIsFolderNameCreated(true);
     };
 
@@ -225,8 +225,28 @@ function ImportData(props) {
     }
 
     const addImages = (el) => {
-        newImagesArray.length && addPhotos(el);
-        handleAddImages();
+        const images = [];
+        Promise.all(newImagesArray.map((element) => {
+            return new Promise((res) => {
+                let i = new Image();
+                i.onload = () => {
+                    res({
+                        image: element.data_url,
+                        width: i.width,
+                        height: i.height,
+                        size: element.file.size,
+                    })
+                };
+                i.src = element.data_url;
+            })
+        }))
+            .then((images) => {
+                const data = {
+                    folder_name: el,
+                    images: images,
+                }
+                images.length ? addPhotos(data) : setTogglePopup(true);
+            })
     }
 
     useEffect(() => {
@@ -250,7 +270,7 @@ function ImportData(props) {
             .catch(err => {
                 setError(err.message)
             })
-    }, [folder_name, elementToDelete])
+    }, [elementToAdd, elementToDelete])
 
     const isDataExist = !error ? 'min' : 'max';
     const chooseBtn = { ...styles.chooseButton, ...styles.Button };
@@ -359,6 +379,7 @@ function ImportData(props) {
                                     Create
                                 </button>
                             </span>
+                            {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={'Please choose photo'} />}
                         </div>
                         <button
                             style={cancelBtn}
@@ -428,6 +449,133 @@ function ImportData(props) {
                             </DialogActions>
                         </>
                     </Dialog>
+                    {/* This is Add image dialog */}
+                    {/* <Dialog
+                        PaperProps={{
+                            style: {
+                                borderRadius: '25px',
+                                background: '#FFFFFF',
+                                border: '3px solid #257AAF'
+                            }
+                        }}
+                        open={toggleAddImages}
+                    >
+                        <div className='header-icons-container'>
+                            <div onClick={handleAddImages}>
+                                <CloseIcon />
+                            </div>
+                        </div>
+                        <DialogTitle
+                            className="dialog-title"
+                        >
+                            Upload images to choosen folder
+                        </DialogTitle>
+                        <ImageUploading
+                            multiple
+                            value={newImagesArray}
+                            onChange={onChange}
+                            acceptType={['jpg', 'jpeg', 'png']}
+                            maxFileSize={100000}
+                            resolutionWidth={1024}
+                            resolutionHeight={1024}
+                            dataURLKey="data_url"
+                        >
+                            {({
+                                onImageUpload
+                            }) => (
+                                <span>
+                                    <button
+                                        className='choose-button'
+                                        color="primary"
+                                        onClick={onImageUpload}
+                                        style={chooseBtn}
+                                    >
+                                        Choose photo
+                                    </button>
+                                    {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
+                                </span>
+                            )}
+                        </ImageUploading>
+                        <div className='dialog-action'>
+                            <span>
+                                <button
+                                    type='submit'
+                                    className='continue-button'
+                                    color="primary"
+                                    onClick={() => addImages(elementToAdd)}
+                                >
+                                    Create
+                                </button>
+                            </span>
+                        </div>
+                        <button
+                            style={cancelBtn}
+                            onClick={handleAddImages}
+                            color="primary"
+                        >
+                            Cancel
+                        </button>
+                    </Dialog> */}
+
+                    {/* This is Edit dialog*/}
+                    {/* <Dialog
+                        PaperProps={{
+                            style: {
+                                borderRadius: '25px',
+                                background: '#FFFFFF',
+                                border: '3px solid #257AAF'
+                            }
+                        }}
+                        className='folder-dialog'
+                        onClose={handleEditToggle}
+                        aria-labelledby="customized-dialog-title"
+                        open={openEdit}
+                    >
+                        <div className='header-icons-container'>
+                            <div onClick={handleEditToggle}>
+                                <CloseIcon />
+                            </div>
+                        </div>
+                        <DialogTitle
+                            className="dialog-title"
+                        >
+                            Edit Folder Name
+                        </DialogTitle>
+                        <>
+                            <DialogContent>
+                                <input
+                                    className="folder-name-input"
+                                    onChange={(e) => {
+                                        setEditFolderName(e.target.value);
+                                    }}
+                                    type='text'
+                                    autoFocus
+                                    placeholder='Folder Name'
+                                    value={editFolderName}
+                                    required
+                                    validationErrors={{
+                                        isDefaultRequiredValue: 'Field is required'
+                                    }}
+                                />
+                            </DialogContent>
+                            <DialogActions className='dialog-action'>
+                                <button
+                                    className='continue-button'
+                                    onClick={() => handleEditCreate(elementToEdit)}
+                                    color="primary"
+                                >
+                                    Confirm
+                                </button>
+                                <button
+                                    className='continue-button'
+                                    onClick={handleEditToggle}
+                                    color="primary"
+                                >
+                                    Cancle
+                                </button>
+                            </DialogActions>
+                        </>
+                    </Dialog> */}
 
                     {/* This is Delete dialog*/}
                     <Dialog
