@@ -14,8 +14,8 @@ function ResetPassword(props) {
     const history = useHistory();
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
-    const [pass1, setPass1] = useState();
-    const [pass2, setPass2] = useState();
+    const [pass1, setPass1] = useState('');
+    const [pass2, setPass2] = useState('');
     const [isMatched, setIsMatched] = useState(true);
     const [error, setError] = useState('');
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -44,12 +44,14 @@ function ResetPassword(props) {
             });
     }
 
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
+
     function handleClick1() {
-        (passwordType === 'password') ? setPasswordType('password') : setPasswordType('text');
+        (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
     }
 
     function handleClick2() {
-        (repeatPasswordType === 'password') ? setRepeatPasswordType('password') : setRepeatPasswordType('text');
+        (repeatPasswordType === 'password') ? setRepeatPasswordType('text') : setRepeatPasswordType('password');
     }
 
     function handleSubmit(event) {
@@ -68,17 +70,8 @@ function ResetPassword(props) {
         <div className='registration_container'>
             <Header />
             <div className='form_wrapper'>
-                {error && <div>{error}</div>}
                 <form className='form' onSubmit={handleSubmit}>
                     <div className='heading'>Reset Password</div>
-                    {/* <input
-                        type='email'
-                        className="email_input"
-                        placeholder='Email'
-                        {...register("email", { required: 'Please enter your email' })}
-                    />
-                    {errors.email && <div className='error_message'>{errors.email.message}</div>} */}
-
                     <div className='pass_wrapper'>
                         <input
                             type={passwordType}
@@ -87,12 +80,14 @@ function ResetPassword(props) {
                             value={pass1}
                             onChange={(e) => setPass1(e.target.value)}
                         />
-                        <button className='pass_button' onClick={handleClick1}>
+                        <div className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                                 : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
-                        </button>
+                        </div>
                     </div>
+                    {!strongRegex.test(pass1) && pass1 !== '' &&
+                    <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
                     <div className='pass_wrapper'>
                         <input
@@ -102,11 +97,11 @@ function ResetPassword(props) {
                             value={pass2}
                             onChange={(e) => { setPass2(e.target.value) }}
                         />
-                        <button className='pass_button' onClick={handleClick2}>
+                        <div className='pass_button' onClick={handleClick2}>
                             {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                                 : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                             }
-                        </button>
+                        </div>
                     </div>
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
                     <button
