@@ -7,11 +7,10 @@ import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
 import './LeftBar.scss';
 
-function LeftBar(props) {
+function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList }) {
     const [isFullScreen, setIsFullscreen] = useState(true);
     const [open, setOpen] = useState(false);
     const screen = isFullScreen ? 'full' : 'min';
-    const imagesList = props.imagesList;
 
     const handleTooltipClose = () => {
         setOpen(false);
@@ -31,12 +30,14 @@ function LeftBar(props) {
             </div>
             {isFullScreen
                 ? <div className='full_screen_leftbar'>
-                    <div className='radio-buttons-container'>
+                    <form className='radio-buttons-container' onChange={() => setIsRotationAllowed(prev => !prev)}>
                         <div>
                             <input
                                 type="radio"
                                 name="box"
+                                value='B-Box'
                                 className='box-input'
+                                defaultChecked={!isRotationAllowed}
                             />
                             <label>B-box</label>
                         </div>
@@ -44,11 +45,13 @@ function LeftBar(props) {
                             <input
                                 type="radio"
                                 name="box"
+                                value='RB-Box'
                                 className='box-input'
+                                defaultChecked={isRotationAllowed}
                             />
                             <label>RB-box</label>
                         </div>
-                    </div>
+                    </form>
 
                     <ClickAwayListener onClickAway={handleTooltipClose}>
                         <div>
