@@ -51,113 +51,114 @@ const AnotationTool = ({ isRotationAllowed, image }) => {
                 })
             }
         })
-
+        console.log('markersInfoArray', markers);
         setMarkersInfoArray(markers)
     }, [markerAreaState])
 
+
     useEffect(() => { // INIT // 
-        const initializeMarkerArea = () => {
-            setMarkerAreaState(null)
-            if (sampleImageRef.current) {
-                sampleImageRef.current.src = sourceImageRef.current.src;
+        MA?.close()
+        setMarkerAreaState(null)
+        markersInfoArray.current = {}
+        notes.current = {}
 
-                const markerArea = new mjs.MarkerArea(sourceImageRef.current);
+        if (sampleImageRef.current) {
+            sampleImageRef.current.src = sourceImageRef.current.src;
 
-                markerArea.availableMarkerTypes = [mjs.FrameMarker];
-                markerArea.targetRoot = sourceImageRef.current.parentElement;
-                markerArea.uiStyleSettings.undoButtonVisible = false;
-                markerArea.settings.defaultColor = "#69dafb";
-                markerArea.settings.defaultFillColor = "#69dafbcc"
+            const markerArea = new mjs.MarkerArea(sourceImageRef.current);
 
-                markerArea.settings.isRotationAllowed = isRotationAllowed;
-                markerArea.uiStyleSettings.hideToolbar = false;
-                markerArea.uiStyleSettings.hideToolbox = true;
-                markerArea.uiStyleSettings.notesButtonVisible = false;
-                markerArea.uiStyleSettings.notesAreaStyleClassName = 'dropboxDiv';
+            markerArea.availableMarkerTypes = [mjs.FrameMarker];
+            markerArea.targetRoot = sourceImageRef.current.parentElement;
+            markerArea.uiStyleSettings.undoButtonVisible = false;
+            markerArea.settings.defaultColor = "#69dafb";
+            markerArea.settings.defaultFillColor = "#69dafbcc"
 
-                markerArea.addRenderEventListener((dataUrl, state) => {
-                    if (sampleImageRef.current) {
-                        sampleImageRef.current.src = dataUrl; // render image with drawed markers
-                        setMarkerAreaState(state); // save state of MarkerArea to be able to restore it
+            markerArea.settings.isRotationAllowed = isRotationAllowed;
+            markerArea.uiStyleSettings.hideToolbar = false;
+            markerArea.uiStyleSettings.hideToolbox = true;
+            markerArea.uiStyleSettings.notesButtonVisible = false;
+            markerArea.uiStyleSettings.notesAreaStyleClassName = 'dropboxDiv';
 
-                        markersArray.current = state.markers; // TODO //
-                        console.log(`notesArray.current`, notes.current)
-                        console.log(`markersArray`, markersArray)
+            markerArea.addRenderEventListener((dataUrl, state) => {
+                if (sampleImageRef.current) {
+                    sampleImageRef.current.src = dataUrl; // render image with drawed markers
+                    setMarkerAreaState(state); // save state of MarkerArea to be able to restore it
+
+                    markersArray.current = state.markers; // TODO //
+                    console.log(`notesArray.current`, notes.current)
+                    console.log(`markersArray`, markersArray)
+                }
+            });
+
+            markerArea.addDeleteEventListener(marker => {
+
+                if (marker.notes) {
+                    console.log(notes.current[marker.notes]);
+                    notes.current[marker.notes].count--;
+                    if (notes.current[marker.notes].count < 1) {
+                        notes.current[marker.notes] = undefined;
                     }
-                });
+                }
 
-                markerArea.addDeleteEventListener(marker => {
+                markerArea.hideNotesEditor()
 
-                    if (marker.notes) {
-                        console.log(notes.current[marker.notes]);
-                        notes.current[marker.notes].count--;
-                        if (notes.current[marker.notes].count < 1) {
-                            notes.current[marker.notes] = undefined;
-                        }
+                if (marker.notes) {
+                    console.log(notes.current[marker.notes]);
+                    notes.current[marker.notes].count--;
+                    if (notes.current[marker.notes].count < 1) {
+                        notes.current[marker.notes] = undefined;
                     }
+                }
+            })
 
-                    markerArea.hideNotesEditor()
+            markerArea.addDeselectEventListener(marker => {
+                if (markerArea.getState().markers.length) {
+                    const { prevNote } = selectedMarker.current
+                    const note = markerArea.hideNotesEditor();
+                    console.log(`selectedMarker.current, note`, selectedMarker.current, note)
+                    if (!note) {
+                        // TRY TO PREVENT DESELECTING
+                        // markerArea.show()
+                        // sampleImageRef.current.style.opacity = 0;
+                        // markerArea.restoreState(markerArea.getState())
+                        // markerArea.setCurrentMarker(marker)
+                    } else {
+                        if (prevNote) {
+                            notes.current[prevNote]--;
+                            console.log(`prevNote`, prevNote)
+                            notes.current[note]++ || (notes.current[note] = 1);
 
-                    if (marker.notes) {
-                        console.log(notes.current[marker.notes]);
-                        notes.current[marker.notes].count--;
-                        if (notes.current[marker.notes].count < 1) {
-                            notes.current[marker.notes] = undefined;
-                        }
-                    }
-                })
-
-                markerArea.addDeselectEventListener(marker => {
-                    if (markerArea.getState().markers.length) {
-                        const { prevNote } = selectedMarker.current
-                        const note = markerArea.hideNotesEditor();
-                        console.log(`selectedMarker.current, note`, selectedMarker.current, note)
-                        if (!note) {
-                            // TRY TO PREVENT DESELECTING
-                            // markerArea.show()
-                            // sampleImageRef.current.style.opacity = 0;
-                            // markerArea.restoreState(markerArea.getState())
-                            // markerArea.setCurrentMarker(marker)
-                        } else {
-                            if (prevNote) {
-                                notes.current[prevNote]--;
-                                console.log(`prevNote`, prevNote)
-                                notes.current[note]++ || (notes.current[note] = 1);
-
-                                if (notes.current[prevNote] < 1) {
-                                    notes.current[prevNote] = undefined;
-                                }
-                            } else {
-                                notes.current[note]++ || (notes.current[note] = 1);
+                            if (notes.current[prevNote] < 1) {
+                                notes.current[prevNote] = undefined;
                             }
-                        }
-
-                        selectedMarker.current = null
-                    }
-                });
-
-                markerArea.addSelectEventListener((marker, id) => {
-                    if (markerArea.getState().markers.length) {
-                        if (id !== selectedMarker.current) {
-                            const { notesArea, currentValue } = markerArea.showNotesEditor();
-
-                            selectedMarker.current = { id: marker.id, prevNote: currentValue }
-
-                            dropboxDivRef.current = notesArea;
-                            dropboxDivRef.current.style.bottom = 0; // textarea styles
+                        } else {
+                            notes.current[note]++ || (notes.current[note] = 1);
                         }
                     }
-                });
 
-                markerArea.addCloseEventListener(() => {
-                    sampleImageRef.current.style.opacity = 1;
-                });
+                    selectedMarker.current = null
+                }
+            });
 
-                setMA(markerArea);
-            }
+            markerArea.addSelectEventListener((marker, id) => {
+                if (markerArea.getState().markers.length) {
+                    if (id !== selectedMarker.current) {
+                        const { notesArea, currentValue } = markerArea.showNotesEditor();
+
+                        selectedMarker.current = { id: marker.id, prevNote: currentValue }
+
+                        dropboxDivRef.current = notesArea;
+                        dropboxDivRef.current.style.bottom = 0; // textarea styles
+                    }
+                }
+            });
+
+            markerArea.addCloseEventListener(() => {
+                sampleImageRef.current.style.opacity = 1;
+            });
+
+            setMA(markerArea);
         }
-
-        initializeMarkerArea();
     }, [isRotationAllowed, image])
 
     return (
