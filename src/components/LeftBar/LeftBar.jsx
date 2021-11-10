@@ -83,9 +83,9 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList }) {
                     </ClickAwayListener>
 
                     <div className='photos-container'>
-                        {imagesList.map((el) => {
+                        {imagesList.map((el, key) => {
                             return (
-                                <div className='image_container'>
+                                <div key={key} className='image_container'>
                                     <img
                                         alt='girl'
                                         src={el.image}

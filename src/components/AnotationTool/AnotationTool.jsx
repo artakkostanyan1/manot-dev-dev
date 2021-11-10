@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as mjs from 'mjs2-ngv';
 import './AnotationTool.scss';
 
-const AnotationTool = ({ isRotationAllowed, image }) => {
+const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
 
     const [MA, setMA] = useState(null) // MarkerArea global state
     const [markerAreaState, setMarkerAreaState] = useState(null) // MarkerArea state for restoring
@@ -53,12 +53,15 @@ const AnotationTool = ({ isRotationAllowed, image }) => {
         })
         console.log('markersInfoArray', markers);
         setMarkersInfoArray(markers)
+        console.log(`notes.current`, notes.current)
+        setNotes({...notes.current})
     }, [markerAreaState])
 
 
     useEffect(() => { // INIT // 
-        MA?.close()
-        setMarkerAreaState(null)
+        MA?.close();
+        setMarkerAreaState(null);
+        setNotes([]);
         markersInfoArray.current = {}
         notes.current = {}
 
@@ -96,7 +99,7 @@ const AnotationTool = ({ isRotationAllowed, image }) => {
                     console.log(notes.current[marker.notes]);
                     notes.current[marker.notes].count--;
                     if (notes.current[marker.notes].count < 1) {
-                        notes.current[marker.notes] = undefined;
+                        delete notes.current[marker.notes]
                     }
                 }
 
@@ -106,7 +109,7 @@ const AnotationTool = ({ isRotationAllowed, image }) => {
                     console.log(notes.current[marker.notes]);
                     notes.current[marker.notes].count--;
                     if (notes.current[marker.notes].count < 1) {
-                        notes.current[marker.notes] = undefined;
+                        delete notes.current[marker.notes]
                     }
                 }
             })
@@ -129,7 +132,7 @@ const AnotationTool = ({ isRotationAllowed, image }) => {
                             notes.current[note]++ || (notes.current[note] = 1);
 
                             if (notes.current[prevNote] < 1) {
-                                notes.current[prevNote] = undefined;
+                                delete notes.current[prevNote]
                             }
                         } else {
                             notes.current[note]++ || (notes.current[note] = 1);

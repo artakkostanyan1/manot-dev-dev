@@ -48,6 +48,7 @@ function Desktop() {
 
     const [imagesList, setImagesList] = useState(data);
     const [isRotationAllowed, setIsRotationAllowed] = useState(false)
+    const [notes, setNotes] = useState({})
 
     return (
         <div className='comp-desktop'>
@@ -55,9 +56,9 @@ function Desktop() {
             <div className='main-content-container'>
                 <LeftBar className='left_bar' imagesList={imagesList} isRotationAllowed={isRotationAllowed} setIsRotationAllowed={setIsRotationAllowed} />
                 <div className='main-photo'>
-                    <AnotationTool image={imagesList[0].image} isRotationAllowed={isRotationAllowed} /* TODO */ />
+                    <AnotationTool image={imagesList[0].image} isRotationAllowed={isRotationAllowed} setNotes={setNotes} />
                 </div>
-                <RightBar />
+                <RightBar notes={notes} />
             </div>
         </div>
     )

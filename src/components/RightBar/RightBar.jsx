@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function RightBar() {
+function RightBar({ notes }) {
     const classes = useStyles();
 
     return (
@@ -42,14 +42,17 @@ function RightBar() {
                 </div>
             </Paper>
 
-            <Paper elevation={4} className={classes.second_part}>
-                <div className='paper_inner_div'>
-                    <div className='text_part'>Horses</div>
-                    <div className='counter_part'>1</div>
-                </div>
-            </Paper>
+            {console.log(`notes, rightbar`, notes)}
+            {Object.keys(notes).map((note, id) => notes[note] && (
+                <Paper key={id} elevation={4} className={classes.second_part}>
+                    <div className='paper_inner_div'>
+                        <div className='text_part'>{note}</div>
+                        <div className='counter_part'>{notes[note]}</div>
+                    </div>
+                </Paper>
+            ))}
 
-            <Paper elevation={4} className={classes.third_part}>
+            {/* <Paper elevation={4} className={classes.third_part}>
                 <div className='paper_inner_div'>
                     <div className='text_part'>Lorem ipsum</div>
                     <div className='counter_part'>1</div>
@@ -61,7 +64,7 @@ function RightBar() {
                     has survived not only five centuries, but also the leap into
                     electronic typesetting, remaining essent
                 </div>
-            </Paper>
+            </Paper> */}
 
             <div className='btn_container'>
 
