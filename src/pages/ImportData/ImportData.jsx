@@ -151,7 +151,7 @@ function ImportData(props) {
             .then(response => response.json())
             .then((success) => {
                 console.log('Success', success);
-                ToggleDelete();
+                toggleDelete();
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -173,7 +173,7 @@ function ImportData(props) {
         setOpenEdit(!openEdit);
         setEditFolderName(el);
     }
-    const ToggleDelete = (el = null) => {
+    const toggleDelete = (el = null) => {
         setDeleteToggle(el);
     }
     const handleAddImages = (el = null) => {
@@ -309,7 +309,7 @@ function ImportData(props) {
                                             </span>
                                             <span onClick={() => {
                                                 setElementToDelete(el)
-                                                ToggleDelete(el)
+                                                toggleDelete(el)
                                             }}>
                                                 <img src='delete.svg' alt='delete folder' />
                                             </span>
@@ -492,7 +492,7 @@ function ImportData(props) {
                             </button>
                             <button
                                 className='continue-button'
-                                onClick={ToggleDelete}
+                                onClick={() => toggleDelete()}
                                 color="primary"
                             >
                                 Cancel
