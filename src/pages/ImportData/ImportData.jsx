@@ -425,10 +425,10 @@ function ImportData(props) {
                                     autoFocus
                                     placeholder='Folder Name'
                                     value={editFolderName}
-                                    pattern="^([a-zA-Z][^*/><?@$%.\|:]*)$"
+                                    pattern="^([a-zA-Z]*[a-zA-Z1-9]_?-?[a-zA-Z1-9]*)$"
                                     minlength="3"
                                     maxlength="15"
-                                    title="Folder name should start widh letter and musn't contain this symboles[*/><?@$%.\|:] "
+                                    title="Folder name should contain letter and numbers. Words can be seperated by - or _ "
                                     required
                                     validationErrors={{
                                         isDefaultRequiredValue: 'Field is required'
@@ -552,10 +552,10 @@ function ImportData(props) {
                                     autoFocus
                                     placeholder='Folder Name'
                                     value={folder_name}
-                                    pattern="^([a-zA-Z][^*/><?@$%.\|:]*)$"
+                                    pattern="^([a-zA-Z]*[a-zA-Z1-9]_?-?[a-zA-Z1-9]*)$"
                                     minlength="3"
                                     maxlength="15"
-                                    title="Folder name should start widh letter and musn't contain this symboles[*/><?@$%.\|:] "
+                                    title="Folder name should contain letter and numbers. Words can be seperated by - or _ "
                                     required
                                 />
                                 <div className='dialog-action'>
