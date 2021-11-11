@@ -5,13 +5,10 @@ import './Main.scss';
 
 function Main() {
     const history = useHistory();
-
+    const param = 'account';
     return (
         <>
             <div className='main_page_container'>
-            {/* <div className='gradient1'></div> */}
-            {/* <div className='gradient2'></div> */}
-
                 <div className='big_logo_container'>
                     <ReactLogo className='big_logo' />
                     <span className='manot-text'>
@@ -21,7 +18,7 @@ function Main() {
 
                 <div className='button-containers'>
                     <button
-                        onClick={() => history.push(paths.Login)}>
+                        onClick={() => history.push(`login/${param}`)}>
                         Sign in
                     </button>
                     <button
