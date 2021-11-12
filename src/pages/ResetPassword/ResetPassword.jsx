@@ -17,7 +17,10 @@ function ResetPassword(props) {
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
     const [isMatched, setIsMatched] = useState(true);
+    const [emptyPsswdErr, setEmptyPsswdErr] = useState('');
+    const [hasFocus, setHasFocus] = useState(false);
     const [error, setError] = useState('');
+
     const apiUrl = process.env.REACT_APP_API_URL;
     // TO DO: /////////////////////////////////////////////////////resserpassword api path
 
@@ -57,13 +60,17 @@ function ResetPassword(props) {
     function handleSubmit(event) {
         event.preventDefault();
 
+        if (pass1 === '' && pass2 === '') {
+            setEmptyPsswdErr('Passwords are required')
+        }
+
         const data = {
             pass1,
             pass2,
         }
 
         pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
-        (pass1 === pass2) && Object.keys(data).length && resetPassword(data);
+        (pass1 === pass2 && pass1 !== '' && pass2 !== '' && strongRegex.test(pass1)) && resetPassword(data);
     }
 
     return (
@@ -79,6 +86,11 @@ function ResetPassword(props) {
                             placeholder='Password'
                             value={pass1}
                             onChange={(e) => setPass1(e.target.value)}
+                            onFocus={() => {
+                                if (emptyPsswdErr) {
+                                    setEmptyPsswdErr('')
+                                }
+                            }}
                         />
                         <div className='pass_button' onClick={handleClick1}>
                             {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
@@ -87,7 +99,7 @@ function ResetPassword(props) {
                         </div>
                     </div>
                     {!strongRegex.test(pass1) && pass1 !== '' &&
-                    <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
+                        <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
                     <div className='pass_wrapper'>
                         <input
@@ -104,6 +116,8 @@ function ResetPassword(props) {
                         </div>
                     </div>
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
+                    {emptyPsswdErr && <div className='error_message'>{emptyPsswdErr}</div>}
+
                     <button
                         className='submit_button'
                         type='submit'
