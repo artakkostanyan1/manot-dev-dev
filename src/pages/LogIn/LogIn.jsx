@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Recaptcha from 'react-recaptcha';
 import { Link } from '@material-ui/core';
 
@@ -10,12 +10,17 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 import Loader from '../../components/Loader/Loader';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
 import paths from '../../utils/routing';
 import './LogIn.scss';
 
 require('dotenv').config();
 
 function LogIn(props) {
+
+    const params = useParams();
     const history = useHistory();
     const [isVerified, setIsVerified] = useState(true);
     const [passwordType, setPasswordType] = useState('password');
@@ -30,15 +35,16 @@ function LogIn(props) {
     const [togglePopup, setTogglePopup] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isFromEmail, setIsFromEmail] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        let endpoint = window.location.pathname.slice(7,);
+        setIsFromEmail(params.id.includes('account') ? false : true);
 
         fetch(`${apiUrl}verify-account`, {
             method: 'PUT',
             headers: {
-                "x-access-token": endpoint
+                "x-access-token": params.id
             }
         })
             .then(response => {
@@ -47,6 +53,14 @@ function LogIn(props) {
             .then(data => {
                 setIsLoading(false)
             })
+
+        const timeId = setTimeout(() => {
+            setIsFromEmail(false)
+        }, 1800)
+
+        return () => {
+            clearTimeout(timeId)
+        }
     }, [])
 
     const login = (data) => {
@@ -113,6 +127,13 @@ function LogIn(props) {
             {isLoading ? <Loader /> :
                 <div className='verify_container'>
                     <Header />
+                    {isFromEmail &&
+                        < Stack sx={{ width: '80%' }} spacing={2} style={{ margin: 'auto' }}>
+                            <Alert variant="outlined" severity="success">
+                                Your account is activated, please login to continue
+                            </Alert>
+                        </Stack>
+                    }
                     <div className='form_wrapper'>
                         <form className='form' onSubmit={handleSubmit}>
                             <div className='heading'>Sign in</div>

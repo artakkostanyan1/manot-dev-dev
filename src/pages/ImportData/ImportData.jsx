@@ -73,7 +73,7 @@ function ImportData(props) {
         }
     };
 
-    const createPicFoder = (data) => {
+    const createPicFoder = (data, isAbleToRedirect) => {
         fetch(`${apiUrl}create-folder?folder_name=${data.folder_name}`, {
             method: 'POST',
             headers: {
@@ -88,7 +88,7 @@ function ImportData(props) {
             .then(data => {
                 if (data?.status === 'success') {
                     setOpen(false);
-                    history.push(paths.Desktop)
+                    isAbleToRedirect && history.push(paths.Desktop)
                 } else if (data?.status === 'fail') {
                     setErrorMessage(data.message);
                     setTogglePopup(!togglePopup);
@@ -151,7 +151,7 @@ function ImportData(props) {
             .then(response => response.json())
             .then((success) => {
                 console.log('Success', success);
-                ToggleDelete();
+                toggleDelete();
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -173,7 +173,7 @@ function ImportData(props) {
         setOpenEdit(!openEdit);
         setEditFolderName(el);
     }
-    const ToggleDelete = (el = null) => {
+    const toggleDelete = (el = null) => {
         setDeleteToggle(el);
     }
     const handleAddImages = (el = null) => {
@@ -206,7 +206,7 @@ function ImportData(props) {
                     folder_name: folder_name,
                     images: images,
                 }
-                createPicFoder(data);
+                createPicFoder(data, images.length);
             })
         folder_name && setIsFolderNameCreated(true);
     };
@@ -309,7 +309,7 @@ function ImportData(props) {
                                             </span>
                                             <span onClick={() => {
                                                 setElementToDelete(el)
-                                                ToggleDelete(el)
+                                                toggleDelete(el)
                                             }}>
                                                 <img src='delete.svg' alt='delete folder' />
                                             </span>
@@ -425,6 +425,10 @@ function ImportData(props) {
                                     autoFocus
                                     placeholder='Folder Name'
                                     value={editFolderName}
+                                    pattern="^([a-zA-Z]*[a-zA-Z1-9]_?-?[a-zA-Z1-9]*)$"
+                                    minlength="3"
+                                    maxlength="15"
+                                    title="Folder name should contain letter and numbers. Words can be seperated by - or _ "
                                     required
                                     validationErrors={{
                                         isDefaultRequiredValue: 'Field is required'
@@ -449,133 +453,6 @@ function ImportData(props) {
                             </DialogActions>
                         </>
                     </Dialog>
-                    {/* This is Add image dialog */}
-                    {/* <Dialog
-                        PaperProps={{
-                            style: {
-                                borderRadius: '25px',
-                                background: '#FFFFFF',
-                                border: '3px solid #257AAF'
-                            }
-                        }}
-                        open={toggleAddImages}
-                    >
-                        <div className='header-icons-container'>
-                            <div onClick={handleAddImages}>
-                                <CloseIcon />
-                            </div>
-                        </div>
-                        <DialogTitle
-                            className="dialog-title"
-                        >
-                            Upload images to choosen folder
-                        </DialogTitle>
-                        <ImageUploading
-                            multiple
-                            value={newImagesArray}
-                            onChange={onChange}
-                            acceptType={['jpg', 'jpeg', 'png']}
-                            maxFileSize={100000}
-                            resolutionWidth={1024}
-                            resolutionHeight={1024}
-                            dataURLKey="data_url"
-                        >
-                            {({
-                                onImageUpload
-                            }) => (
-                                <span>
-                                    <button
-                                        className='choose-button'
-                                        color="primary"
-                                        onClick={onImageUpload}
-                                        style={chooseBtn}
-                                    >
-                                        Choose photo
-                                    </button>
-                                    {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
-                                </span>
-                            )}
-                        </ImageUploading>
-                        <div className='dialog-action'>
-                            <span>
-                                <button
-                                    type='submit'
-                                    className='continue-button'
-                                    color="primary"
-                                    onClick={() => addImages(elementToAdd)}
-                                >
-                                    Create
-                                </button>
-                            </span>
-                        </div>
-                        <button
-                            style={cancelBtn}
-                            onClick={handleAddImages}
-                            color="primary"
-                        >
-                            Cancel
-                        </button>
-                    </Dialog> */}
-
-                    {/* This is Edit dialog*/}
-                    {/* <Dialog
-                        PaperProps={{
-                            style: {
-                                borderRadius: '25px',
-                                background: '#FFFFFF',
-                                border: '3px solid #257AAF'
-                            }
-                        }}
-                        className='folder-dialog'
-                        onClose={handleEditToggle}
-                        aria-labelledby="customized-dialog-title"
-                        open={openEdit}
-                    >
-                        <div className='header-icons-container'>
-                            <div onClick={handleEditToggle}>
-                                <CloseIcon />
-                            </div>
-                        </div>
-                        <DialogTitle
-                            className="dialog-title"
-                        >
-                            Edit Folder Name
-                        </DialogTitle>
-                        <>
-                            <DialogContent>
-                                <input
-                                    className="folder-name-input"
-                                    onChange={(e) => {
-                                        setEditFolderName(e.target.value);
-                                    }}
-                                    type='text'
-                                    autoFocus
-                                    placeholder='Folder Name'
-                                    value={editFolderName}
-                                    required
-                                    validationErrors={{
-                                        isDefaultRequiredValue: 'Field is required'
-                                    }}
-                                />
-                            </DialogContent>
-                            <DialogActions className='dialog-action'>
-                                <button
-                                    className='continue-button'
-                                    onClick={() => handleEditCreate(elementToEdit)}
-                                    color="primary"
-                                >
-                                    Confirm
-                                </button>
-                                <button
-                                    className='continue-button'
-                                    onClick={handleEditToggle}
-                                    color="primary"
-                                >
-                                    Cancle
-                                </button>
-                            </DialogActions>
-                        </>
-                    </Dialog> */}
 
                     {/* This is Delete dialog*/}
                     <Dialog
@@ -615,7 +492,7 @@ function ImportData(props) {
                             </button>
                             <button
                                 className='continue-button'
-                                onClick={ToggleDelete}
+                                onClick={() => toggleDelete()}
                                 color="primary"
                             >
                                 Cancel
@@ -675,6 +552,10 @@ function ImportData(props) {
                                     autoFocus
                                     placeholder='Folder Name'
                                     value={folder_name}
+                                    pattern="^([a-zA-Z]*[a-zA-Z1-9]_?-?[a-zA-Z1-9]*)$"
+                                    minlength="3"
+                                    maxlength="15"
+                                    title="Folder name should contain letter and numbers. Words can be seperated by - or _ "
                                     required
                                 />
                                 <div className='dialog-action'>
