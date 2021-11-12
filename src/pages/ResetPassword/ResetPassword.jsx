@@ -17,7 +17,7 @@ function ResetPassword(props) {
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
     const [isMatched, setIsMatched] = useState(true);
-    const [emptyPasswordErr, setEmptyPasswordErr] = useState('');
+    const [emptyPsswdErr, setEmptyPsswdErr] = useState('');
     const [hasFocus, setHasFocus] = useState(false);
     const [error, setError] = useState('');
 
@@ -61,7 +61,7 @@ function ResetPassword(props) {
         event.preventDefault();
 
         if (pass1 === '' && pass2 === '') {
-            setEmptyPasswordErr('Passwords are required')
+            setEmptyPsswdErr('Passwords are required')
         }
 
         const data = {
@@ -70,7 +70,7 @@ function ResetPassword(props) {
         }
 
         pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
-        (emptyPasswordErr === '') && (pass1 === pass2) && Object.keys(data).length && resetPassword(data);
+        (pass1 === pass2 && pass1 !== '' && pass2 !== '' && strongRegex.test(pass1)) && resetPassword(data);
     }
 
     return (
@@ -87,8 +87,8 @@ function ResetPassword(props) {
                             value={pass1}
                             onChange={(e) => setPass1(e.target.value)}
                             onFocus={() => {
-                                if(emptyPasswordErr) {
-                                    setEmptyPasswordErr('')
+                                if (emptyPsswdErr) {
+                                    setEmptyPsswdErr('')
                                 }
                             }}
                         />
@@ -116,7 +116,7 @@ function ResetPassword(props) {
                         </div>
                     </div>
                     {!isMatched && <div className='error_message'>Passwords don't match</div>}
-                    {emptyPasswordErr && <div className='error_message'>{emptyPasswordErr}</div>}
+                    {emptyPsswdErr && <div className='error_message'>{emptyPsswdErr}</div>}
 
                     <button
                         className='submit_button'
