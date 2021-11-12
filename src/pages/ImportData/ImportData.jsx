@@ -218,10 +218,12 @@ function ImportData(props) {
             new_folder_name: editFolderName,
         }
         editFileName(data);
-        let newNames = foldersNames.filter((element) => {
+        let newNames = foldersNames.filter((element) => { // ??? why we need this code? // TO ASK //
             return element !== el;
         })
         setFolderName(newNames);
+        // this how we change foldersNames state to show rename immediately
+        setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
     }
 
     const addImages = (el) => {
