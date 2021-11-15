@@ -43,7 +43,10 @@ function Profile(props) {
                 return response.json();
             })
             .then(data => {
-                console.log(data)
+                if (data.status === 'fail' && data.message === 'Token is invalid') {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
                 setName(data.message.name);
                 setSurname(data.message.surname);
                 setEmail(data.message.email);
