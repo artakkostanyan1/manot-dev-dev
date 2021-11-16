@@ -5,7 +5,7 @@ const paths = {
     Verify: '/verify',
     Email: '/email',
     SignUp: '/registration',
-    ResetPassword: '/resetpassword',
+    ResetPassword: '/reset-password/:id',
     OldVerification: '/verification',
     Profile: '/profile',
     Payment: '/payment',

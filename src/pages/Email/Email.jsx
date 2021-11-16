@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
 import paths from '../../utils/routing';
+import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 import './Email.scss';
 
 require('dotenv').config();
@@ -10,40 +11,39 @@ function Email() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [isEmailEmptyErr, setIsEmailEmptyErr] = useState('');
-    const [error, setError] = useState('');
+    const [togglePopup, setTogglePopup] = useState(false);
+    const [message, setMessage] = useState('');
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    // TO DO: /////////////////////////////////////////////////////Email api path
-    const sendEmail = (data) => {
-        console.log('data', data);
-        fetch(`${apiUrl}email`, {
+    const sendEmail = () => {
+        fetch(`${apiUrl}forgot-password?email=${email}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
         })
+            .then(response => response.json())
             .then(response => {
-                if (!response.ok) {
-                    setError(response.statusText);
+                // {'status': 'fail', 'message': 'No user registered.'}), 422
+                if (response.status === 'fail' && response.message === 'No user registered.') {
+                    throw Error('There is no user registered with this mail.')
+                } else {
+                    setMessage(response.message);
+                    setTogglePopup(!togglePopup);
                 }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data.token);
-                history.push(paths.ResetPassword);
             })
             .catch((error) => {
-                setError(error.message);
+                setMessage(error.message);
+                setTogglePopup(!togglePopup);
             });
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if(email === '') {
+        if (email === '') {
             setIsEmailEmptyErr('Please enter your email to reset your password');
-        } 
+        }
 
         (email !== '') && sendEmail(email);
     }
@@ -65,7 +65,7 @@ function Email() {
                             setIsEmailEmptyErr('');
                         }}
                     />
-                     {isEmailEmptyErr && <div className='error_message'>{isEmailEmptyErr}</div>}
+                    {isEmailEmptyErr && <div className='error_message'>{isEmailEmptyErr}</div>}
                     <button
                         className='submit_button'
                         type='submit'
@@ -73,6 +73,7 @@ function Email() {
                         Send
                     </button>
                 </form>
+                <ErrorPopup togglePopup={togglePopup} errMsg={message} togglePopupf={setTogglePopup} />
             </div>
         </div>
     )
