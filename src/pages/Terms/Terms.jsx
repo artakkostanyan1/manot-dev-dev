@@ -15,8 +15,8 @@ function Terms() {
                     <p><span>These Terms of Use constitute a legally binding agreement made between
                         you, whether personally or on behalf of an entity (“you”) and manot, Inc.
                         ("Company," “we," “us," or “our”), concerning your access to and use of the
-                        <a href="https://manot.tech/ " target="_blank">
-                            {'  ' + 'https://manot.tech/  '}
+                        <a href="https://manot.tech/ " target="_blank" rel="noreferrer">
+                            {'  https://manot.tech/  '}
                         </a>
                         website as well as any other media form, media channel, mobile website or mobile application
                         related, linked, or otherwise connected thereto (collectively, the “Site”).
@@ -521,8 +521,10 @@ function Terms() {
                     <p><span>info@manot.tech</span></p>
                     <p className='single_gap'></p>
                     <p><span>These terms of use were created using Termly's Terms and Conditions Generator
-                        <a href="https://termly.io/products/terms-and-conditions-generator/?ftseo" target="_blank">
-                            {' ' + 'https://termly.io/products/terms-and-conditions-generator/?ftseo.'}
+                        <a href="https://termly.io/products/terms-and-conditions-generator/?ftseo" 
+                        rel="noreferrer"
+                        target="_blank">
+                            {' https://termly.io/products/terms-and-conditions-generator/?ftseo.'}
                         </a>
                     </span></p>
                     <p className='single_gap'></p>
