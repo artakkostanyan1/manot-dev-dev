@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import UserHeader from '../../components/UserHeader/UserHeader';
 import { useHistory } from 'react-router';
+import UserHeader from '../../components/UserHeader/UserHeader';
+import Loader from '../../components/Loader/Loader';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
-
 import paths from '../../utils/routing';
+
 import './Profile.scss';
 
 require('dotenv').config();
@@ -19,6 +20,7 @@ function Profile(props) {
     const [password, setPassword] = useState('');
     const [confirmed_pass, setConfirmedPassword] = useState('');
 
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [nameError, setNameError] = useState('');
     const [surnameError, setSurnameError] = useState('');
@@ -29,8 +31,9 @@ function Profile(props) {
     const [oldPasswordType, setOldPasswordType] = useState('password');
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
-    const apiUrl = process.env.REACT_APP_API_URL;
+    
     const history = useHistory();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetch(`${apiUrl}get-user`, {
@@ -43,6 +46,7 @@ function Profile(props) {
                 return response.json();
             })
             .then(data => {
+                setIsLoading(false)
                 if (data.status === 'fail' && data.message === 'Token is invalid') {
                     localStorage.removeItem('token');
                     history.push(paths.Main)
@@ -87,11 +91,11 @@ function Profile(props) {
 
         validate();
 
-        // Object.keys(data).length && history.push(paths.Importdata);
+    //  history.push(paths.Importdata);
     }
 
-    return (
-        <div className='registration_container'>
+    return (<>
+        {isLoading ? <Loader /> : <div className='registration_container'>
             <UserHeader />
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit}>
@@ -182,7 +186,8 @@ function Profile(props) {
                     </button>
                 </form>
             </div>
-        </div>
+        </div>}
+    </>
     )
 }
 
