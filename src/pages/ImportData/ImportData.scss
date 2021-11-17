@@ -121,6 +121,8 @@
     width: 120px;
     text-overflow: ellipsis;
     text-align: center;
+
+    cursor: pointer;
 }
 
 .import-data-container {
@@ -194,16 +196,6 @@
     }
 }
 
-// .MuiPaper-root > .folder-dialog {
-//     // width: 100%;
-//     // height: 36px;
-
-//     background: #ffffff;
-//     border: 3px solid #257aaf;
-//     box-sizing: border-box;
-//     border-radius: 13px
-// }
-
 .delete-context {
     display: flex;
     align-items: center;
@@ -217,7 +209,7 @@
     }
 }
 
-.dialog-title>.MuiTypography-h6 {
+.dialog-title > .MuiTypography-h6 {
     width: 100%;
     height: 36px;
 

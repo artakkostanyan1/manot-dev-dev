@@ -4,49 +4,37 @@ import LeftBar from '../../components/LeftBar/LeftBar';
 import RightBar from '../../components/RightBar/RightBar'
 import AnotationTool from '../../components/AnotationTool/AnotationTool';
 import './Desktop.scss';
+import paths from '../../utils/routing';
 
 require('dotenv').config();
 
-function Desktop() {
-    // useEffect(() => {
-    //     fetch(`${apiUrl}get-user`, {
-    //         method: 'GET',
-    //         headers: {
-    //             "x-access-token": localStorage.getItem('token')
-    //         }
-    //     })
-    //         .then(response => {
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             console.log(data)
-    //             setImagesList(data.message);
-    //         })
-    // }, [])
-    const data = [
-        {
-            image: 'horses-1.png',
-            label: 'Image 1'
-        },
-        {
-            image: 'horses-1.png',
-            label: 'Image 2'
-        },
-        {
-            image: 'horses-1.png',
-            label: 'Image 3'
-        },
-        {
-            image: 'horses-1.png',
-            label: 'Image 5'
-        },
-        {
-            image: 'horses-1.png',
-            label: 'Image 6'
-        }
-    ];
+function Desktop(props) {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const folderName = props.match.url.slice(paths.Desktop.length);
+    useEffect(() => {
+        fetch(`${apiUrl}get-annotation-images`, {
+            method: 'POST',
+            headers: {
+                "x-access-token": localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                image_interval: 1,
+                folder_name: folderName,
+            })
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(res => {
+                console.log('res', res)
+                setImagesList(res.message);
+            })
+            .catch((err) => {
+                console.log('err: ', err);
+            })
+    }, [])
 
-    const [imagesList, setImagesList] = useState(data);
+    const [imagesList, setImagesList] = useState([]);
     const [isRotationAllowed, setIsRotationAllowed] = useState(false)
     const [notes, setNotes] = useState({})
 
@@ -54,9 +42,19 @@ function Desktop() {
         <div className='comp-desktop'>
             <UserHeader className='user_header_desktop' />
             <div className='main-content-container'>
-                <LeftBar className='left_bar' imagesList={imagesList} isRotationAllowed={isRotationAllowed} setIsRotationAllowed={setIsRotationAllowed} />
+                <LeftBar className='left_bar'
+                    imagesList={imagesList}
+                    setImagesList={setImagesList}
+                    isRotationAllowed={isRotationAllowed}
+                    setIsRotationAllowed={setIsRotationAllowed}
+                    folderName={folderName}
+                />
                 <div className='main-photo'>
-                    <AnotationTool image={imagesList[0].image} isRotationAllowed={isRotationAllowed} setNotes={setNotes} />
+                    <AnotationTool
+                        image={imagesList[0]}
+                        isRotationAllowed={isRotationAllowed}
+                        setNotes={setNotes}
+                    />
                 </div>
                 <RightBar notes={notes} />
             </div>

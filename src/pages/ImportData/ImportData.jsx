@@ -85,12 +85,12 @@ function ImportData(props) {
             .then(response => (response.status === 'success' && data.images.length)
                 ? addPhotos(data, false)
                 : response)
-            .then(data => {
-                if (data?.status === 'success') {
+            .then(res => {
+                if (res?.status === 'success') {
                     setOpen(false);
-                    isAbleToRedirect && history.push(paths.Desktop)
-                } else if (data?.status === 'fail') {
-                    setErrorMessage(data.message);
+                    isAbleToRedirect && history.push(`${paths.Desktop}${data.folder_name}`);
+                } else if (res?.status === 'fail') {
+                    setErrorMessage(res.message);
                     setTogglePopup(!togglePopup);
                 }
             })
@@ -109,11 +109,11 @@ function ImportData(props) {
             body: JSON.stringify(data),
         })
             .then(response => response.json())
-            .then((data) => {
+            .then((res) => {
                 isAddData && handleAddImages();
-                if (data.status === 'success') {
+                if (res.status === 'success') {
                     handleAddImages();
-                    history.push(paths.Desktop);
+                    history.push(`${paths.Desktop}${data.folder_name}`);
                 }
             })
             .catch((error) => {
@@ -157,7 +157,6 @@ function ImportData(props) {
                 console.error('Error:', error);
             });
     }
-
     const onChange = (imageList) => {
         setImagesArray(imageList);
         setNewImagesArray(imageList);
@@ -180,7 +179,6 @@ function ImportData(props) {
         setToggleAddImages(!toggleAddImages);
     }
     const handleCreate = (e) => {
-        let images = [];
         e.preventDefault();
         !foldersNames.includes(folder_name)
             && setFoldersNames((foldersNames) => {
@@ -227,7 +225,6 @@ function ImportData(props) {
     }
 
     const addImages = (el) => {
-        const images = [];
         Promise.all(newImagesArray.map((element) => {
             return new Promise((res) => {
                 let i = new Image();
@@ -290,7 +287,10 @@ function ImportData(props) {
                                     <>
                                         <div key={index}>
                                             <img src='folder.svg' alt='folder' />
-                                            <span className='folder-name'>
+                                            <span
+                                                className='folder-name'
+                                                onClick={() => history.push(`${paths.Desktop}${el}`)}
+                                            >
                                                 {((el).length > maxlimit) ?
                                                     (((el).substring(0, maxlimit - 3)) + '...') :
                                                     el}
@@ -342,7 +342,7 @@ function ImportData(props) {
                         <DialogTitle
                             className="dialog-title"
                         >
-                            Upload images to choosen folder
+                            Upload images to chosen folder
                         </DialogTitle>
                         <ImageUploading
                             multiple
