@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import UserHeader from '../../components/UserHeader/UserHeader';
 import Loader from '../../components/Loader/Loader';
 
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
+import paths from '../../utils/routing';
 
 import './Profile.scss';
 
@@ -29,6 +31,8 @@ function Profile(props) {
     const [oldPasswordType, setOldPasswordType] = useState('password');
     const [passwordType, setPasswordType] = useState('password');
     const [repeatPasswordType, setRepeatPasswordType] = useState('password');
+    
+    const history = useHistory();
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
@@ -43,6 +47,10 @@ function Profile(props) {
             })
             .then(data => {
                 setIsLoading(false)
+                if (data.status === 'fail' && data.message === 'Token is invalid') {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
                 setName(data.message.name);
                 setSurname(data.message.surname);
                 setEmail(data.message.email);
