@@ -18,7 +18,10 @@ code {
 }
 
 @font-face {
-  font-family: "bahnschrift";
+  /* font-family: "bahnschrift";
   src: local("bahnschrift"), url("./styles/fonts/BAHNSCHRIFT1.TTF") format("truetype");
-  font-weight: bold;
+  font-weight: bold; */
+
+  font-family: 'PT Sans';
+  src: local("PT Sans"), url("./styles/fonts/PT_Sans/PTSans-Regular.ttf") format("truetype");
 }
