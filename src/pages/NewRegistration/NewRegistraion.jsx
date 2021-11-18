@@ -102,7 +102,7 @@ function Registration(props) {
         isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && validateEmail(email) && accept && register(data);
     };
 
-    const hasAcceptCheckboxErrorBorder = !accept && 'with__err__border';
+    // const hasAcceptCheckboxErrorBorder = !accept && 'with__err__border';
 
     return (
         <>
@@ -129,11 +129,12 @@ function Registration(props) {
                                 <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} error={emailError} />
                                 <InputComponent label='password' value={password} onChange={(e) => { setPassword(e.target.value) }} error={passError} />
                                 {!strongRegex.test(password) && password !== '' &&
-                                    <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
+                                    <div className='error__message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
                                 <InputComponent label='repeat password' value={confirmed_pass} onChange={(e) => setConfirmed_pass(e.target.value)} error={confirmed_passError} />
                             </div>
-                            <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}>
+                            {/* <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}> */}
+                            <div className={'terms__policy__checkbox__wrapper'}>
                                 <input type="checkbox" className='terms__policy__checkbox' onClick={() => setAccept(!accept)} />
                                 {'  Accept our  '}
                                 <Link to={paths.Terms} >Terms of Use</Link>

@@ -16,7 +16,8 @@ function InputComponent({ label, type, helperText, value, onChange, error }) {
                 helperText={helperText}
                 style={{
                     width: '80%',
-                    margin: '9px'
+                    margin: '9px',
+                    // borderRadius: '13px'
                 }} />
             {/* <p>a</p> */}
         </>
