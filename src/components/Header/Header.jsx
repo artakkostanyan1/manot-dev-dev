@@ -9,7 +9,7 @@ function Header(props) {
     const history = useHistory();
     const path = window.location.pathname;
 
-    return (
+    return (<>
         <div className='header1'>
             <button
                 className="manot-logo-button"
@@ -17,13 +17,14 @@ function Header(props) {
             >
                 <ReactLogo className='manot-logo' />
             </button>
-            {paths.Login === path && <span className='button-container'>
+        </div>
+        {paths.Login === path && <span className='button-container'>
                 <Button onClick={() => history.push(paths.SignUp)}>
                     Sign Up
                 </Button>
             </span>
             }
-        </div>
+        </>
     )
 }
 
