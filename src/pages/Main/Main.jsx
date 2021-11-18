@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
+import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo_blue.svg';
 import paths from "../../utils/routing";
 import './Main.scss';
 

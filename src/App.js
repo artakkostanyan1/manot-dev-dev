@@ -11,6 +11,7 @@ import Upgrade from './pages/Upgrade/Upgrade';
 import Desktop from './pages/Desktop/Desktop';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Email from './pages/Email/Email';
+import NewRegistration from './pages/NewRegistration/NewRegistraion';
 
 import Terms from './pages/Terms/Terms';
 import Policy from './pages/Policy/Policy';
@@ -119,6 +120,12 @@ const routes = [
     exact: true,
     private: false,
     component: ContactUs,
+  },
+  {
+    path: '/new-registration',
+    exact: true,
+    private: false,
+    component: NewRegistration,
   },
   {
     private: false,

@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import { Link, useHistory } from 'react-router-dom';
-import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
+import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo_pink.svg';
 import PersonIcon from '@material-ui/icons/Person';
 import paths from '../../utils/routing';
 import './UserHeader.scss';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
+import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo_pink.svg';
 import { Button } from '@material-ui/core';
 import paths from '../../utils/routing';
 import './Header.scss';
