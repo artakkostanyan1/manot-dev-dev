@@ -28,14 +28,13 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
 
     const fetchMoreData = () => {
         interval++;
-        fetch(`${apiUrl}get-annotation-images`, {
+        fetch(`${apiUrl}get-annotation-images${folderName}`, {
             method: 'POST',
             headers: {
                 "x-access-token": localStorage.getItem('token')
             },
             body: JSON.stringify({
-                image_interval: interval,
-                folder_name: folderName,
+                image_interval: interval
             })
         })
             .then(response => {

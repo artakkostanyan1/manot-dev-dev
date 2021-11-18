@@ -12,14 +12,13 @@ function Desktop(props) {
     const apiUrl = process.env.REACT_APP_API_URL;
     const folderName = props.match.url.slice(paths.Desktop.length);
     useEffect(() => {
-        fetch(`${apiUrl}get-annotation-images`, {
+        fetch(`${apiUrl}get-annotation-images${folderName}`, {
             method: 'POST',
             headers: {
                 "x-access-token": localStorage.getItem('token')
             },
             body: JSON.stringify({
-                image_interval: 1,
-                folder_name: folderName,
+                image_interval: 1
             })
         })
             .then(response => {
