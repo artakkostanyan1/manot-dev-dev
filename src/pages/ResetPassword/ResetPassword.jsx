@@ -26,7 +26,7 @@ function ResetPassword(props) {
 
     const resetPassword = (data) => {
         console.log('data', data);
-        fetch(`${apiUrl}resetPassword`, {
+        fetch(`${apiUrl}reset-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
