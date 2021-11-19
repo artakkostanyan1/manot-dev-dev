@@ -157,7 +157,7 @@ function Registration(props) {
                                 <div className='pass_button' onClick={handleClick1}>
                                     {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
                                         : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                                    }
+                                     }
                                 </div>
                             </div>
                             {!strongRegex.test(password) && password !== '' &&

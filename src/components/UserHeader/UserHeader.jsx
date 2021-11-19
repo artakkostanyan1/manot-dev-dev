@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 import { Link, useHistory } from 'react-router-dom';
-import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo.svg';
+import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo_pink.svg';
 import PersonIcon from '@material-ui/icons/Person';
 import paths from '../../utils/routing';
 import './UserHeader.scss';
@@ -39,7 +39,10 @@ function UserHeader(props) {
                 return response.json();
             })
             .then(data => {
-                console.log(data)
+                if (data.status === 'fail' && data.message === 'Token is invalid') {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
                 setUserName(data.message.name);
             })
     }, [])
@@ -53,7 +56,6 @@ function UserHeader(props) {
     };
 
     const handleCloseLogout = () => {
-        setAnchorEl(null);
         localStorage.removeItem('token');
     }
 
@@ -80,6 +82,7 @@ function UserHeader(props) {
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Payment method</MenuItem>
+                <MenuItem onClick={() => history.push(paths.Upgrade)}>Upgrade</MenuItem>
                 <MenuItem onClick={handleCloseLogout}>
                     <Link className='menu_link' to={paths.Main}>
                         Logout

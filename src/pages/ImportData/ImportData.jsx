@@ -82,9 +82,16 @@ function ImportData(props) {
             },
         })
             .then(response => response.json())
-            .then(response => (response.status === 'success' && data.images.length)
+            .then(response => {
+                if (response.status === 'fail' && response.message === 'Token is invalid') {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
+                return (response.status === 'success' && data.images.length)
                 ? addPhotos(data, false)
-                : response)
+                : response
+            }
+            )
             .then(res => {
                 if (res?.status === 'success') {
                     setOpen(false);
@@ -110,6 +117,10 @@ function ImportData(props) {
         })
             .then(response => response.json())
             .then((res) => {
+                if (res.status === 'fail' && res.message === 'Token is invalid') {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
                 isAddData && handleAddImages();
                 if (res.status === 'success') {
                     handleAddImages();
@@ -131,8 +142,11 @@ function ImportData(props) {
             body: JSON.stringify(data),
         })
             .then(response => response.json())
-            .then((success) => {
-                console.log('Success', success)
+            .then((response) => {
+                if (response.status === 'fail' && response.message === 'Token is invalid') {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -149,8 +163,11 @@ function ImportData(props) {
             },
         })
             .then(response => response.json())
-            .then((success) => {
-                console.log('Success', success);
+            .then((response) => {
+                if (response.status === 'fail' && response.message === 'Token is invalid') {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
                 toggleDelete();
             })
             .catch((error) => {
@@ -252,10 +269,14 @@ function ImportData(props) {
         fetch(`${apiUrl}get-folders`, {
             method: 'GET',
             headers: {
-                "x-access-token": localStorage.getItem('token')
+                "x-access-token": token
             }
         })
             .then(response => {
+                if (response.status === 403) {
+                    localStorage.removeItem('token');
+                    history.push(paths.Main)
+                }
                 if (response.status === 422) {
                     setError(true)
                 }
