@@ -95,7 +95,7 @@ function Profile(props) {
     }
 
     return (<>
-        {isLoading ? <Loader /> : <div className='registration_container'>
+        {isLoading ? <Loader /> : <div className='profile_container'>
             <UserHeader />
             <div className='form_wrapper'>
                 <form className='form' onSubmit={handleSubmit}>

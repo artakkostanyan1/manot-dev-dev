@@ -12,6 +12,8 @@ const paths = {
     Upgrade: '/upgrade',
     Desktop: '/desktop',
     ContactUs: '/contact-us',
+    NewRegistration: 'new-registration',
+    Terms: '/terms'
 }
 
 export default paths;
