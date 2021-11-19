@@ -137,9 +137,9 @@ function Registration(props) {
                             <div className={'terms__policy__checkbox__wrapper'}>
                                 <input type="checkbox" className='terms__policy__checkbox' onClick={() => setAccept(!accept)} />
                                 {'  Accept our  '}
-                                <Link to={paths.Terms} >Terms of Use</Link>
+                                <Link to={paths.Terms} target='_blank'>Terms of Use</Link>
                                 {'  and  '}
-                                <Link to={paths.Terms} >Privacy Policy</Link>
+                                <Link to={paths.Terms} target='_blank'>Privacy Policy</Link>
                             </div>
                             <div className='signup__button__wrapper'>
                                 <button
@@ -150,7 +150,7 @@ function Registration(props) {
                                     sign up
                                 </button>
                             </div>
-                            <Link className='redirect__to__login' to={paths.Login} >login</Link>
+                            <Link className='redirect__to__login' to={paths.Login}>login</Link>
                         </div>
                     </div>
 
