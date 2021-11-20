@@ -28,7 +28,7 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
 
     const fetchMoreData = () => {
         interval++;
-        fetch(`${apiUrl}get-annotation-images${folderName}`, {
+        fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
                 "x-access-token": localStorage.getItem('token')

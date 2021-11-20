@@ -12,20 +12,19 @@ function Desktop(props) {
     const apiUrl = process.env.REACT_APP_API_URL;
     const folderName = props.match.url.slice(paths.Desktop.length);
     useEffect(() => {
-        fetch(`${apiUrl}get-annotation-images${folderName}`, {
+        console.log('foldername DESKTOP: ', folderName.length);
+        fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
                 "x-access-token": localStorage.getItem('token')
             },
-            body: JSON.stringify({
-                image_interval: 1
-            })
+            body: JSON.stringify({ "image_interval": 1 })
         })
             .then(response => {
                 return response.json();
             })
             .then(res => {
-                console.log('res', res)
+                console.log('res-------------', res)
                 setImagesList(res.message);
             })
             .catch((err) => {
