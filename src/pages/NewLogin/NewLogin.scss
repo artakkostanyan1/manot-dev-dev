@@ -1,0 +1,47 @@
+.signin__fields__wrapper {
+    position: relative;
+    background-color: #FFF;
+    height: 50%;
+    width: 81.6%;
+    border: 1px solid white;
+    border-radius: 13px;
+}
+
+.signin__inputs__wrapper {
+    position: absolute;
+    top: 22%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.signin__inputs__wrapper label {
+    font-family: Comfortaa;
+}
+
+.signin__inputs__wrapper fieldset {
+    border-radius: 11px;
+}
+
+.signin__button__wrapper {
+    position: absolute;
+    top: 65%;
+    width: 100%;
+    text-align: center;
+}
+
+.redirect__to__forgot__password {
+    position: absolute;
+    top: 65%;
+    text-align: center;
+}
+
+.redirect__to__signup {
+    position: absolute;
+    top: 70%;
+    text-align: center;
+}

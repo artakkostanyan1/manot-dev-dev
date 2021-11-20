@@ -12,6 +12,7 @@ import Desktop from './pages/Desktop/Desktop';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Email from './pages/Email/Email';
 import NewRegistration from './pages/NewRegistration/NewRegistraion';
+import NewLogin from './pages/NewLogin/NewLogin';
 
 import Terms from './pages/Terms/Terms';
 import Policy from './pages/Policy/Policy';
@@ -126,6 +127,12 @@ const routes = [
     exact: true,
     private: false,
     component: NewRegistration,
+  },
+  {
+    path: '/new-login/:id',
+    exact: true,
+    private: false,
+    component: NewLogin,
   },
   {
     private: false,
