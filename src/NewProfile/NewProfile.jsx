@@ -127,22 +127,16 @@ function Profile(props) {
                         width: '450px',
                         margin: '9px'
                     }} />
-                {/* <InputComponent label='first name' value={name} onChange={(e) => setName(e.target.value)} error={nameError} /> */}
-                {/* <InputComponent label='last name' value={surname} onChange={(e) => setSurname(e.target.value)} error={surnameError} /> */}
-                {/* <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} error={emailError} /> */}
-                {/* <InputComponent label='current password' value={old_password} onChange={(e) => { setOldPassword(e.target.value) }} error={old_passwordError} /> */}
-                {/* <InputComponent label='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} error={passwordError} /> */}
-                {/* <InputComponent label='repeat password' value={confirmed_pass} onChange={(e) => { setConfirmedPassword(e.target.value) }} error={confirmed_passError} /> */}
-
-
-                {/* <button
-                        className='submit_button'
+               
+                <div className='signup__button__wrapper'>
+                    <button
                         type='submit'
+                        className='button__component'
+                        onClick={handleSubmit}
                     >
-                        <div className='submit_text'>
-                            Save changes
-                        </div>
-                    </button> */}
+                        save
+                    </button>
+                </div>
             </div>
         </div>}
     </>
