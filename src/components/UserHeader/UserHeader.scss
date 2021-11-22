@@ -5,7 +5,18 @@
     justify-content: space-between;
 }
 
+.manot-logo-button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+
+    cursor: pointer;
+}
+
 .manot-logo {
+    position: absolute;
+    top: 0.1%;
+
     width: 58px;
     height: 61px;
     margin-top: 18px;
@@ -13,9 +24,14 @@
 }
 
 .user__menu {
-    position: absolute;
-    top: 3%;
-    right: 3%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
 
-    cursor: pointer;
+    position: absolute;
+    top: 4%;
+    right: 3%;
 }
+
+
