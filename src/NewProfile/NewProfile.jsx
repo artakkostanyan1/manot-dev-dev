@@ -127,8 +127,8 @@ function Profile(props) {
                         width: '450px',
                         margin: '9px'
                     }} />
-               
-                <div className='signup__button__wrapper'>
+
+                <div className='save__button__wrapper'>
                     <button
                         type='submit'
                         className='button__component'
@@ -136,6 +136,9 @@ function Profile(props) {
                     >
                         save
                     </button>
+                </div>
+                <div className='cancel__button' onClick={() => console.log('cancel')}>
+                    cancel
                 </div>
             </div>
         </div>}
