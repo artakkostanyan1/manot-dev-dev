@@ -90,42 +90,42 @@ function Profile(props) {
         {isLoading ? <Loader /> : <div className='profile_container'>
             <UserHeader />
             <div className='profile__wrapper'>
-                <div className='heading'>Profile and password</div>
+                <div className='profile__heading'>Profile and password</div>
                 <TextField label='first name' variant="outlined" size="small" color="secondary"
                     value={name} onChange={(e) => setName(e.target.value)}
                     error={nameError} style={{
-                        width: '35%',
-                        margin: '9px',
+                        width: '450px',
+                        margin: '9px'
                     }} />
                 <TextField label='last name' variant="outlined" size="small" color="secondary"
                     value={surname} onChange={(e) => setSurname(e.target.value)}
                     error={surnameError} style={{
-                        width: '35%',
-                        margin: '9px',
+                        width: '450px',
+                        margin: '9px'
                     }} />
                 <TextField label='email' variant="outlined" size="small" color="secondary"
                     value={email} onChange={(e) => setEmail(e.target.value)}
                     error={emailError} style={{
-                        width: '35%',
-                        margin: '9px',
+                        width: '450px',
+                        margin: '9px'
                     }} />
                 <TextField label='current password' variant="outlined" size="small" color="secondary"
                     value={old_password} onChange={(e) => setOldPassword(e.target.value)}
                     error={old_passwordError} style={{
-                        width: '35%',
-                        margin: '9px',
+                        width: '450px',
+                        margin: '9px'
                     }} />
                 <TextField label='new password' variant="outlined" size="small" color="secondary"
                     value={password} onChange={(e) => setPassword(e.target.value)}
                     error={passwordError} style={{
-                        width: '35%',
-                        margin: '9px',
+                        width: '450px',
+                        margin: '9px'
                     }} />
                 <TextField label='repeat password' variant="outlined" size="small" color="secondary"
                     value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)}
                     error={confirmed_passError} style={{
-                        width: '35%',
-                        margin: '9px',
+                        width: '450px',
+                        margin: '9px'
                     }} />
                 {/* <InputComponent label='first name' value={name} onChange={(e) => setName(e.target.value)} error={nameError} /> */}
                 {/* <InputComponent label='last name' value={surname} onChange={(e) => setSurname(e.target.value)} error={surnameError} /> */}

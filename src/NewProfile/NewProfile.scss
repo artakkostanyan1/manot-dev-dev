@@ -19,23 +19,17 @@
 
 }
 
-.heading {
-    width: 244px;
-    height: 40px;
-
-    font-family:  PT Sans, sans-serif;;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 26px;
-    line-height: 40px;
-    /* identical to box height, or 154% */
-
-    text-align: center;
-
-    color: #000000;
+.profile__heading {
+    position: absolute;
+    top: 9%;
+    font-family: Comfortaa;
+    font-size: 36px;
+    letter-spacing: -0.05em;
 }
 
-.name_input, .surname_input, .email_input {
+.name_input,
+.surname_input,
+.email_input {
     width: 482px;
     height: 40px;
 
