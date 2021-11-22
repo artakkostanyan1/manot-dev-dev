@@ -6,6 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo_pink.svg';
 import PersonIcon from '@material-ui/icons/Person';
+import MenuIcon from '@material-ui/icons/Menu';
 import paths from '../../utils/routing';
 import './UserHeader.scss';
 
@@ -89,21 +90,13 @@ function UserHeader(props) {
                     </Link>
                 </MenuItem>
             </Menu>
-            <div className='user-name'>
+            <div className='user__menu'
+                onClick={handleClick}
 
-                <Link to={paths.Importdata}>
-                    {userName}
-                </Link>
-                <div
-                    className='user-account-container'
-                    aria-controls="fade-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                >
-                    <PersonIcon
-                        className='user-account'
-                    />
-                </div>
+            >
+                <MenuIcon
+                    fontSize='large'
+                />
             </div>
         </div>
     )

@@ -5,14 +5,6 @@
     justify-content: space-between;
 }
 
-.manot-logo-button {
-    background-color: transparent;
-    outline: none;
-    border: none;
-
-    cursor: pointer;
-}
-
 .manot-logo {
     width: 58px;
     height: 61px;
@@ -20,49 +12,10 @@
     margin-left: 28px;
 }
 
-.user-name {
-    width: 160px;
-    height: 40px;
-    margin-top: 28px;
+.user__menu {
+    position: absolute;
+    top: 3%;
+    right: 3%;
 
-    font-family: PT Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 23px;
-    text-align: center;
-
-    color: #35383c;
-    /* identical to box height, or 222% */
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-    flex-direction: row;
-}
-
-.menu_link {
-    color: white;
-
-    text-decoration: none;
-}
-
-.user-name > .user-account-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 50px;
-    height: 50px;
-
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0px 10px 30px rgba(80, 80, 131, 0.0980392);
-
-    margin: 0 10px 0 10px;
     cursor: pointer;
-}
-
-.user-account {
-    color: #d6d6e0;
 }
