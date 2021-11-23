@@ -128,19 +128,19 @@ function Profile(props) {
                         width: '450px',
                         margin: '9px'
                     }} />
-                <TextField label='current password' variant="outlined" size="small" color="secondary"
+                <TextField label='current password' variant="outlined" size="small" color="secondary"  type="password"
                     value={old_password} onChange={(e) => setOldPassword(e.target.value)}
                     error={old_passwordError} style={{
                         width: '450px',
                         margin: '9px'
                     }} />
-                <TextField label='new password' variant="outlined" size="small" color="secondary"
+                <TextField label='new password' variant="outlined" size="small" color="secondary"  type="password"
                     value={password} onChange={(e) => setPassword(e.target.value)}
                     error={passwordError} style={{
                         width: '450px',
                         margin: '9px'
                     }} />
-                <TextField label='repeat password' variant="outlined" size="small" color="secondary"
+                <TextField label='repeat password' variant="outlined" size="small" color="secondary"  type="password"
                     value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)}
                     error={confirmed_passError} style={{
                         width: '450px',
