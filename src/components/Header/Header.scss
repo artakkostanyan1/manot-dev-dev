@@ -6,21 +6,23 @@
     
 }
 
-.manot-logo-button {
-    height: 100%;
+// .manot-logo-button {
+//     height: 100%;
 
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+//     display: flex;
+//     align-items: flex-end;
+//     justify-content: center;
 
-}
+// }
 
 .manot-logo {
     position: absolute;
-    left: 3.47%;
-    right: 93.54%;
-    top: 0.88%;
-    bottom: 93.5%;
+    top: 0.1%;
+    
+    width: 58px;
+    height: 61px;
+    margin-top: 18px;
+    margin-left: 28px;
 }
 
 .button-container {

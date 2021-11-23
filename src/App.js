@@ -13,6 +13,7 @@ import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Email from './pages/Email/Email';
 import NewRegistration from './pages/NewRegistration/NewRegistraion';
 import NewLogin from './pages/NewLogin/NewLogin';
+import NewProfile from './NewProfile/NewProfile';
 import NewEmail from './pages/NewEmail/NewEmail';
 
 import Terms from './pages/Terms/Terms';
@@ -136,6 +137,12 @@ const routes = [
     component: NewLogin,
   },
   {
+    path: '/new-profile',
+    exact: true,
+    private: false,
+    component: NewProfile,
+  },
+{
     path: '/new-email',
     exact: true,
     private: false,
