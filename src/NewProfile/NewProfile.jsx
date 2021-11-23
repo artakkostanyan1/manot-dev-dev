@@ -4,9 +4,6 @@ import UserHeader from '../components/UserHeader/UserHeader';
 import Loader from '../components/Loader/Loader';
 import TextField from '@mui/material/TextField';
 
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
-import InputComponent from '../components/InputComponent/InputComponent';
 import paths from '../utils/routing';
 
 import './NewProfile.scss';
@@ -25,15 +22,10 @@ function Profile(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [nameError, setNameError] = useState('');
-    const [emailError, setEmailError] = useState('');
     const [surnameError, setSurnameError] = useState('');
     const [old_passwordError, setOldPasswordError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmed_passError, setConfirmed_passError] = useState('');
-
-    const [oldPasswordType, setOldPasswordType] = useState('password');
-    const [passwordType, setPasswordType] = useState('password');
-    const [repeatPasswordType, setRepeatPasswordType] = useState('password');
 
     const history = useHistory();
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -60,14 +52,41 @@ function Profile(props) {
             })
     }, [])
 
-    function validate() {
-        if (name === '') { setNameError('Please enter your name') }
-        if (surname === '') { setSurnameError('Please enter your surname') }
-        if (old_password === '') { setOldPasswordError('Please enter your old password') }
-        if (password === '') { setPasswordError('Please enter your password') }
-        if (confirmed_pass === '') { setConfirmed_passError('Please enter password') }
+    const sendUserNewData = (data) => {
+        fetch(`${apiUrl}edit-profile`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                "x-access-token": localStorage.getItem('token')
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log('data', data)
+            })
+            .catch((err) => console.log('err', err))
     }
 
+    function validate() {
+        name === '' ? setNameError(true) : setNameError(false);
+        surname === '' ? setSurnameError(true) : setSurnameError(false);
+        old_password === '' ? setOldPasswordError(true) : setOldPasswordError(false);
+        (password === '' || password !== confirmed_pass) ? setPasswordError(true) : setPasswordError(false);
+        (confirmed_pass === '' || password !== confirmed_pass) ? setConfirmed_passError(true) : setConfirmed_passError(false);
+    }
+
+    function isMissingField() {
+        if (name === '' || surname === '' || email === '' || confirmed_pass === '' || password === '' || old_password === '') {
+            return false
+        } else {
+            return true;
+        }
+    }
+
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -83,7 +102,7 @@ function Profile(props) {
 
         validate();
 
-        //  history.push(paths.Importdata);
+        isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && sendUserNewData(data)
     }
 
     return (<>
@@ -103,9 +122,9 @@ function Profile(props) {
                         width: '450px',
                         margin: '9px'
                     }} />
-                <TextField label='email' variant="outlined" size="small" color="secondary"
+                <TextField label='email' variant="outlined" size="small" color="secondary" disabled
                     value={email} onChange={(e) => setEmail(e.target.value)}
-                    error={emailError} style={{
+                    style={{
                         width: '450px',
                         margin: '9px'
                     }} />
