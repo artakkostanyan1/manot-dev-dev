@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import UserHeader from '../components/UserHeader/UserHeader';
+import UserHeader, { CustomMenu } from '../components/UserHeader/UserHeader';
 import Loader from '../components/Loader/Loader';
 import TextField from '@mui/material/TextField';
 
@@ -26,6 +26,7 @@ function Profile(props) {
     const [old_passwordError, setOldPasswordError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmed_passError, setConfirmed_passError] = useState('');
+    const [toggleMenu, setToggleMenu] = useState(false);
 
     const history = useHistory();
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -68,6 +69,7 @@ function Profile(props) {
                 console.log('data', data)
             })
             .catch((err) => console.log('err', err))
+            history.push(paths.Importdata)
     }
 
     function validate() {
@@ -105,63 +107,75 @@ function Profile(props) {
         isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && sendUserNewData(data)
     }
 
-    return (<>
-        {isLoading ? <Loader /> : <div className='profile_container'>
-            <UserHeader />
-            <div className='profile__wrapper'>
-                <div className='profile__heading'>Profile and password</div>
-                <TextField label='first name' variant="outlined" size="small" color="secondary"
-                    value={name} onChange={(e) => setName(e.target.value)}
-                    error={nameError} style={{
-                        width: '450px',
-                        margin: '9px'
-                    }} />
-                <TextField label='last name' variant="outlined" size="small" color="secondary"
-                    value={surname} onChange={(e) => setSurname(e.target.value)}
-                    error={surnameError} style={{
-                        width: '450px',
-                        margin: '9px'
-                    }} />
-                <TextField label='email' variant="outlined" size="small" color="secondary" disabled
-                    value={email} onChange={(e) => setEmail(e.target.value)}
-                    style={{
-                        width: '450px',
-                        margin: '9px'
-                    }} />
-                <TextField label='current password' variant="outlined" size="small" color="secondary"  type="password"
-                    value={old_password} onChange={(e) => setOldPassword(e.target.value)}
-                    error={old_passwordError} style={{
-                        width: '450px',
-                        margin: '9px'
-                    }} />
-                <TextField label='new password' variant="outlined" size="small" color="secondary"  type="password"
-                    value={password} onChange={(e) => setPassword(e.target.value)}
-                    error={passwordError} style={{
-                        width: '450px',
-                        margin: '9px'
-                    }} />
-                <TextField label='repeat password' variant="outlined" size="small" color="secondary"  type="password"
-                    value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)}
-                    error={confirmed_passError} style={{
-                        width: '450px',
-                        margin: '9px'
-                    }} />
+    const showMenu = toggleMenu ? 'show__menu' : 'hide__menu'
 
-                <div className='save__button__wrapper'>
-                    <button
-                        type='submit'
-                        className='button__component'
-                        onClick={handleSubmit}
-                    >
-                        save
-                    </button>
+    const handleToggle = (data) => {
+        setToggleMenu(data)
+    }
+
+    return (
+        <>
+            {isLoading ? <Loader /> : <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+                <div className={`profile_container ${showMenu}`}>
+                    <UserHeader handleToggle={handleToggle} showBurger={toggleMenu} />
+                    <div className='profile__wrapper'>
+                        <div className='profile__heading'>profile and password</div>
+                        <TextField label='first name' variant="outlined" size="small" color="secondary"
+                            value={name} onChange={(e) => setName(e.target.value)}
+                            error={nameError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='last name' variant="outlined" size="small" color="secondary"
+                            value={surname} onChange={(e) => setSurname(e.target.value)}
+                            error={surnameError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='email' variant="outlined" size="small" color="secondary" disabled
+                            value={email} onChange={(e) => setEmail(e.target.value)}
+                            style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='current password' variant="outlined" size="small" color="secondary" type="password"
+                            value={old_password} onChange={(e) => setOldPassword(e.target.value)}
+                            error={old_passwordError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='new password' variant="outlined" size="small" color="secondary" type="password"
+                            value={password} onChange={(e) => setPassword(e.target.value)}
+                            error={passwordError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='repeat password' variant="outlined" size="small" color="secondary" type="password"
+                            value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)}
+                            error={confirmed_passError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+
+                        <div className='save__button__wrapper'>
+                            <button
+                                type='submit'
+                                className='button__component'
+                                onClick={handleSubmit}
+                            >
+                                save
+                            </button>
+                        </div>
+                        <div className='cancel__button' onClick={() => history.go(-1)}>
+                            cancel
+                        </div>
+                    </div>
                 </div>
-                <div className='cancel__button' onClick={() => console.log('cancel')}>
-                    cancel
-                </div>
+                {toggleMenu && <CustomMenu handleToggle={handleToggle} />}
             </div>
-        </div>}
-    </>
+            }
+        </>
+
     )
 }
 
