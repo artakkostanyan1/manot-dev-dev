@@ -14,6 +14,7 @@ import Email from './pages/Email/Email';
 import NewRegistration from './pages/NewRegistration/NewRegistraion';
 import NewLogin from './pages/NewLogin/NewLogin';
 import NewProfile from './NewProfile/NewProfile';
+import NewEmail from './pages/NewEmail/NewEmail';
 
 import Terms from './pages/Terms/Terms';
 import Policy from './pages/Policy/Policy';
@@ -140,6 +141,12 @@ const routes = [
     exact: true,
     private: false,
     component: NewProfile,
+  },
+{
+    path: '/new-email',
+    exact: true,
+    private: false,
+    component: NewEmail
   },
   {
     private: false,
