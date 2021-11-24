@@ -88,14 +88,14 @@ function ImportData(props) {
                     history.push(paths.Main)
                 }
                 return (response.status === 'success' && data.images.length)
-                ? addPhotos(data, false)
-                : response
+                    ? addPhotos(data, false)
+                    : response
             }
             )
             .then(res => {
                 if (res?.status === 'success') {
                     setOpen(false);
-                    isAbleToRedirect && history.push(`${paths.Desktop}${data.folder_name}`);
+                    isAbleToRedirect && history.push({ pathname: '/desktop', state: { folderName: folder_name } })
                 } else if (res?.status === 'fail') {
                     setErrorMessage(res.message);
                     setTogglePopup(!togglePopup);
@@ -124,7 +124,7 @@ function ImportData(props) {
                 isAddData && handleAddImages();
                 if (res.status === 'success') {
                     handleAddImages();
-                    history.push(`${paths.Desktop}${data.folder_name}`);
+                    history.push({ pathname: '/desktop', state: { folderName: folder_name } });
                 }
             })
             .catch((error) => {
@@ -310,7 +310,7 @@ function ImportData(props) {
                                             <img src='folder.svg' alt='folder' />
                                             <span
                                                 className='folder-name'
-                                                onClick={() => history.push(`${paths.Desktop}${el}`)}
+                                                onClick={() => history.push({ pathname: '/desktop', state: { folderName: el }, })}
                                             >
                                                 {((el).length > maxlimit) ?
                                                     (((el).substring(0, maxlimit - 3)) + '...') :

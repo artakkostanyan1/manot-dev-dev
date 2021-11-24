@@ -10,7 +10,7 @@ const paths = {
     Profile: '/profile',
     Payment: '/payment',
     Upgrade: '/upgrade',
-    Desktop: '/desktop:id',
+    Desktop: '/desktop',
     ContactUs: '/contact-us',
     NewRegistration: 'new-registration',
     Terms: '/terms'
