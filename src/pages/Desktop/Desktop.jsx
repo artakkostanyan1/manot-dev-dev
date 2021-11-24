@@ -16,6 +16,7 @@ function Desktop(props) {
         fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
+                'Content-type': 'application/json; charset=UTF-8',
                 "x-access-token": localStorage.getItem('token')
             },
             body: JSON.stringify({ "image_interval": 1 })
@@ -25,16 +26,49 @@ function Desktop(props) {
             })
             .then(res => {
                 console.log('res-------------', res)
-                setImagesList(res.message);
+                if (res.status !== 'fail') {
+                    setImagesList(res.message);
+                } else {
+                    throw new Error(res.message)
+                }
             })
             .catch((err) => {
                 console.log('err: ', err);
             })
     }, [])
 
-    const [imagesList, setImagesList] = useState([]);
+    const [imagesList, setImagesList] = useState([{
+        image: 'lr_animal133.jpg',
+        label: 'Animal'
+    }]);
     const [isRotationAllowed, setIsRotationAllowed] = useState(false)
     const [notes, setNotes] = useState({})
+    const [imageIndex, setImageIndex] = useState(0)
+    const [marks, setMarks] = useState({})
+
+    const detectOnSingleImage = () => {
+        const folderName = props.match.url.slice(paths.Desktop.length);
+
+        fetch(`${apiUrl}detect-on-single-image/${isRotationAllowed ? 'rbb' : 'bb'}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                "x-access-token": localStorage.getItem('token')
+            },
+            body: JSON.stringify({ folder_name: folderName, img_index: imageIndex })
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then(res => {
+                console.log(`res`, res)
+                if (res.status === 'fail') throw new Error(res.message)
+                setMarks(res.message)
+            })
+            .catch(e => {
+                console.error(e)
+            })
+    }
 
     return (
         <div className='comp-desktop'>
@@ -46,15 +80,17 @@ function Desktop(props) {
                     isRotationAllowed={isRotationAllowed}
                     setIsRotationAllowed={setIsRotationAllowed}
                     folderName={folderName}
+                    setImageIndex={setImageIndex}
                 />
                 <div className='main-photo'>
                     <AnotationTool
-                        image={imagesList[0]}
+                        image={imagesList[imageIndex]}
                         isRotationAllowed={isRotationAllowed}
                         setNotes={setNotes}
+                        marks={marks}
                     />
                 </div>
-                <RightBar notes={notes} />
+                <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />
             </div>
         </div>
     )

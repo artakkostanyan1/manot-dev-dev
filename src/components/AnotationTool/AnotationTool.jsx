@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as mjs from 'mjs2-ngv';
-import marks from './marks.json'
 import './AnotationTool.scss';
 
-const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
-
+const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
+    console.log(`image`, image)
     const [MA, setMA] = useState(null) // MarkerArea global state
     const [markerAreaState, setMarkerAreaState] = useState() // MarkerArea state for restoring
     // eslint-disable-next-line
@@ -65,7 +64,7 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
         setMarkerAreaState({
             width: sampleImageRef.current.clientWidth,
             height: sampleImageRef.current.clientHeight,
-            markers: [] || marks[0].map(mark => ({
+            markers: [] || marks.map(mark => ({
                 containerTransformMatrix: mark.matrix,
                 fillColor: "transparent",
                 height: mark.height,
