@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as mjs from 'mjs2-ngv';
 import './AnotationTool.scss';
 
-const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
-
+const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
+    console.log(`image`, image)
     const [MA, setMA] = useState(null) // MarkerArea global state
-    const [markerAreaState, setMarkerAreaState] = useState(null) // MarkerArea state for restoring
+    const [markerAreaState, setMarkerAreaState] = useState() // MarkerArea state for restoring
     // eslint-disable-next-line
     const [markersInfoArray, setMarkersInfoArray] = useState([]) // markers with filtered info for backend
 
@@ -16,52 +16,76 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
     // eslint-disable-next-line
     const notes = useRef({}) // labels array
     const dropboxDivRef = useRef(null)
+    const restored = useRef(false);
 
     const markersArray = useRef([]) // TODO // to save markers state for backend
+
 
     const showMarkerArea = () => {
         MA.show(); // show markerArea on image
         if (markerAreaState) { // if we have initial state, restore it
             sampleImageRef.current.style.opacity = 0;
+            sampleImageRef.current.style.top = -40 + 'px';
+            sourceImageRef.current.style.top = -40 + 'px';
             MA.restoreState(markerAreaState)
+            if (!restored.current) {
+                restored.current = true;
+                MA.startRenderAndClose().then(() => showMarkerArea())
+            }
         }
         if (!markerAreaState?.markers?.length) {
             MA.createNewMarker(mjs.FrameMarker)
-        } else {
-            console.log(markerAreaState.markers);
         }
     }
 
     useEffect(() => {
         const markers = markersArray.current.map((i, id) => {
-            if (i.rotationAngle !== 0) {
-                return ({
-                    centerX: i.left + i.width / 2,
-                    centerY: i.top + i.height / 2,
-                    rotationAngle: i.rotationAngle,
-                    label: i.notes
-                })
-            } else {
-                return ({
-                    topLeftX: i.left,
-                    topLeftY: i.top,
-                    bottomRightX: i.left + i.width,
-                    bottomRightY: i.top + i.height,
-                    label: i.notes
-                })
-            }
+            return ({
+                width: i.width,
+                height: i.height,
+                angle: i.rotationAngle,
+                name: i.notes,
+                x: i.left,
+                y: i.top,
+                matrix: i.containerTransformMatrix
+            })
         })
+        console.log(`markerAreaState`, markerAreaState)
         console.log('markersInfoArray', markers);
         setMarkersInfoArray(markers)
         console.log(`notes.current`, notes.current)
-        setNotes({...notes.current})
+        setNotes({ ...notes.current })
     }, [markerAreaState])
 
 
-    useEffect(() => { // INIT // 
-        MA?.close();
-        setMarkerAreaState(null);
-        setNotes([]);
+    useEffect(async () => { // INIT //
+        console.log(`marks`, marks)
+        await MA?.close();
+        setMarkerAreaState({
+            width: sampleImageRef.current.clientWidth,
+            height: sampleImageRef.current.clientHeight,
+            markers: [] || marks.map(mark => ({
+                containerTransformMatrix: mark.matrix,
+                fillColor: "transparent",
+                height: mark.height,
+                width: mark.width,
+                top: 0,
+                left: 0,
+                id: 0,
+                notes: mark.name,
+                opacity: 1,
+                prevNotes: undefined,
+                rotationAngle: mark.angle,
+                state: "select",
+                strokeColor: "#69dafb",
+                strokeDasharray: "",
+                strokeWidth: 3,
+                typeName: "FrameMarker",
+                visualTransformMatrix: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
+            }))
+        });
+
+        setNotes({});
         markersInfoArray.current = {}
         notes.current = {}
 
@@ -70,6 +94,8 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
 
             const markerArea = new mjs.MarkerArea(sourceImageRef.current);
 
+
+            markerArea.renderAtNaturalSize = true;
             markerArea.availableMarkerTypes = [mjs.FrameMarker];
             markerArea.targetRoot = sourceImageRef.current.parentElement;
             markerArea.uiStyleSettings.undoButtonVisible = false;
@@ -81,6 +107,11 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
             markerArea.uiStyleSettings.hideToolbox = true;
             markerArea.uiStyleSettings.notesButtonVisible = false;
             markerArea.uiStyleSettings.notesAreaStyleClassName = 'dropboxDiv';
+            markerArea.uiStyleSettings.toolbarStyleColorsClassName = 'PF';
+            markerArea.uiStyleSettings.toolboxStyleColorsClassName = 'DN'
+            markerArea.uiStyleSettings.toolboxPanelRowStyleColorsClassName = 'DN'
+            markerArea.uiStyleSettings.toolboxButtonRowStyleColorsClassName = 'DN'
+            console.log(`markerArea`, markerArea)
 
             markerArea.addRenderEventListener((dataUrl, state) => {
                 if (sampleImageRef.current) {
@@ -151,13 +182,20 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
                         selectedMarker.current = { id: marker.id, prevNote: currentValue }
 
                         dropboxDivRef.current = notesArea;
-                        dropboxDivRef.current.style.bottom = 0; // textarea styles
+                        // notesArea.style.position = 'fixed'
+                        // notesArea.style.width = 600 + 'px'
+                        // notesArea.style.zIndex = 999
+
+                        // sampleImageRef.current.style.top = 40 + 'px';
+                        // sourceImageRef.current.style.top = 40 + 'px';
                     }
                 }
             });
 
             markerArea.addCloseEventListener(() => {
                 sampleImageRef.current.style.opacity = 1;
+                sampleImageRef.current.style.top = 0;
+                sourceImageRef.current.style.top = 0;
             });
 
             setMA(markerArea);
@@ -166,21 +204,23 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes }) => {
 
     return (
         <div className='anotationToolBox'>
-            <img
-                src={image}
-                ref={sourceImageRef}
-                alt='Source'
-                style={{ maxWidth: '35%', position: 'absolute' }}
-                crossOrigin='anonymous'
-            />
-            <img
-                src={image}
-                ref={sampleImageRef}
-                alt='Sample'
-                style={{ maxWidth: '35%', position: 'absolute' }}
-                crossOrigin='anonymous'
-                onClick={showMarkerArea}
-            />
+            <div style={{ width: 1024, height: 700, overflow: 'auto auto', position: 'absolute' }}>
+                <img
+                    src={image}
+                    ref={sourceImageRef}
+                    alt='Source'
+                    style={{ position: 'absolute', height: 'auto' }}
+                    crossOrigin='anonymous'
+                />
+                <img
+                    src={image}
+                    ref={sampleImageRef}
+                    alt='Sample'
+                    style={{ position: 'absolute' }}
+                    crossOrigin='anonymous'
+                    onClick={showMarkerArea}
+                />
+            </div>
         </div>
     );
 }

@@ -374,6 +374,7 @@ function ImportData(props) {
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
+                            onError={(e) => console.error(e)}
                         >
                             {({
                                 onImageUpload

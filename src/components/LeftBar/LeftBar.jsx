@@ -10,7 +10,7 @@ import './LeftBar.scss';
 
 require('dotenv').config();
 
-function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImagesList, folderName }) {
+function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImagesList, setImageIndex, folderName }) {
     const [isFullScreen, setIsFullscreen] = useState(true);
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -126,10 +126,10 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
                                 </p>
                             }
                         >
-                            // Review the condition
+                            {/* // Review the condition */}
                             {!imagesList.length ? imagesList?.map((el, key) => {
                                 return (
-                                    <div key={key} className='image_container'>
+                                    <div key={key} className='image_container' onClick={() => setImageIndex(key)}>
                                         <img
                                             alt='girl'
                                             src={el}
