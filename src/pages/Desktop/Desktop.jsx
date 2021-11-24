@@ -4,28 +4,27 @@ import LeftBar from '../../components/LeftBar/LeftBar';
 import RightBar from '../../components/RightBar/RightBar'
 import AnotationTool from '../../components/AnotationTool/AnotationTool';
 import './Desktop.scss';
-import paths from '../../utils/routing';
+import { useLocation } from 'react-router-dom'
 
 require('dotenv').config();
 
-function Desktop(props) {
+function Desktop() {
     const apiUrl = process.env.REACT_APP_API_URL;
-    const folderName = props.match.url.slice(paths.Desktop.length);
+    const { state: { folderName } } = useLocation();
+
     useEffect(() => {
-        console.log('foldername DESKTOP: ', folderName.length);
         fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
                 "x-access-token": localStorage.getItem('token')
             },
-            body: JSON.stringify({ "image_interval": 1 })
+            body: JSON.stringify({ image_interval: 1 })
         })
             .then(response => {
                 return response.json();
             })
             .then(res => {
-                console.log('res-------------', res)
                 if (res.status !== 'fail') {
                     setImagesList(res.message);
                 } else {
@@ -47,8 +46,6 @@ function Desktop(props) {
     const [marks, setMarks] = useState({})
 
     const detectOnSingleImage = () => {
-        const folderName = props.match.url.slice(paths.Desktop.length);
-
         fetch(`${apiUrl}detect-on-single-image/${isRotationAllowed ? 'rbb' : 'bb'}`, {
             method: 'POST',
             headers: {
