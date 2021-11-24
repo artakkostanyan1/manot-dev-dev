@@ -1,5 +1,6 @@
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import FullscreenExit from '@material-ui/icons/FullscreenExit';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Tooltip from '@mui/material/Tooltip';
@@ -7,10 +8,15 @@ import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
 import './LeftBar.scss';
 
-function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList }) {
+require('dotenv').config();
+
+function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImagesList, folderName }) {
     const [isFullScreen, setIsFullscreen] = useState(true);
     const [open, setOpen] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
     const screen = isFullScreen ? 'full' : 'min';
+    let interval = 1;
 
     const handleTooltipClose = () => {
         setOpen(false);
@@ -18,6 +24,33 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList }) {
 
     const handleTooltipOpen = () => {
         setOpen(true);
+    };
+
+    const fetchMoreData = () => {
+        interval++;
+        fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
+            method: 'POST',
+            headers: {
+                "x-access-token": localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                image_interval: interval
+            })
+        })
+            .then(response => {
+                if (response.status === 403) {
+                    setHasMore(!hasMore);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(res => {
+                console.log('res', res)
+                setImagesList(res.message);
+            })
+            .catch((err) => {
+                console.log('error', err);
+            })
     };
 
     return (
@@ -81,20 +114,32 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList }) {
                             </Tooltip>
                         </div>
                     </ClickAwayListener>
-
                     <div className='photos-container'>
-                        {imagesList.map((el, key) => {
-                            return (
-                                <div key={key} className='image_container'>
-                                    <img
-                                        alt='girl'
-                                        src={el.image}
-                                        className='label-photo'
-                                    />
-                                    <label>{el.label}</label>
-                                </div>
-                            )
-                        })}
+                        <InfiniteScroll
+                            dataLength={imagesList.length}
+                            next={fetchMoreData}
+                            hasMore={hasMore}
+                            loader={<h4>Loading...</h4>}
+                            endMessage={
+                                <p style={{ textAlign: 'center' }}>
+                                    <b>Yay! You have seen it all</b>
+                                </p>
+                            }
+                        >
+                            // Review the condition
+                            {!imagesList.length ? imagesList?.map((el, key) => {
+                                return (
+                                    <div key={key} className='image_container'>
+                                        <img
+                                            alt='girl'
+                                            src={el}
+                                            className='label-photo'
+                                        />
+                                        <label>`image-${key + 1}`</label>
+                                    </div>
+                                )
+                            }) : null}
+                        </InfiniteScroll>
                     </div>
                 </div>
                 : <div className='icons-container'>

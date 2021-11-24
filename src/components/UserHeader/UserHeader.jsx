@@ -1,63 +1,19 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import { Link, useHistory } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { ReactComponent as ReactLogo } from '../../styles/images/manot_logo_pink.svg';
-import PersonIcon from '@material-ui/icons/Person';
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
 import paths from '../../utils/routing';
 import './UserHeader.scss';
 
 require('dotenv').config();
 
-export const useStyles = makeStyles((theme) => ({
-    menuStyle: {
-        backgroundColor: '#257AAF',
-        color: 'white',
-        borderRadius: '13px',
-        marginTop: '50px'
-    }
-}));
-
 function UserHeader(props) {
-    const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [userName, setUserName] = React.useState('');
-    const open = Boolean(anchorEl);
     const history = useHistory();
-    const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
-        fetch(`${apiUrl}get-user`, {
-            method: 'GET',
-            headers: {
-                "x-access-token": localStorage.getItem('token')
-            }
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === 'fail' && data.message === 'Token is invalid') {
-                    localStorage.removeItem('token');
-                    history.push(paths.Main)
-                }
-                setUserName(data.message.name);
-            })
-    }, [])
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    const handleClick = () => {
+        props.handleToggle(true);
     };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleCloseLogout = () => {
-        localStorage.removeItem('token');
-    }
 
     return (
         <div className='header'>
@@ -67,46 +23,49 @@ function UserHeader(props) {
             >
                 <ReactLogo className='manot-logo' />
             </button>
-            <Menu
-                id="fade-menu"
-                classes={{ paper: classes.menuStyle }}
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Fade}
+            {!props.showBurger && <div className='user__menu'
+                onClick={handleClick}
             >
-                <MenuItem onClick={handleClose}>
-                    <Link className='menu_link' to={paths.Profile}>
-                        Profile and password
-                    </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>Payment method</MenuItem>
-                <MenuItem onClick={() => history.push(paths.Upgrade)}>Upgrade</MenuItem>
-                <MenuItem onClick={handleCloseLogout}>
-                    <Link className='menu_link' to={paths.Main}>
-                        Logout
-                    </Link>
-                </MenuItem>
-            </Menu>
-            <div className='user-name'>
-
-                <Link to={paths.Importdata}>
-                    {userName}
-                </Link>
-                <div
-                    className='user-account-container'
-                    aria-controls="fade-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                >
-                    <PersonIcon
-                        className='user-account'
-                    />
-                </div>
-            </div>
+                <MenuIcon
+                    fontSize='large'
+                />
+            </div>}
         </div>
     )
 }
 
 export default UserHeader;
+
+export function CustomMenu(props) {
+    const history = useHistory();
+
+    const handleCloseLogout = () => {
+        localStorage.removeItem('token');
+        history.push(paths.Main);
+    }
+
+    const handleClick = () => {
+        props.handleToggle(false);
+    };
+
+    return (
+        <div className='custum__menu__wrapper' style={{ width: '20%' }}>
+            <div className='user__close__btn'
+                onClick={handleClick}
+            >
+                <CloseIcon
+                    fontSize='large'
+                    style={{ fill: "white" }}
+                />
+
+            </div>
+            <div className='menu__items__wrapper'>
+                <div onClick={() => history.push(paths.Importdata)}>dashboard</div>
+                <div onClick={() => history.push(paths.Profile)}>profile and password</div>
+                <div>payment details</div>
+                <div onClick={() => history.push(paths.Upgrade)}>upgrade</div>
+                <div onClick={handleCloseLogout}>log out</div>
+            </div>
+        </div >
+    )
+}
