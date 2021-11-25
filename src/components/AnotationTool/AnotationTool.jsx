@@ -3,7 +3,6 @@ import * as mjs from 'mjs2-ngv';
 import './AnotationTool.scss';
 
 const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
-    console.log(`image`, image)
     const [MA, setMA] = useState(null) // MarkerArea global state
     const [markerAreaState, setMarkerAreaState] = useState() // MarkerArea state for restoring
     // eslint-disable-next-line
@@ -25,7 +24,7 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
         MA.show(); // show markerArea on image
         if (markerAreaState) { // if we have initial state, restore it
             sampleImageRef.current.style.opacity = 0;
-            sampleImageRef.current.style.top = -40 + 'px';
+            // sampleImageRef.current.style.top = -40 + 'px';
             sourceImageRef.current.style.top = -40 + 'px';
             MA.restoreState(markerAreaState)
             if (!restored.current) {
@@ -64,7 +63,7 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
         setMarkerAreaState({
             width: sampleImageRef.current.clientWidth,
             height: sampleImageRef.current.clientHeight,
-            markers: [] || marks.map(mark => ({
+            markers: marks?.map(mark => ({
                 containerTransformMatrix: mark.matrix,
                 fillColor: "transparent",
                 height: mark.height,
@@ -82,7 +81,7 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                 strokeWidth: 3,
                 typeName: "FrameMarker",
                 visualTransformMatrix: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
-            }))
+            })) || []
         });
 
         setNotes({});
@@ -204,7 +203,7 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
 
     return (
         <div className='anotationToolBox'>
-            <div style={{ width: 1024, height: 700, overflow: 'auto auto', position: 'absolute' }}>
+            <div style={{ width: 512, height: 512, overflow: 'auto auto', position: 'absolute' }}>
                 <img
                     src={image}
                     ref={sourceImageRef}

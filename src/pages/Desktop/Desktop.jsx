@@ -3,8 +3,10 @@ import UserHeader from '../../components/UserHeader/UserHeader';
 import LeftBar from '../../components/LeftBar/LeftBar';
 import RightBar from '../../components/RightBar/RightBar'
 import AnotationTool from '../../components/AnotationTool/AnotationTool';
-import './Desktop.scss';
 import paths from '../../utils/routing';
+import defMarks from '../../components/AnotationTool/marks.json'
+import './Desktop.scss';
+
 
 require('dotenv').config();
 
@@ -44,7 +46,7 @@ function Desktop(props) {
     const [isRotationAllowed, setIsRotationAllowed] = useState(false)
     const [notes, setNotes] = useState({})
     const [imageIndex, setImageIndex] = useState(0)
-    const [marks, setMarks] = useState({})
+    const [marks, setMarks] = useState(defMarks[0])
 
     const detectOnSingleImage = () => {
         const folderName = props.match.url.slice(paths.Desktop.length);
