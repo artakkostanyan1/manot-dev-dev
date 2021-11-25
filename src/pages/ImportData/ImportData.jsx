@@ -183,8 +183,13 @@ function ImportData(props) {
         setFolderName('');
     };
     const handleClose = () => {
+        setImagesArray([]);
         setOpen(false);
     };
+    const handleCloseAddImage = () => {
+        setImagesArray([]);
+        setToggleAddImages(!toggleAddImages);
+    }
     const handleEditToggle = (el) => {
         setOpenEdit(!openEdit);
         setEditFolderName(el);
@@ -407,7 +412,7 @@ function ImportData(props) {
                         </div>
                         <button
                             style={cancelBtn}
-                            onClick={handleAddImages}
+                            onClick={handleCloseAddImage}
                             color="primary"
                         >
                             Cancel
@@ -472,7 +477,7 @@ function ImportData(props) {
                                     onClick={handleEditToggle}
                                     color="primary"
                                 >
-                                    Cancle
+                                    Cancel
                                 </button>
                             </DialogActions>
                         </>
