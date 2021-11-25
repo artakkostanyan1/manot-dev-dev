@@ -1,3 +1,5 @@
+import DashBoard from "../pages/DashBoard/DashBoard";
+
 const paths = {
     Main: '/',
     Importdata: '/importdata',
@@ -13,7 +15,8 @@ const paths = {
     Desktop: '/desktop',
     ContactUs: '/contact-us',
     NewRegistration: 'new-registration',
-    Terms: '/terms'
+    Terms: '/terms',
+    DashBoard: '/dashboard'
 }
 
 export default paths;

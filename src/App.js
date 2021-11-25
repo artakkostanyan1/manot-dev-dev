@@ -16,6 +16,7 @@ import NewLogin from './pages/NewLogin/NewLogin';
 import NewProfile from './NewProfile/NewProfile';
 import NewEmail from './pages/NewEmail/NewEmail';
 import NewImportData from './pages/NewImportData/NewImportData';
+import DashBoard  from './pages/DashBoard/DashBoard';
 
 import Terms from './pages/Terms/Terms';
 import Policy from './pages/Policy/Policy';
@@ -154,6 +155,12 @@ const routes = [
     exact: true,
     private: false,
     component: NewImportData
+  },
+  {
+    path: paths.DashBoard,
+    exact: true,
+    private: false,
+    component: DashBoard
   },
   {
     private: false,
