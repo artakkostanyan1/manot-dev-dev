@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Tooltip from '@mui/material/Tooltip';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './LeftBar.scss';
 
 require('dotenv').config();
@@ -16,7 +16,7 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
     const [hasMore, setHasMore] = useState(true);
     const apiUrl = process.env.REACT_APP_API_URL;
     const screen = isFullScreen ? 'full' : 'min';
-    let interval = 1;
+    const interval = useRef(1);
 
     const handleTooltipClose = () => {
         setOpen(false);
@@ -27,26 +27,27 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
     };
 
     const fetchMoreData = () => {
-        interval++;
+        interval.current++;
         fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
+                'Content-type': 'application/json; charset=UTF-8',
                 "x-access-token": localStorage.getItem('token')
             },
             body: JSON.stringify({
-                image_interval: interval
+                image_interval: interval.current
             })
         })
             .then(response => {
                 if (response.status === 403) {
-                    setHasMore(!hasMore);
+                    setHasMore(false);
                 } else {
                     return response.json();
                 }
             })
             .then(res => {
                 console.log('res', res)
-                setImagesList(res.message);
+                setImagesList(imagesList.concat(res.message));
             })
             .catch((err) => {
                 console.log('error', err);
@@ -119,6 +120,7 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
                             dataLength={imagesList.length}
                             next={fetchMoreData}
                             hasMore={hasMore}
+                            height={680}
                             loader={<h4>Loading...</h4>}
                             endMessage={
                                 <p style={{ textAlign: 'center' }}>
@@ -126,8 +128,7 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
                                 </p>
                             }
                         >
-                            {/* // Review the condition */}
-                            {!imagesList.length ? imagesList?.map((el, key) => {
+                            {imagesList.length ? imagesList?.map((el, key) => {
                                 return (
                                     <div key={key} className='image_container' onClick={() => setImageIndex(key)}>
                                         <img
@@ -135,7 +136,7 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
                                             src={el}
                                             className='label-photo'
                                         />
-                                        <label>`image-${key + 1}`</label>
+                                        <label>{`image-${key + 1}`}</label>
                                     </div>
                                 )
                             }) : null}
