@@ -34,6 +34,7 @@ function ImportData(props) {
 
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [imgErrorMessage, setImgErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     const history = useHistory();
@@ -374,7 +375,7 @@ function ImportData(props) {
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
-                            onError={(e) => console.error(e)}
+                            onError={(e) => setImgErrorMessage(e)}
                         >
                             {({
                                 onImageUpload
@@ -392,6 +393,7 @@ function ImportData(props) {
                                 </span>
                             )}
                         </ImageUploading>
+                        {imgErrorMessage && <div>{imgErrorMessage}</div>}
                         <div className='dialog-action'>
                             <span>
                                 <button
@@ -603,6 +605,7 @@ function ImportData(props) {
                                 resolutionWidth={1024}
                                 resolutionHeight={1024}
                                 dataURLKey="data_url"
+                                onError={(e) => setImgErrorMessage(e)}
                             >
                                 {({
                                     onImageUpload
@@ -620,6 +623,7 @@ function ImportData(props) {
                                     </span>
                                 )}
                             </ImageUploading>
+                            {imgErrorMessage && <div>{imgErrorMessage}</div>}
                             <button
                                 style={cancelBtn}
                                 onClick={handleClose}
