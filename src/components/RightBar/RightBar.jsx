@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function RightBar({ notes }) {
+function RightBar({ notes, detectOnSingleImage }) {
     const classes = useStyles();
 
     return (
@@ -70,7 +70,7 @@ function RightBar({ notes }) {
 
                 <div className='single_annotation_btn_container'>
                     <div className='single_annotation_btn_border'>
-                        <button className='single_annotation_btn'>
+                        <button className='single_annotation_btn' onClick={detectOnSingleImage}>
                             Detect on single image
                         </button>
                     </div>

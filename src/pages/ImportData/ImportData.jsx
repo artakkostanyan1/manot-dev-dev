@@ -87,15 +87,17 @@ function ImportData(props) {
                     localStorage.removeItem('token');
                     history.push(paths.Main)
                 }
-                return (response.status === 'success' && data.images.length) ? addPhotos(data, false) : response
+                return (response.status === 'success' && data.images.length)
+                    ? addPhotos(data, false)
+                    : response
             }
             )
-            .then(data => {
-                if (data?.status === 'success') {
+            .then(res => {
+                if (res?.status === 'success') {
                     setOpen(false);
-                    isAbleToRedirect && history.push(paths.Desktop)
-                } else if (data?.status === 'fail') {
-                    setErrorMessage(data.message);
+                    isAbleToRedirect && history.push({ pathname: '/desktop', state: { folderName: folder_name } })
+                } else if (res?.status === 'fail') {
+                    setErrorMessage(res.message);
                     setTogglePopup(!togglePopup);
                 }
             })
@@ -114,15 +116,15 @@ function ImportData(props) {
             body: JSON.stringify(data),
         })
             .then(response => response.json())
-            .then((data) => {
-                if (data.status === 'fail' && data.message === 'Token is invalid') {
+            .then((res) => {
+                if (res.status === 'fail' && res.message === 'Token is invalid') {
                     localStorage.removeItem('token');
                     history.push(paths.Main)
                 }
                 isAddData && handleAddImages();
-                if (data.status === 'success') {
+                if (res.status === 'success') {
                     handleAddImages();
-                    history.push(paths.Desktop);
+                    history.push({ pathname: '/desktop', state: { folderName: folder_name } });
                 }
             })
             .catch((error) => {
@@ -172,7 +174,6 @@ function ImportData(props) {
                 console.error('Error:', error);
             });
     }
-
     const onChange = (imageList) => {
         setImagesArray(imageList);
         setNewImagesArray(imageList);
@@ -195,7 +196,6 @@ function ImportData(props) {
         setToggleAddImages(!toggleAddImages);
     }
     const handleCreate = (e) => {
-        let images = [];
         e.preventDefault();
         !foldersNames.includes(folder_name)
             && setFoldersNames((foldersNames) => {
@@ -242,7 +242,6 @@ function ImportData(props) {
     }
 
     const addImages = (el) => {
-        const images = [];
         Promise.all(newImagesArray.map((element) => {
             return new Promise((res) => {
                 let i = new Image();
@@ -309,7 +308,10 @@ function ImportData(props) {
                                     <>
                                         <div key={index}>
                                             <img src='folder.svg' alt='folder' />
-                                            <span className='folder-name'>
+                                            <span
+                                                className='folder-name'
+                                                onClick={() => history.push({ pathname: '/desktop', state: { folderName: el }, })}
+                                            >
                                                 {((el).length > maxlimit) ?
                                                     (((el).substring(0, maxlimit - 3)) + '...') :
                                                     el}
@@ -361,7 +363,7 @@ function ImportData(props) {
                         <DialogTitle
                             className="dialog-title"
                         >
-                            Upload images to choosen folder
+                            Upload images to chosen folder
                         </DialogTitle>
                         <ImageUploading
                             multiple
@@ -372,6 +374,7 @@ function ImportData(props) {
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
+                            onError={(e) => console.error(e)}
                         >
                             {({
                                 onImageUpload
