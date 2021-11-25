@@ -3,9 +3,9 @@ import UserHeader from '../../components/UserHeader/UserHeader';
 import LeftBar from '../../components/LeftBar/LeftBar';
 import RightBar from '../../components/RightBar/RightBar'
 import AnotationTool from '../../components/AnotationTool/AnotationTool';
-import './Desktop.scss';
+import defMarks from '../../components/AnotationTool/marks.json'
 import { useLocation } from 'react-router-dom'
-
+import './Desktop.scss';
 require('dotenv').config();
 
 function Desktop() {
@@ -43,7 +43,7 @@ function Desktop() {
     const [isRotationAllowed, setIsRotationAllowed] = useState(false)
     const [notes, setNotes] = useState({})
     const [imageIndex, setImageIndex] = useState(0)
-    const [marks, setMarks] = useState({})
+    const [marks, setMarks] = useState(defMarks[0])
 
     const detectOnSingleImage = () => {
         fetch(`${apiUrl}detect-on-single-image/${isRotationAllowed ? 'rbb' : 'bb'}`, {
