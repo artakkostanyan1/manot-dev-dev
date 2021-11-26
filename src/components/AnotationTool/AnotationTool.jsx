@@ -180,6 +180,7 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
             markerArea.addSelectEventListener((marker, id) => {
                 if (markerArea.getState().markers.length) {
                     if (id !== selectedMarker.current) {
+                        markerArea.hideNotesEditor()
                         const { notesArea, currentValue } = markerArea.showNotesEditor();
 
                         selectedMarker.current = { id: marker.id, prevNote: currentValue }
