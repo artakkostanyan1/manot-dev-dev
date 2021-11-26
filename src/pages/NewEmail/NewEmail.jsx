@@ -32,14 +32,15 @@ function NewEmail(props) {
                                 <div className='mail__content__subwrapper'>
                                     <div>We have sent an email</div>
                                     <div>
-                                        You need to verify your email to continue, if you have not recieved verification email, please check your “Spam” or “Bulk Email” folder. You can also click the resend button below to have another email sent to you.
+                                        You need to verify your email to continue, if you have not recieved verification email, please check your “Spam” or “Bulk Email” folder. 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='resend__button'onClick={() => console.log('resend')}>
+                        {/* :TODO later discuss and implement, not must for the first release */}
+                        {/* <div className='resend__button'onClick={() => console.log('resend')}>
                             resend confirmation email
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             {/* } */}
