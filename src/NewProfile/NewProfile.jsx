@@ -69,7 +69,7 @@ function Profile(props) {
                 console.log('data', data)
             })
             .catch((err) => console.log('err', err))
-            history.push(paths.Importdata)
+        history.push(paths.Importdata)
     }
 
     function validate() {
@@ -150,6 +150,9 @@ function Profile(props) {
                                 width: '450px',
                                 margin: '9px'
                             }} />
+                        {!strongRegex.test(password) && password !== '' &&
+                            <div className='error__message' style={{width: '440px'}}>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
+                            
                         <TextField label='repeat password' variant="outlined" size="small" color="secondary" type="password"
                             value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)}
                             error={confirmed_passError} style={{
