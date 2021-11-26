@@ -6,13 +6,23 @@ import AnotationTool from '../../components/AnotationTool/AnotationTool';
 import defMarks from '../../components/AnotationTool/marks.json'
 import { useLocation } from 'react-router-dom'
 import './Desktop.scss';
+import CircularUnderLoad from '../../components/Loader/Loader';
 require('dotenv').config();
 
 function Desktop() {
     const apiUrl = process.env.REACT_APP_API_URL;
     const { state: { folderName } } = useLocation();
+    
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [imagesList, setImagesList] = useState([]);
+    const [isRotationAllowed, setIsRotationAllowed] = useState(false)
+    const [notes, setNotes] = useState({})
+    const [imageIndex, setImageIndex] = useState(0)
+    const [marks, setMarks] = useState(defMarks[0])
 
     useEffect(() => {
+        setLoading(true)
         fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
@@ -32,20 +42,15 @@ function Desktop() {
                 }
             })
             .catch((err) => {
+                setError(err)
                 console.log('err: ', err);
             })
+            .finally(() => setLoading(false))
     }, [])
 
-    const [imagesList, setImagesList] = useState([{
-        image: 'lr_animal133.jpg',
-        label: 'Animal'
-    }]);
-    const [isRotationAllowed, setIsRotationAllowed] = useState(false)
-    const [notes, setNotes] = useState({})
-    const [imageIndex, setImageIndex] = useState(0)
-    const [marks, setMarks] = useState(defMarks[0])
 
     const detectOnSingleImage = () => {
+        setLoading(true)
         fetch(`${apiUrl}detect-on-single-image/${isRotationAllowed ? 'rbb' : 'bb'}`, {
             method: 'POST',
             headers: {
@@ -63,9 +68,13 @@ function Desktop() {
                 setMarks(res.message)
             })
             .catch(e => {
+                setError(e)
                 console.error(e)
             })
+            .finally(() => setLoading(false))
     }
+
+    if(loading) return <CircularUnderLoad />
 
     return (
         <div className='comp-desktop'>
