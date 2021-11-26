@@ -1,16 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom'
+
 import UserHeader from '../../components/UserHeader/UserHeader';
 import LeftBar from '../../components/LeftBar/LeftBar';
-import RightBar from '../../components/RightBar/RightBar'
+import RightBar from '../../components/RightBar/RightBar';
 import AnotationTool from '../../components/AnotationTool/AnotationTool';
-import defMarks from '../../components/AnotationTool/marks.json'
-import { useLocation } from 'react-router-dom'
+import defMarks from '../../components/AnotationTool/marks.json';
+import Loader from '../../components/Loader/Loader';
+
 import './Desktop.scss';
+
 import paths from '../../utils/routing';
 require('dotenv').config();
 
+
 function Desktop() {
+    const [isLoading, setIsLoading] = useState(true);
     const apiUrl = process.env.REACT_APP_API_URL;
     const history = useHistory();
     const { state } = useLocation();
@@ -35,8 +41,8 @@ function Desktop() {
                         setImagesList(res.message);
                     } else {
                         history.push(paths.Importdata)
-                        // throw new Error(res.message)
                     }
+                    setIsLoading(false);
                 })
                 .catch((err) => {
                     console.log('err: ', err);
@@ -75,28 +81,31 @@ function Desktop() {
     }
 
     return (
-        <div className='comp-desktop'>
-            <UserHeader className='user_header_desktop' />
-            <div className='main-content-container'>
-                <LeftBar className='left_bar'
-                    imagesList={imagesList}
-                    setImagesList={setImagesList}
-                    isRotationAllowed={isRotationAllowed}
-                    setIsRotationAllowed={setIsRotationAllowed}
-                    folderName={folderName}
-                    setImageIndex={setImageIndex}
-                />
-                <div className='main-photo'>
-                    <AnotationTool
-                        image={imagesList[imageIndex]}
+        <>
+            {isLoading ? <Loader /> : <div className='comp-desktop'>
+                <UserHeader className='user_header_desktop' />
+                <div className='main-content-container'>
+                    <LeftBar className='left_bar'
+                        imagesList={imagesList}
+                        setImagesList={setImagesList}
                         isRotationAllowed={isRotationAllowed}
-                        setNotes={setNotes}
-                        marks={marks}
+                        setIsRotationAllowed={setIsRotationAllowed}
+                        folderName={folderName}
+                        setImageIndex={setImageIndex}
                     />
+                    <div className='main-photo'>
+                        <AnotationTool
+                            image={imagesList[imageIndex]}
+                            isRotationAllowed={isRotationAllowed}
+                            setNotes={setNotes}
+                            marks={marks}
+                        />
+                    </div>
+                    <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />
                 </div>
-                <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />
             </div>
-        </div>
+            }
+        </>
     )
 }
 
