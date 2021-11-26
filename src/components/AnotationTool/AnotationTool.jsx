@@ -193,6 +193,14 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                 }
             });
 
+            markerArea.addMoveEventListener((marker) => {
+                const { notesArea } = markerArea.showNotesEditor();
+
+                const mState = marker.getState()
+                notesArea.style.left = mState.left - 20 + 'px'
+                notesArea.style.top = mState.top + mState.height + 'px'
+            })
+
             markerArea.addCloseEventListener(() => {
                 sampleImageRef.current.style.opacity = 1;
                 sampleImageRef.current.style.top = 0;
