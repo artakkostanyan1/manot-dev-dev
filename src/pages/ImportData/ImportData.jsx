@@ -34,7 +34,6 @@ function ImportData(props) {
 
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [imgErrorMessage, setImgErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     const history = useHistory();
@@ -375,10 +374,10 @@ function ImportData(props) {
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
-                            onError={(e) => setImgErrorMessage(e)}
                         >
                             {({
-                                onImageUpload
+                                onImageUpload,
+                                errors,
                             }) => (
                                 <span>
                                     <button
@@ -390,10 +389,14 @@ function ImportData(props) {
                                         Choose photo
                                     </button>
                                     {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
+                                    {errors && <div>
+                                        {errors.maxFileSize && <div> Maxfile size error </div>}
+                                        {errors.maxNumber && <div>MAX number error</div>}
+                                        {errors.resolution && <div>Resolution error</div>}
+                                    </div>}
                                 </span>
                             )}
                         </ImageUploading>
-                        {imgErrorMessage && <div>{imgErrorMessage}</div>}
                         <div className='dialog-action'>
                             <span>
                                 <button
@@ -605,10 +608,10 @@ function ImportData(props) {
                                 resolutionWidth={1024}
                                 resolutionHeight={1024}
                                 dataURLKey="data_url"
-                                onError={(e) => setImgErrorMessage(e)}
                             >
                                 {({
-                                    onImageUpload
+                                    onImageUpload,
+                                    errors,
                                 }) => (
                                     <span>
                                         <button
@@ -620,10 +623,14 @@ function ImportData(props) {
                                             Choose photo
                                         </button>
                                         {imagesArray.length !== 0 && <div>{`YOU CHOSSED ${imagesArray.length} PHOTOS`}</div>}
+                                        {errors && <div>
+                                            {errors.maxFileSize && <div> Maxfile size error </div>}
+                                            {errors.maxNumber && <div>MAX number error</div>}
+                                            {errors.resolution && <div>Resolution error</div>}
+                                        </div>}
                                     </span>
                                 )}
                             </ImageUploading>
-                            {imgErrorMessage && <div>{imgErrorMessage}</div>}
                             <button
                                 style={cancelBtn}
                                 onClick={handleClose}
