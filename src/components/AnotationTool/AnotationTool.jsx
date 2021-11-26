@@ -54,15 +54,15 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
         setMarkersInfoArray(markers)
         console.log(`notes.current`, notes.current)
         setNotes({ ...notes.current })
-    }, [markerAreaState])
+    }, [markerAreaState, setNotes])
 
 
-    useEffect(async () => { // INIT //
+    useEffect(() => { // INIT //
         console.log(`marks`, marks)
-        await MA?.close();
+        MA?.close();
         setMarkerAreaState({
-            width: sampleImageRef.current.clientWidth,
-            height: sampleImageRef.current.clientHeight,
+            width: sampleImageRef.current?.clientWidth ?? 512,
+            height: sampleImageRef.current?.clientHeight ?? 512,
             markers: marks?.map(mark => ({
                 containerTransformMatrix: mark.matrix,
                 fillColor: "transparent",
@@ -92,7 +92,6 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
             sampleImageRef.current.src = sourceImageRef.current.src;
 
             const markerArea = new mjs.MarkerArea(sourceImageRef.current);
-
 
             markerArea.renderAtNaturalSize = true;
             markerArea.availableMarkerTypes = [mjs.FrameMarker];
@@ -150,11 +149,16 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                     const note = markerArea.hideNotesEditor();
                     console.log(`selectedMarker.current, note`, selectedMarker.current, note)
                     if (!note) {
-                        // TRY TO PREVENT DESELECTING
-                        // markerArea.show()
-                        // sampleImageRef.current.style.opacity = 0;
-                        // markerArea.restoreState(markerArea.getState())
-                        // markerArea.setCurrentMarker(marker)
+                        marker.select()
+                        markerArea.setCurrentMarker(marker)
+                        const { notesArea } = markerArea.showNotesEditor()
+
+                        const mState = marker.getState()
+                        notesArea.style.left = mState.left - 20 + 'px'
+                        notesArea.style.top = mState.top + mState.height + 'px'
+                        // alert('Notes can\'t be empty')
+                        notesArea.select()
+
                     } else {
                         if (prevNote) {
                             notes.current[prevNote]--;
@@ -181,12 +185,10 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                         selectedMarker.current = { id: marker.id, prevNote: currentValue }
 
                         dropboxDivRef.current = notesArea;
-                        // notesArea.style.position = 'fixed'
-                        // notesArea.style.width = 600 + 'px'
-                        // notesArea.style.zIndex = 999
 
-                        // sampleImageRef.current.style.top = 40 + 'px';
-                        // sourceImageRef.current.style.top = 40 + 'px';
+                        const mState = marker.getState()
+                        notesArea.style.left = mState.left - 20 + 'px'
+                        notesArea.style.top = mState.top + mState.height + 'px'
                     }
                 }
             });
@@ -197,9 +199,21 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                 sourceImageRef.current.style.top = 0;
             });
 
+            markerArea.addNoNotesEventListener(markersWithoutNotes => {
+                markersWithoutNotes[0].select()
+                markerArea.setCurrentMarker(markersWithoutNotes[0])
+                const mState = markersWithoutNotes[0].getState()
+                const { notesArea } = markerArea.showNotesEditor()
+
+                notesArea.style.left = mState.left - 20 + 'px'
+                notesArea.style.top = mState.top + mState.height + 'px'
+                // alert('Notes can\'t be empty')
+                notesArea.select()
+            })
+
             setMA(markerArea);
         }
-    }, [isRotationAllowed, image])
+    }, [isRotationAllowed, image, marks, setNotes])
 
     return (
         <div className='anotationToolBox'>
