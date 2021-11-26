@@ -180,6 +180,7 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
             markerArea.addSelectEventListener((marker, id) => {
                 if (markerArea.getState().markers.length) {
                     if (id !== selectedMarker.current) {
+                        markerArea.hideNotesEditor()
                         const { notesArea, currentValue } = markerArea.showNotesEditor();
 
                         selectedMarker.current = { id: marker.id, prevNote: currentValue }
@@ -192,6 +193,14 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                     }
                 }
             });
+
+            markerArea.addMoveEventListener((marker) => {
+                const { notesArea } = markerArea.showNotesEditor();
+
+                const mState = marker.getState()
+                notesArea.style.left = mState.left - 20 + 'px'
+                notesArea.style.top = mState.top + mState.height + 'px'
+            })
 
             markerArea.addCloseEventListener(() => {
                 sampleImageRef.current.style.opacity = 1;
