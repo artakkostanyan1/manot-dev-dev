@@ -95,7 +95,7 @@ function ImportData(props) {
             .then(res => {
                 if (res?.status === 'success') {
                     setOpen(false);
-                    isAbleToRedirect && history.push({ pathname: '/desktop', state: { folderName: folder_name } })
+                    isAbleToRedirect && history.push({ pathname: paths.Desktop, state: { folderName: folder_name } })
                 } else if (res?.status === 'fail') {
                     setErrorMessage(res.message);
                     setTogglePopup(!togglePopup);
@@ -124,7 +124,7 @@ function ImportData(props) {
                 isAddData && handleAddImages();
                 if (res.status === 'success') {
                     handleAddImages();
-                    history.push({ pathname: '/desktop', state: { folderName: folder_name } });
+                    history.push({ pathname: paths.Desktop, state: { folderName: folder_name } });
                 }
             })
             .catch((error) => {
@@ -310,7 +310,7 @@ function ImportData(props) {
                                             <img src='folder.svg' alt='folder' />
                                             <span
                                                 className='folder-name'
-                                                onClick={() => history.push({ pathname: '/desktop', state: { folderName: el }, })}
+                                                onClick={() => history.push({ pathname: paths.Desktop, state: { folderName: el } })}
                                             >
                                                 {((el).length > maxlimit) ?
                                                     (((el).substring(0, maxlimit - 3)) + '...') :
