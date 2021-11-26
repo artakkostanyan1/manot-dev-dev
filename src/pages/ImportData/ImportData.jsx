@@ -184,10 +184,12 @@ function ImportData(props) {
     };
     const handleClose = () => {
         setImagesArray([]);
+        setNewImagesArray([]);
         setOpen(false);
     };
     const handleCloseAddImage = () => {
         setImagesArray([]);
+        setNewImagesArray([]);
         setToggleAddImages(!toggleAddImages);
     }
     const handleEditToggle = (el) => {
