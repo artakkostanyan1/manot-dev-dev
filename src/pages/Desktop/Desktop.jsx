@@ -8,6 +8,7 @@ import RightBar from '../../components/RightBar/RightBar';
 import AnotationTool from '../../components/AnotationTool/AnotationTool';
 import defMarks from '../../components/AnotationTool/marks.json';
 import Loader from '../../components/Loader/Loader';
+import CircularUnderLoad from '../../components/Loader/Loader';
 
 import './Desktop.scss';
 
@@ -16,16 +17,24 @@ require('dotenv').config();
 
 
 function Desktop() {
-    const [isLoading, setIsLoading] = useState(true);
     const apiUrl = process.env.REACT_APP_API_URL;
     const history = useHistory();
     const { state } = useLocation();
     const { folderName } = state;
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [imagesList, setImagesList] = useState([]);
+    const [isRotationAllowed, setIsRotationAllowed] = useState(false)
+    const [notes, setNotes] = useState({})
+    const [imageIndex, setImageIndex] = useState(0)
+    const [marks, setMarks] = useState(defMarks[0])
+
     useEffect(() => {
-        state === undefined ? history.push(paths.Importdata) //maybe add loader
-            :
-            fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
+        setLoading(true);
+        state === undefined ? history.push(paths.Importdata)
+            : fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -45,20 +54,15 @@ function Desktop() {
                     setIsLoading(false);
                 })
                 .catch((err) => {
+                    setError(err)
                     console.log('err: ', err);
                 })
+                .finally(() => setLoading(false))
     }, [])
 
-    const [imagesList, setImagesList] = useState([{
-        image: 'lr_animal133.jpg',
-        label: 'Animal'
-    }]);
-    const [isRotationAllowed, setIsRotationAllowed] = useState(false)
-    const [notes, setNotes] = useState({})
-    const [imageIndex, setImageIndex] = useState(0)
-    const [marks, setMarks] = useState(defMarks[0])
 
     const detectOnSingleImage = () => {
+        setLoading(true)
         fetch(`${apiUrl}detect-on-single-image/${isRotationAllowed ? 'rbb' : 'bb'}`, {
             method: 'POST',
             headers: {
@@ -76,9 +80,13 @@ function Desktop() {
                 setMarks(res.message)
             })
             .catch(e => {
+                setError(e)
                 console.error(e)
             })
+            .finally(() => setLoading(false))
     }
+
+    if (loading) return <CircularUnderLoad />
 
     return (
         <>
