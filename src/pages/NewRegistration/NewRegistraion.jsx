@@ -124,14 +124,14 @@ function Registration(props) {
                                 sign up
                             </div>
                             <div className='signup__inputs__wrapper'>
-                                <InputComponent label='first name' value={name} onChange={(e) => setName(e.target.value)} error={nameError} />
-                                <InputComponent label='last name' value={surname} onChange={(e) => setSurname(e.target.value)} error={surnameError} />
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} error={emailError} />
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} error={passError} />
+                                <InputComponent label='first name' value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)} error={nameError} />
+                                <InputComponent label='last name' value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)} error={surnameError} />
+                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
                                 {!strongRegex.test(password) && password !== '' &&
                                     <div className='error__message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
-                                <InputComponent label='repeat password' type="password" value={confirmed_pass} onChange={(e) => setConfirmed_pass(e.target.value)} error={confirmed_passError} />
+                                <InputComponent label='repeat password' type="password" value={confirmed_pass} onChange={(e) => setConfirmed_pass(e.target.value)} onFocus={() => setConfirmed_passError(false)} error={confirmed_passError} />
                             </div>
                             {/* <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}> */}
                             <div className={'terms__policy__checkbox__wrapper'}>

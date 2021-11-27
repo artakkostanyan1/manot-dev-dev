@@ -2,7 +2,7 @@ import TextField from '@mui/material/TextField';
 import FormHelperText from '@mui/material/FormHelperText';
 import './InputComponent.scss';
 
-function InputComponent({ label, type, helperText, value, onChange, error }) {
+function InputComponent({ label, type, helperText, value, onChange, onFocus, error }) {
     return (
         <>
             <TextField
@@ -11,6 +11,7 @@ function InputComponent({ label, type, helperText, value, onChange, error }) {
                 label={label}
                 value={value}
                 onChange={onChange}
+                onFocus={onFocus}
                 variant="outlined" size="small"
                 color="secondary"
                 helperText={helperText}
