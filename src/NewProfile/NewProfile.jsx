@@ -81,10 +81,12 @@ function Profile(props) {
     }
 
     function isMissingField() {
-        if (name === '' || surname === '' || email === '' || confirmed_pass === '' || password === '' || old_password === '') {
-            return false
+        if (name !== '' && surname !== '' && email !== '') {
+            if ((old_password === '' && confirmed_pass === '' && password === '')
+                || (old_password !== '' && confirmed_pass !== '' && password !== ''))
+                return true
         } else {
-            return true;
+            return false;
         }
     }
 
@@ -151,8 +153,8 @@ function Profile(props) {
                                 margin: '9px'
                             }} />
                         {!strongRegex.test(password) && password !== '' &&
-                            <div className='error__message' style={{width: '440px'}}>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
-                            
+                            <div className='error__message' style={{ width: '440px' }}>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
+
                         <TextField label='repeat password' variant="outlined" size="small" color="secondary" type="password"
                             value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)}
                             error={confirmed_passError} style={{
