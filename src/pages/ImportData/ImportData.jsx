@@ -374,10 +374,10 @@ function ImportData(props) {
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
-                            onError={(e) => console.error(e)}
                         >
                             {({
-                                onImageUpload
+                                onImageUpload,
+                                errors,
                             }) => (
                                 <span>
                                     <button
@@ -389,6 +389,11 @@ function ImportData(props) {
                                         Choose photo
                                     </button>
                                     {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
+                                    {errors && <div>
+                                        {errors.maxFileSize && <div> Maxfile size error </div>}
+                                        {errors.maxNumber && <div>MAX number error</div>}
+                                        {errors.resolution && <div>Resolution error</div>}
+                                    </div>}
                                 </span>
                             )}
                         </ImageUploading>
@@ -605,7 +610,8 @@ function ImportData(props) {
                                 dataURLKey="data_url"
                             >
                                 {({
-                                    onImageUpload
+                                    onImageUpload,
+                                    errors,
                                 }) => (
                                     <span>
                                         <button
@@ -617,6 +623,11 @@ function ImportData(props) {
                                             Choose photo
                                         </button>
                                         {imagesArray.length !== 0 && <div>{`YOU CHOSSED ${imagesArray.length} PHOTOS`}</div>}
+                                        {errors && <div>
+                                            {errors.maxFileSize && <div> Maxfile size error </div>}
+                                            {errors.maxNumber && <div>MAX number error</div>}
+                                            {errors.resolution && <div>Resolution error</div>}
+                                        </div>}
                                     </span>
                                 )}
                             </ImageUploading>
