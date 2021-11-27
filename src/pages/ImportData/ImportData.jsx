@@ -133,10 +133,10 @@ function ImportData(props) {
     }
 
     const editFileName = (data) => {
-        fetch(`${apiUrl}rename-folder?folder_name=${data.folder_name}`, {
+        fetch(`${apiUrl}rename-folder`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-type': 'application/json; charset=UTF-8',
                 "x-access-token": token,
             },
             body: JSON.stringify(data),
@@ -232,13 +232,14 @@ function ImportData(props) {
             folder_name: el,
             new_folder_name: editFolderName,
         }
+        console.log('dataaaaaaaaaaaaaaaaa', data);
         editFileName(data);
-        let newNames = foldersNames.filter((element) => { // ??? why we need this code? // TO ASK //
-            return element !== el;
-        })
-        setFolderName(newNames);
-        // this how we change foldersNames state to show rename immediately
-        setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
+        // let newNames = foldersNames.filter((element) => { // ??? why we need this code? // TO ASK //
+        //     return element !== el;
+        // })
+        // setFolderName(newNames);
+        // // this how we change foldersNames state to show rename immediately
+        // setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
     }
 
     const addImages = (el) => {
