@@ -124,7 +124,7 @@ function ImportData(props) {
                 isAddData && handleAddImages();
                 if (res.status === 'success') {
                     handleAddImages();
-                    history.push({ pathname: paths.Desktop, state: { folderName: folder_name } });
+                    history.push({ pathname: paths.Desktop, state: { folderName: data.folder_name } });
                 }
             })
             .catch((error) => {
