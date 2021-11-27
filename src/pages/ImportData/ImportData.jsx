@@ -378,6 +378,7 @@ function ImportData(props) {
                             onChange={onChange}
                             acceptType={['jpg', 'jpeg', 'png']}
                             maxFileSize={100000}
+                            resolutionType="less"
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
@@ -612,6 +613,7 @@ function ImportData(props) {
                                 onChange={onChange}
                                 acceptType={['jpg', 'jpeg', 'png']}
                                 maxFileSize={100000}
+                                resolutionType="less"
                                 resolutionWidth={1024}
                                 resolutionHeight={1024}
                                 dataURLKey="data_url"
