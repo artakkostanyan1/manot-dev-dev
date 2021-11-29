@@ -143,6 +143,9 @@ function ImportData(props) {
         })
             .then(response => response.json())
             .then((response) => {
+                if (response.status === 'fail') {
+                    handleEditToggle(false)
+                }
                 if (response.status === 'fail' && response.message === 'Token is invalid') {
                     localStorage.removeItem('token');
                     history.push(paths.Main)
@@ -239,14 +242,10 @@ function ImportData(props) {
             folder_name: el,
             new_folder_name: editFolderName,
         }
-        console.log('dataaaaaaaaaaaaaaaaa', data);
+        foldersNames.includes(editFolderName)
+            ? setTogglePopup(togglePopup)
+            : setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
         editFileName(data);
-        // let newNames = foldersNames.filter((element) => { // ??? why we need this code? // TO ASK //
-        //     return element !== el;
-        // })
-        // setFolderName(newNames);
-        // // this how we change foldersNames state to show rename immediately
-        // setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
     }
 
     const addImages = (el) => {
@@ -473,6 +472,7 @@ function ImportData(props) {
                                     }}
                                 />
                             </DialogContent>
+                            {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={'Please choose photo'} />}
                             <DialogActions className='dialog-action'>
                                 <button
                                     className='continue-button'
