@@ -72,19 +72,22 @@ function Profile(props) {
         history.push(paths.Importdata)
     }
 
-    function validate() {
+    function validateNameAndSurname() {
         name === '' ? setNameError(true) : setNameError(false);
         surname === '' ? setSurnameError(true) : setSurnameError(false);
-        old_password === '' ? setOldPasswordError(true) : setOldPasswordError(false);
-        (password === '' || password !== confirmed_pass) ? setPasswordError(true) : setPasswordError(false);
-        (confirmed_pass === '' || password !== confirmed_pass) ? setConfirmed_passError(true) : setConfirmed_passError(false);
     }
+    // old_password === '' ? setOldPasswordError(true) : setOldPasswordError(false);
+    // (password === '' || password !== confirmed_pass) ? setPasswordError(true) : setPasswordError(false);
+    // (confirmed_pass === '' || password !== confirmed_pass) ? setConfirmed_passError(true) : setConfirmed_passError(false);
 
     function isMissingField() {
         if (name !== '' && surname !== '' && email !== '') {
-            if ((old_password === '' && confirmed_pass === '' && password === '')
-                || (old_password !== '' && confirmed_pass !== '' && password !== ''))
-                return true
+            if (old_password === '' && confirmed_pass === '' && password === '') {
+                return true;
+            }
+            if (old_password !== '' && confirmed_pass !== '' && password !== '') {
+                return true;
+            }
         } else {
             return false;
         }
@@ -94,19 +97,35 @@ function Profile(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
+        let data;
 
-        const data = {
-            name,
-            surname,
-            email,
-            old_password,
-            password,
-            confirmed_pass,
+        validateNameAndSurname();
+
+        if (name !== '' && surname !== '' && email !== '') {
+            if (old_password === '' && confirmed_pass === '' && password === '') {
+                data = {
+                    name,
+                    surname,
+                    email,
+                }
+                isMissingField() && sendUserNewData(data)
+            }
+            if (old_password !== '' || confirmed_pass !== '' || password !== '') {
+                old_password === '' ? setOldPasswordError(true) : setOldPasswordError(false);
+                (password === '' || password !== confirmed_pass) ? setPasswordError(true) : setPasswordError(false);
+                (confirmed_pass === '' || password !== confirmed_pass) ? setConfirmed_passError(true) : setConfirmed_passError(false);
+                data = {
+                    name,
+                    surname,
+                    email,
+                    old_password,
+                    password,
+                    confirmed_pass,
+                }
+
+                isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && sendUserNewData(data)
+            }
         }
-
-        validate();
-
-        isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && sendUserNewData(data)
     }
 
     const showMenu = toggleMenu ? 'show__menu' : 'hide__menu'
