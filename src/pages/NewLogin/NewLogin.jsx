@@ -137,8 +137,8 @@ function NewLogin(props) {
                                 login
                             </div>
                             <div className='signin__inputs__wrapper'>
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} error={emailError} />
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} error={passError} />
+                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)}error={passError} />
                             </div>
                             <div className='signin__button__wrapper'>
                                 <button

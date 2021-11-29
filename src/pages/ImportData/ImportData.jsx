@@ -124,7 +124,7 @@ function ImportData(props) {
                 isAddData && handleAddImages();
                 if (res.status === 'success') {
                     handleAddImages();
-                    history.push({ pathname: paths.Desktop, state: { folderName: folder_name } });
+                    history.push({ pathname: paths.Desktop, state: { folderName: data.folder_name } });
                 }
             })
             .catch((error) => {
@@ -183,8 +183,15 @@ function ImportData(props) {
         setFolderName('');
     };
     const handleClose = () => {
+        setImagesArray([]);
+        setNewImagesArray([]);
         setOpen(false);
     };
+    const handleCloseAddImage = () => {
+        setImagesArray([]);
+        setNewImagesArray([]);
+        setToggleAddImages(!toggleAddImages);
+    }
     const handleEditToggle = (el) => {
         setOpenEdit(!openEdit);
         setEditFolderName(el);
@@ -372,13 +379,14 @@ function ImportData(props) {
                             onChange={onChange}
                             acceptType={['jpg', 'jpeg', 'png']}
                             maxFileSize={100000}
+                            resolutionType="less"
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
-                            onError={(e) => console.error(e)}
                         >
                             {({
-                                onImageUpload
+                                onImageUpload,
+                                errors,
                             }) => (
                                 <span>
                                     <button
@@ -390,6 +398,11 @@ function ImportData(props) {
                                         Choose photo
                                     </button>
                                     {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
+                                    {errors && <div>
+                                        {errors.maxFileSize && <div> Maxfile size error </div>}
+                                        {errors.maxNumber && <div>MAX number error</div>}
+                                        {errors.resolution && <div>Resolution error</div>}
+                                    </div>}
                                 </span>
                             )}
                         </ImageUploading>
@@ -408,7 +421,7 @@ function ImportData(props) {
                         </div>
                         <button
                             style={cancelBtn}
-                            onClick={handleAddImages}
+                            onClick={handleCloseAddImage}
                             color="primary"
                         >
                             Cancel
@@ -473,7 +486,7 @@ function ImportData(props) {
                                     onClick={handleEditToggle}
                                     color="primary"
                                 >
-                                    Cancle
+                                    Cancel
                                 </button>
                             </DialogActions>
                         </>
@@ -601,12 +614,14 @@ function ImportData(props) {
                                 onChange={onChange}
                                 acceptType={['jpg', 'jpeg', 'png']}
                                 maxFileSize={100000}
+                                resolutionType="less"
                                 resolutionWidth={1024}
                                 resolutionHeight={1024}
                                 dataURLKey="data_url"
                             >
                                 {({
-                                    onImageUpload
+                                    onImageUpload,
+                                    errors,
                                 }) => (
                                     <span>
                                         <button
@@ -618,6 +633,11 @@ function ImportData(props) {
                                             Choose photo
                                         </button>
                                         {imagesArray.length !== 0 && <div>{`YOU CHOSSED ${imagesArray.length} PHOTOS`}</div>}
+                                        {errors && <div>
+                                            {errors.maxFileSize && <div> Maxfile size error </div>}
+                                            {errors.maxNumber && <div>MAX number error</div>}
+                                            {errors.resolution && <div>Resolution error</div>}
+                                        </div>}
                                     </span>
                                 )}
                             </ImageUploading>
