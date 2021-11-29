@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import UserHeader, { CustomMenu } from '../components/UserHeader/UserHeader';
-import Loader from '../components/Loader/Loader';
+import UserHeader, { CustomMenu } from '../../components/UserHeader/UserHeader';
+import Loader from '../../components/Loader/Loader';
 import TextField from '@mui/material/TextField';
 
-import paths from '../utils/routing';
+import paths from '../../utils/routing';
 
 import './NewProfile.scss';
 
@@ -142,13 +142,13 @@ function Profile(props) {
                     <div className='profile__wrapper'>
                         <div className='profile__heading'>profile and password</div>
                         <TextField label='first name' variant="outlined" size="small" color="secondary"
-                            value={name} onChange={(e) => setName(e.target.value)}
+                            value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)}
                             error={nameError} style={{
                                 width: '450px',
                                 margin: '9px'
                             }} />
                         <TextField label='last name' variant="outlined" size="small" color="secondary"
-                            value={surname} onChange={(e) => setSurname(e.target.value)}
+                            value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)}
                             error={surnameError} style={{
                                 width: '450px',
                                 margin: '9px'
@@ -160,13 +160,13 @@ function Profile(props) {
                                 margin: '9px'
                             }} />
                         <TextField label='current password' variant="outlined" size="small" color="secondary" type="password"
-                            value={old_password} onChange={(e) => setOldPassword(e.target.value)}
+                            value={old_password} onChange={(e) => setOldPassword(e.target.value)} onFocus={() => setOldPasswordError(false)}
                             error={old_passwordError} style={{
                                 width: '450px',
                                 margin: '9px'
                             }} />
                         <TextField label='new password' variant="outlined" size="small" color="secondary" type="password"
-                            value={password} onChange={(e) => setPassword(e.target.value)}
+                            value={password} onChange={(e) => setPassword(e.target.value)} onFocus={() => setPasswordError(false)}
                             error={passwordError} style={{
                                 width: '450px',
                                 margin: '9px'
@@ -175,7 +175,7 @@ function Profile(props) {
                             <div className='error__message' style={{ width: '440px' }}>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
                         <TextField label='repeat password' variant="outlined" size="small" color="secondary" type="password"
-                            value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)}
+                            value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)} onFocus={() => setConfirmed_passError(false)}
                             error={confirmed_passError} style={{
                                 width: '450px',
                                 margin: '9px'
