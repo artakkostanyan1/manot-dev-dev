@@ -94,6 +94,8 @@ function Desktop() {
                         isRotationAllowed={isRotationAllowed}
                         setNotes={setNotes}
                         marks={marks}
+                        folderName={folderName}
+                        imageIndex={imageIndex}
                     />
                 </div>
                 <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />

@@ -2,11 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as mjs from 'mjs2-ngv';
 import './AnotationTool.scss';
 
-const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
+const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNotes, marks }) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     const [MA, setMA] = useState(null) // MarkerArea global state
     const [markerAreaState, setMarkerAreaState] = useState() // MarkerArea state for restoring
     // eslint-disable-next-line
     const [markersInfoArray, setMarkersInfoArray] = useState([]) // markers with filtered info for backend
+
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const sourceImageRef = useRef(null) // image in initial state, withouth markers
     const sampleImageRef = useRef(null) // image, which we redact
@@ -27,35 +32,15 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
             // sampleImageRef.current.style.top = -40 + 'px';
             sourceImageRef.current.style.top = -40 + 'px';
             MA.restoreState(markerAreaState)
-            if (!restored.current) {
-                restored.current = true;
-                MA.startRenderAndClose().then(() => showMarkerArea())
-            }
+            // if (!restored.current) {
+            //     restored.current = true;
+            //     MA.startRenderAndClose().then(() => showMarkerArea())
+            // }
         }
         if (!markerAreaState?.markers?.length) {
             MA.createNewMarker(mjs.FrameMarker)
         }
     }
-
-    useEffect(() => {
-        const markers = markersArray.current.map((i, id) => {
-            return ({
-                width: i.width,
-                height: i.height,
-                angle: i.rotationAngle,
-                name: i.notes,
-                x: i.left,
-                y: i.top,
-                matrix: i.containerTransformMatrix
-            })
-        })
-        console.log(`markerAreaState`, markerAreaState)
-        console.log('markersInfoArray', markers);
-        setMarkersInfoArray(markers)
-        console.log(`notes.current`, notes.current)
-        setNotes({ ...notes.current })
-    }, [markerAreaState, setNotes])
-
 
     useEffect(() => { // INIT //
         console.log(`marks`, marks)
@@ -117,8 +102,43 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                     setMarkerAreaState(state); // save state of MarkerArea to be able to restore it
 
                     markersArray.current = state.markers; // TODO //
-                    console.log(`notesArray.current`, notes.current)
-                    console.log(`markersArray`, markersArray)
+
+                    const markers = markersArray.current.map((i, id) => {
+                        return ({
+                            width: i.width,
+                            height: i.height,
+                            angle: i.rotationAngle,
+                            name: i.notes,
+                            x: i.left,
+                            y: i.top,
+                            matrix: i.containerTransformMatrix
+                        })
+                    })
+
+                    setMarkersInfoArray(markers)
+                    setNotes({ ...notes.current })
+
+                    setLoading(true)
+                    fetch(`${apiUrl}create-data/rbb`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8',
+                            "x-access-token": localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({ folder_name: folderName, img_index: imageIndex, labels: markers })
+                    })
+                        .then(res => {
+                            return res.json()
+                        })
+                        .then(res => {
+                            console.log(`res`, res)
+                            if (res.status === 'fail') throw new Error(res.message)
+                        })
+                        .catch(e => {
+                            setError(e)
+                            console.error(e)
+                        })
+                        .finally(() => setLoading(false))
                 }
             });
 
