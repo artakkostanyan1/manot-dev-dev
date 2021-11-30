@@ -180,14 +180,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     if (!note) {
                         marker.select()
                         markerArea.setCurrentMarker(marker)
-                        const { notesArea } = markerArea.showNotesEditor()
-
-                        const mState = marker.getState()
-                        notesArea.style.left = mState.left - 20 + 'px'
-                        notesArea.style.top = mState.top + mState.height + 'px'
-                        // alert('Notes can\'t be empty')
-                        notesArea.select()
-
+                        markerArea.deleteSelectedMarker()
                     } else {
                         if (prevNote) {
                             notes.current[prevNote]--;
