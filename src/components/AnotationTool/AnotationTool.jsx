@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import * as mjs from 'mjs2-ngv';
 import './AnotationTool.scss';
 
@@ -20,7 +21,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
     // eslint-disable-next-line
     const notes = useRef({}) // labels array
     const dropboxDivRef = useRef(null)
-    const restored = useRef(false);
 
     const markersArray = useRef([]) // TODO // to save markers state for backend
 
@@ -118,6 +118,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     setMarkersInfoArray(markers)
                     setNotes({ ...notes.current })
 
+                    const toasterId = toast.loading('Creating an XML file for your Image', { theme: 'colored' })
                     setLoading(true)
                     fetch(`${apiUrl}create-data/rbb`, {
                         method: 'POST',
@@ -132,13 +133,21 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         })
                         .then(res => {
                             console.log(`res`, res)
-                            if (res.status === 'fail') throw new Error(res.message)
+                            if (res.status === 'fail') {
+                                toast.update(toasterId, { render: res.message, type: 'error' })
+                                throw new Error(res.message)
+                            }
+                            toast.update(toasterId, { render: 'The XML has been generated successfully', type: 'success', pauseOnHover: false, pauseOnFocusLoss: false, progress: undefined, autoClose: 2000, draggable: true, hideProgressBar: false, })
                         })
                         .catch(e => {
-                            setError(e)
-                            console.error(e)
+                            toast.update(toasterId, { render: `${e}`, type: 'error', autoClose: 2000, pauseOnHover: false, pauseOnFocusLoss: false, draggable: true, progress: undefined, hideProgressBar: false })
                         })
-                        .finally(() => setLoading(false))
+                        .finally(() => {
+                            setTimeout(() => {
+                                toast.dismiss(toasterId)
+                                setLoading(false)
+                            }, 2000)
+                        })
                 }
             });
 
@@ -260,7 +269,9 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     alt='Sample'
                     style={{ position: 'absolute' }}
                     crossOrigin='anonymous'
-                    onClick={showMarkerArea}
+                    onClick={() => {
+                        if(!loading) showMarkerArea()
+                    }}
                 />
             </div>
         </div>

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import ImportData from './pages/ImportData/ImportData';
 import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
@@ -23,6 +24,7 @@ import Policy from './pages/Policy/Policy';
 import ContactUs from './pages/ContactUs/ContactUs';
 
 import paths from './utils/routing';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 const NoMatchPage = () => {
@@ -179,6 +181,7 @@ function App() {
           )}
         </Switch>
       </BrowserRouter>
+      <ToastContainer theme='colored' />
     </div>
   );
 }
