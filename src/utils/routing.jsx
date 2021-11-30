@@ -16,7 +16,15 @@ const paths = {
     ContactUs: '/contact-us',
     NewRegistration: 'new-registration',
     Terms: '/terms',
-    DashBoard: '/dashboard'
+    DashBoard: '/dashboard',
+    ContactUs: '/contact-us',
+    Policy: '/policy',
+    Terms: '/terms',
+    NewProfile: '/new-profile',
+    NewImportData: '/new-importdata',
+    NewEmail: '/new-email',
+    NewLogin: '/new-login/:id',
+    NewRegistration: '/new-registration'
 }
 
 export default paths;
