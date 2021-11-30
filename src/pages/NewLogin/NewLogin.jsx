@@ -29,34 +29,35 @@ function NewLogin(props) {
     const [error, setError] = useState('');
     const [togglePopup, setTogglePopup] = useState(false);
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     // const [isFromEmail, setIsFromEmail] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
-        // setIsFromEmail(params.id.includes('account') ? false : true);
+    //TODO check loading part
+    // useEffect(() => {
+    //     // setIsFromEmail(params.id.includes('account') ? false : true);
 
-        fetch(`${apiUrl}verify-account`, {
-            method: 'PUT',
-            headers: {
-                "x-access-token": params.id
-            }
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                setIsLoading(false)
-            })
+    //     fetch(`${apiUrl}verify-account`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             "x-access-token": params.id
+    //         }
+    //     })
+    //         .then(response => {
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             setIsLoading(false)
+    //         })
 
-        // const timeId = setTimeout(() => {
-        //     setIsFromEmail(false)
-        // }, 1800)
+    //     // const timeId = setTimeout(() => {
+    //     //     setIsFromEmail(false)
+    //     // }, 1800)
 
-        // return () => {
-        //     clearTimeout(timeId)
-        // }
-    }, [])
+    //     // return () => {
+    //     //     clearTimeout(timeId)
+    //     // }
+    // }, [])
 
     const login = (data) => {
         fetch(`${apiUrl}login`, {
@@ -68,20 +69,22 @@ function NewLogin(props) {
             body: JSON.stringify(data),
         })
             .then(response => {
-                if (response.status === 401) {
-                    throw Error('Invalid name or password');
-                } else if (response.status === 422) {
-                    throw Error('Your account is not active. Please check Your email and verify account.');
-                }
                 return response.json();
             })
             .then((data) => {
-                localStorage.setItem('token', data.token)
-                history.push(paths.Importdata);
+                if (data.status === 'fail' && data.message === "Wrong email or password.") {
+                    setPassError(true)
+                    setEmailError(true)
+                    setError('The email or password is invalid.');
+                } else if (data.status === 'fail' && data.message === "This account is not active. Verification link sent to user email.") {
+                    setError('Your account is not activated yet. Please check the email.');
+                } else {
+                    localStorage.setItem('token', data.token)
+                    history.push(paths.Importdata);
+                }
             })
             .catch((error) => {
                 setError(error.message);
-                setTogglePopup(true);
             });
     }
 
@@ -90,6 +93,7 @@ function NewLogin(props) {
         return re.test(String(email).toLowerCase());
     }
 
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
     function validate() {
         (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
@@ -114,7 +118,7 @@ function NewLogin(props) {
 
         validate();
 
-        !isMissingField() && validateEmail(email) && login(data);
+        !isMissingField() && strongRegex.test(password) && validateEmail(email) && login(data);
     }
 
     return (
@@ -133,12 +137,13 @@ function NewLogin(props) {
                     </div>
                     <div className='signup__right__part'>
                         <div className='signin__fields__wrapper'>
+                            <div className='signup__error__message__box'>{error}</div>
                             <div className='signup__fields__header'>
                                 login
                             </div>
                             <div className='signin__inputs__wrapper'>
                                 <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)}error={passError} />
+                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
                             </div>
                             <div className='signin__button__wrapper'>
                                 <button

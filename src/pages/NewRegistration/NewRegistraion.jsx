@@ -11,6 +11,7 @@ import Loader from '../../components/Loader/Loader';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 
 import './NewRegistration.scss';
+import { Error } from '@material-ui/icons';
 
 require('dotenv').config();
 
@@ -31,7 +32,6 @@ function Registration(props) {
     const [accept, setAccept] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
     const [error, setError] = useState('');
-    const [togglePopup, setTogglePopup] = useState(false);
     const [helperText, setHelperText] = useState('');
 
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -48,18 +48,20 @@ function Registration(props) {
             body: JSON.stringify(data),
         })
             .then(response => {
-                if (response.status === 422) {
-                    throw Error('You already registered with this credentials')
-                }
                 return response.json();
             })
             .then(response => {
                 setIsLoading(false)
-                history.push(paths.Verify);
+                
+                if (response.status === 'fail' && response.message === "User already registered.") {
+                    setEmailError(true)
+                    setError('This email is already connected to an account');
+                } else {
+                    history.push(paths.Verify);
+                }
             })
             .catch((error) => {
-                setError(error.message);
-                setTogglePopup(true);
+                setIsLoading(false)
             });
     }
 
@@ -126,7 +128,11 @@ function Registration(props) {
                             <div className='signup__inputs__wrapper'>
                                 <InputComponent label='first name' value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)} error={nameError} />
                                 <InputComponent label='last name' value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)} error={surnameError} />
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+
+                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => {setEmailError(false); setError(false)}} error={emailError} />
+                                {error && password !== '' &&
+                                    <div className='error__message'>{error}</div>}
+
                                 <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
                                 {!strongRegex.test(password) && password !== '' &&
                                     <div className='error__message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
