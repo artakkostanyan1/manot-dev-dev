@@ -14,7 +14,7 @@ import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Email from './pages/Email/Email';
 import NewRegistration from './pages/NewRegistration/NewRegistraion';
 import NewLogin from './pages/NewLogin/NewLogin';
-import NewProfile from './NewProfile/NewProfile';
+import NewProfile from './pages/NewProfile/NewProfile';
 import NewEmail from './pages/NewEmail/NewEmail';
 import NewImportData from './pages/NewImportData/NewImportData';
 import DashBoard  from './pages/DashBoard/DashBoard';

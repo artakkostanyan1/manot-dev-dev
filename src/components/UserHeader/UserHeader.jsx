@@ -64,6 +64,7 @@ export function CustomMenu(props) {
                 <div onClick={() => history.push(paths.Profile)}>profile and password</div>
                 <div>payment details</div>
                 <div onClick={() => history.push(paths.Upgrade)}>upgrade</div>
+                <hr style={{width: '75%', margin: '5px'}}/>
                 <div onClick={handleCloseLogout}>log out</div>
             </div>
         </div >

@@ -95,7 +95,7 @@ function ImportData(props) {
             .then(res => {
                 if (res?.status === 'success') {
                     setOpen(false);
-                    isAbleToRedirect && history.push({ pathname: '/desktop', state: { folderName: folder_name } })
+                    isAbleToRedirect && history.push({ pathname: paths.Desktop, state: { folderName: folder_name } })
                 } else if (res?.status === 'fail') {
                     setErrorMessage(res.message);
                     setTogglePopup(!togglePopup);
@@ -124,7 +124,7 @@ function ImportData(props) {
                 isAddData && handleAddImages();
                 if (res.status === 'success') {
                     handleAddImages();
-                    history.push({ pathname: '/desktop', state: { folderName: folder_name } });
+                    history.push({ pathname: paths.Desktop, state: { folderName: data.folder_name } });
                 }
             })
             .catch((error) => {
@@ -133,16 +133,19 @@ function ImportData(props) {
     }
 
     const editFileName = (data) => {
-        fetch(`${apiUrl}rename-folder?folder_name=${data.folder_name}`, {
+        fetch(`${apiUrl}rename-folder`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-type': 'application/json; charset=UTF-8',
                 "x-access-token": token,
             },
             body: JSON.stringify(data),
         })
             .then(response => response.json())
             .then((response) => {
+                if (response.status === 'fail') {
+                    handleEditToggle(false)
+                }
                 if (response.status === 'fail' && response.message === 'Token is invalid') {
                     localStorage.removeItem('token');
                     history.push(paths.Main)
@@ -183,8 +186,15 @@ function ImportData(props) {
         setFolderName('');
     };
     const handleClose = () => {
+        setImagesArray([]);
+        setNewImagesArray([]);
         setOpen(false);
     };
+    const handleCloseAddImage = () => {
+        setImagesArray([]);
+        setNewImagesArray([]);
+        setToggleAddImages(!toggleAddImages);
+    }
     const handleEditToggle = (el) => {
         setOpenEdit(!openEdit);
         setEditFolderName(el);
@@ -232,13 +242,10 @@ function ImportData(props) {
             folder_name: el,
             new_folder_name: editFolderName,
         }
+        foldersNames.includes(editFolderName)
+            ? setTogglePopup(togglePopup)
+            : setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
         editFileName(data);
-        let newNames = foldersNames.filter((element) => { // ??? why we need this code? // TO ASK //
-            return element !== el;
-        })
-        setFolderName(newNames);
-        // this how we change foldersNames state to show rename immediately
-        setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
     }
 
     const addImages = (el) => {
@@ -310,7 +317,7 @@ function ImportData(props) {
                                             <img src='folder.svg' alt='folder' />
                                             <span
                                                 className='folder-name'
-                                                onClick={() => history.push({ pathname: '/desktop', state: { folderName: el }, })}
+                                                onClick={() => history.push({ pathname: paths.Desktop, state: { folderName: el } })}
                                             >
                                                 {((el).length > maxlimit) ?
                                                     (((el).substring(0, maxlimit - 3)) + '...') :
@@ -371,13 +378,14 @@ function ImportData(props) {
                             onChange={onChange}
                             acceptType={['jpg', 'jpeg', 'png']}
                             maxFileSize={100000}
+                            resolutionType="less"
                             resolutionWidth={1024}
                             resolutionHeight={1024}
                             dataURLKey="data_url"
-                            onError={(e) => console.error(e)}
                         >
                             {({
-                                onImageUpload
+                                onImageUpload,
+                                errors,
                             }) => (
                                 <span>
                                     <button
@@ -389,6 +397,11 @@ function ImportData(props) {
                                         Choose photo
                                     </button>
                                     {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
+                                    {errors && <div>
+                                        {errors.maxFileSize && <div> Maxfile size error </div>}
+                                        {errors.maxNumber && <div>MAX number error</div>}
+                                        {errors.resolution && <div>Resolution error</div>}
+                                    </div>}
                                 </span>
                             )}
                         </ImageUploading>
@@ -407,7 +420,7 @@ function ImportData(props) {
                         </div>
                         <button
                             style={cancelBtn}
-                            onClick={handleAddImages}
+                            onClick={handleCloseAddImage}
                             color="primary"
                         >
                             Cancel
@@ -459,6 +472,7 @@ function ImportData(props) {
                                     }}
                                 />
                             </DialogContent>
+                            {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={'Please choose photo'} />}
                             <DialogActions className='dialog-action'>
                                 <button
                                     className='continue-button'
@@ -472,7 +486,7 @@ function ImportData(props) {
                                     onClick={handleEditToggle}
                                     color="primary"
                                 >
-                                    Cancle
+                                    Cancel
                                 </button>
                             </DialogActions>
                         </>
@@ -600,12 +614,14 @@ function ImportData(props) {
                                 onChange={onChange}
                                 acceptType={['jpg', 'jpeg', 'png']}
                                 maxFileSize={100000}
+                                resolutionType="less"
                                 resolutionWidth={1024}
                                 resolutionHeight={1024}
                                 dataURLKey="data_url"
                             >
                                 {({
-                                    onImageUpload
+                                    onImageUpload,
+                                    errors,
                                 }) => (
                                     <span>
                                         <button
@@ -617,6 +633,11 @@ function ImportData(props) {
                                             Choose photo
                                         </button>
                                         {imagesArray.length !== 0 && <div>{`YOU CHOSSED ${imagesArray.length} PHOTOS`}</div>}
+                                        {errors && <div>
+                                            {errors.maxFileSize && <div> Maxfile size error </div>}
+                                            {errors.maxNumber && <div>MAX number error</div>}
+                                            {errors.resolution && <div>Resolution error</div>}
+                                        </div>}
                                     </span>
                                 )}
                             </ImageUploading>
