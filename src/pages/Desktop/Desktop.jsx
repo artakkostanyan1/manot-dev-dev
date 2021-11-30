@@ -97,8 +97,11 @@ function Desktop() {
                         imagesList={imagesList}
                         setImagesList={setImagesList}
                         isRotationAllowed={isRotationAllowed}
-                        setIsRotationAllowed={setIsRotationAllowed}
+                        setNotes={setNotes}
+                        marks={marks}
                         folderName={folderName}
+                        imageIndex={imageIndex}
+                        setIsRotationAllowed={setIsRotationAllowed}
                         setImageIndex={setImageIndex}
                     />
                     <div className='main-photo'>

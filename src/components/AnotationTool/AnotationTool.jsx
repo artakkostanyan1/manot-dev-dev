@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import * as mjs from 'mjs2-ngv';
 import './AnotationTool.scss';
 
-const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
+const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNotes, marks }) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     const [MA, setMA] = useState(null) // MarkerArea global state
     const [markerAreaState, setMarkerAreaState] = useState() // MarkerArea state for restoring
     // eslint-disable-next-line
     const [markersInfoArray, setMarkersInfoArray] = useState([]) // markers with filtered info for backend
+
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const sourceImageRef = useRef(null) // image in initial state, withouth markers
     const sampleImageRef = useRef(null) // image, which we redact
@@ -15,7 +21,6 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
     // eslint-disable-next-line
     const notes = useRef({}) // labels array
     const dropboxDivRef = useRef(null)
-    const restored = useRef(false);
 
     const markersArray = useRef([]) // TODO // to save markers state for backend
 
@@ -27,35 +32,15 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
             // sampleImageRef.current.style.top = -40 + 'px';
             sourceImageRef.current.style.top = -40 + 'px';
             MA.restoreState(markerAreaState)
-            if (!restored.current) {
-                restored.current = true;
-                MA.startRenderAndClose().then(() => showMarkerArea())
-            }
+            // if (!restored.current) {
+            //     restored.current = true;
+            //     MA.startRenderAndClose().then(() => showMarkerArea())
+            // }
         }
         if (!markerAreaState?.markers?.length) {
             MA.createNewMarker(mjs.FrameMarker)
         }
     }
-
-    useEffect(() => {
-        const markers = markersArray.current.map((i, id) => {
-            return ({
-                width: i.width,
-                height: i.height,
-                angle: i.rotationAngle,
-                name: i.notes,
-                x: i.left,
-                y: i.top,
-                matrix: i.containerTransformMatrix
-            })
-        })
-        console.log(`markerAreaState`, markerAreaState)
-        console.log('markersInfoArray', markers);
-        setMarkersInfoArray(markers)
-        console.log(`notes.current`, notes.current)
-        setNotes({ ...notes.current })
-    }, [markerAreaState, setNotes])
-
 
     useEffect(() => { // INIT //
         console.log(`marks`, marks)
@@ -117,8 +102,52 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                     setMarkerAreaState(state); // save state of MarkerArea to be able to restore it
 
                     markersArray.current = state.markers; // TODO //
-                    console.log(`notesArray.current`, notes.current)
-                    console.log(`markersArray`, markersArray)
+
+                    const markers = markersArray.current.map((i, id) => {
+                        return ({
+                            width: i.width,
+                            height: i.height,
+                            angle: i.rotationAngle,
+                            name: i.notes,
+                            x: i.left,
+                            y: i.top,
+                            matrix: i.containerTransformMatrix
+                        })
+                    })
+
+                    setMarkersInfoArray(markers)
+                    setNotes({ ...notes.current })
+
+                    const toasterId = toast.loading('Creating an XML file for your Image', { theme: 'colored' })
+                    setLoading(true)
+                    fetch(`${apiUrl}create-data/rbb`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8',
+                            "x-access-token": localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({ folder_name: folderName, img_index: imageIndex, labels: markers })
+                    })
+                        .then(res => {
+                            return res.json()
+                        })
+                        .then(res => {
+                            console.log(`res`, res)
+                            if (res.status === 'fail') {
+                                toast.update(toasterId, { render: res.message, type: 'error' })
+                                throw new Error(res.message)
+                            }
+                            toast.update(toasterId, { render: 'The XML has been generated successfully', type: 'success', pauseOnHover: false, pauseOnFocusLoss: false, progress: undefined, autoClose: 2000, draggable: true, hideProgressBar: false, })
+                        })
+                        .catch(e => {
+                            toast.update(toasterId, { render: `${e}`, type: 'error', autoClose: 2000, pauseOnHover: false, pauseOnFocusLoss: false, draggable: true, progress: undefined, hideProgressBar: false })
+                        })
+                        .finally(() => {
+                            setTimeout(() => {
+                                toast.dismiss(toasterId)
+                                setLoading(false)
+                            }, 2000)
+                        })
                 }
             });
 
@@ -240,7 +269,9 @@ const AnotationTool = ({ isRotationAllowed, image, setNotes, marks }) => {
                     alt='Sample'
                     style={{ position: 'absolute' }}
                     crossOrigin='anonymous'
-                    onClick={showMarkerArea}
+                    onClick={() => {
+                        if(!loading) showMarkerArea()
+                    }}
                 />
             </div>
         </div>
