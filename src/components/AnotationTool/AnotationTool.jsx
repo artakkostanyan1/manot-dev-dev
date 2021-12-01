@@ -104,29 +104,43 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     markersArray.current = state.markers; // TODO //
 
                     const markers = markersArray.current.map((i, id) => {
+                        for (const key in i.containerTransformMatrix) {
+                            if (Object.hasOwnProperty.call(i.containerTransformMatrix, key)) {
+                                if (i.containerTransformMatrix[key] === 1) {
+                                    i.containerTransformMatrix[key] -= 10e-10
+                                } else {
+                                    i.containerTransformMatrix[key] += 10e-10
+                                }
+                            }
+                        }
                         return ({
-                            width: i.width,
-                            height: i.height,
-                            angle: i.rotationAngle,
-                            name: i.notes,
-                            x: i.left,
-                            y: i.top,
-                            matrix: i.containerTransformMatrix
+                            width: i.width + 10e-10,
+                            height: i.height + 10e-10,
+                            angle: isRotationAllowed ? i.rotationAngle + 10e-10 : undefined,
+                            name: i.notes.trim(),
+                            x: i.left + 10e-10,
+                            y: i.top + 10e-10,
+                            matrix: isRotationAllowed ? i.containerTransformMatrix : undefined
                         })
                     })
 
                     setMarkersInfoArray(markers)
-                    setNotes({ ...notes.current })
 
                     const toasterId = toast.loading('Creating an XML file for your Image', { theme: 'colored' })
+                    const data = {
+                        folder_name: folderName,
+                        img_index: imageIndex,
+                        labels: markers
+                    }
+                    console.log('data', data)
                     setLoading(true)
-                    fetch(`${apiUrl}create-data/rbb`, {
+                    fetch(`${apiUrl}create-data/${isRotationAllowed ? 'rbb' : 'bb'}`, {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json; charset=UTF-8',
                             "x-access-token": localStorage.getItem('token')
                         },
-                        body: JSON.stringify({ folder_name: folderName, img_index: imageIndex, labels: markers })
+                        body: JSON.stringify(data)
                     })
                         .then(res => {
                             return res.json()
@@ -143,9 +157,9 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                             toast.update(toasterId, { render: `${e}`, type: 'error', autoClose: 2000, pauseOnHover: false, pauseOnFocusLoss: false, draggable: true, progress: undefined, hideProgressBar: false })
                         })
                         .finally(() => {
+                            setLoading(false)
                             setTimeout(() => {
                                 toast.dismiss(toasterId)
-                                setLoading(false)
                             }, 2000)
                         })
                 }
@@ -153,7 +167,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
             markerArea.addDeleteEventListener(marker => {
 
-                if (marker.notes) {
+                if (marker.notes && notes.current[marker.notes]) {
                     console.log(notes.current[marker.notes]);
                     notes.current[marker.notes].count--;
                     if (notes.current[marker.notes].count < 1) {
@@ -163,7 +177,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
                 markerArea.hideNotesEditor()
 
-                if (marker.notes) {
+                if (marker.notes && notes.current[marker.notes]) {
                     console.log(notes.current[marker.notes]);
                     notes.current[marker.notes].count--;
                     if (notes.current[marker.notes].count < 1) {
@@ -177,17 +191,14 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     const { prevNote } = selectedMarker.current
                     const note = markerArea.hideNotesEditor();
                     console.log(`selectedMarker.current, note`, selectedMarker.current, note)
-                    if (!note) {
+                    if (!note || note.trim().includes(' ')) {
                         marker.select()
+                        console.log(`marker, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`, marker)
                         markerArea.setCurrentMarker(marker)
-                        const { notesArea } = markerArea.showNotesEditor()
-
-                        const mState = marker.getState()
-                        notesArea.style.left = mState.left - 20 + 'px'
-                        notesArea.style.top = mState.top + mState.height + 'px'
-                        // alert('Notes can\'t be empty')
-                        notesArea.select()
-
+                        if (note) {
+                            toast.error('The label can\'t include spaces')
+                        }
+                        markerArea.deleteSelectedMarker(false)
                     } else {
                         if (prevNote) {
                             notes.current[prevNote]--;
@@ -203,13 +214,13 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     }
 
                     selectedMarker.current = null
+                    setNotes({ ...notes.current })
                 }
             });
 
             markerArea.addSelectEventListener((marker, id) => {
                 if (markerArea.getState().markers.length) {
                     if (id !== selectedMarker.current) {
-                        markerArea.hideNotesEditor()
                         const { notesArea, currentValue } = markerArea.showNotesEditor();
 
                         selectedMarker.current = { id: marker.id, prevNote: currentValue }
@@ -270,7 +281,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     style={{ position: 'absolute' }}
                     crossOrigin='anonymous'
                     onClick={() => {
-                        if(!loading) showMarkerArea()
+                        if (!loading) showMarkerArea()
                     }}
                 />
             </div>
