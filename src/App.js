@@ -1,5 +1,5 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import ImportData from './pages/ImportData/ImportData';
 import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
@@ -17,7 +17,7 @@ import NewLogin from './pages/NewLogin/NewLogin';
 import NewProfile from './pages/NewProfile/NewProfile';
 import NewEmail from './pages/NewEmail/NewEmail';
 import NewImportData from './pages/NewImportData/NewImportData';
-import DashBoard  from './pages/DashBoard/DashBoard';
+import DashBoard from './pages/DashBoard/DashBoard';
 
 import Terms from './pages/Terms/Terms';
 import Policy from './pages/Policy/Policy';
@@ -31,154 +31,162 @@ const NoMatchPage = () => {
   return <h3>404 - Not found</h3>;
 };
 
-const routes = [
-  {
-    path: paths.Main,
-    exact: true,
-    private: false,
-    component: Main,
-  },
-  {
-    path: paths.Importdata,
-    exact: true,
-    private: false,
-    component: ImportData,
-  },
-  {
-    path: paths.ResetPassword,
-    exact: true,
-    private: false,
-    component: ResetPassword,
-  },
-  {
-    path: paths.OldVerification,
-    exact: true,
-    private: false,
-    component: Verification,
-  },
-  {
-    path: paths.Login,
-    exact: true,
-    private: false,
-    component: LogIn,
-  },
-  {
-    path: paths.Verify,
-    exact: true,
-    private: false,
-    component: VerifyEmail,
-  },
-  {
-    path: paths.Email,
-    exact: true,
-    private: false,
-    component: Email,
-  },
-  {
-    path: paths.Profile,
-    exact: true,
-    private: false,
-    component: Profile,
-  },
-  {
-    path: paths.Desktop,
-    exact: true,
-    private: false,
-    component: Desktop,
-  },
-  {
-    path: paths.SignUp,
-    exact: true,
-    private: false,
-    component: Registration,
-  },
-  {
-    path: paths.Payment,
-    exact: true,
-    private: false,
-    component: Payment,
-  },
-  {
-    path: paths.Upgrade,
-    exact: true,
-    private: false,
-    component: Upgrade,
-  },
-  {
-    path: paths.Desktop,
-    exact: true,
-    private: false,
-    component: Desktop,
-  },
-  {
-    path: '/terms',
-    exact: true,
-    private: false,
-    component: Terms,
-  },
-  {
-    path: '/policy',
-    exact: true,
-    private: false,
-    component: Policy,
-  },
-  {
-    path: '/contact-us',
-    exact: true,
-    private: false,
-    component: ContactUs,
-  },
-  {
-    path: '/new-registration',
-    exact: true,
-    private: false,
-    component: NewRegistration,
-  },
-  {
-    path: '/new-login/:id',
-    exact: true,
-    private: false,
-    component: NewLogin,
-  },
-  {
-    path: '/new-profile',
-    exact: true,
-    private: false,
-    component: NewProfile,
-  },
-{
-    path: '/new-email',
-    exact: true,
-    private: false,
-    component: NewEmail
-  },
-  {
-    path: '/new-importdata',
-    exact: true,
-    private: false,
-    component: NewImportData
-  },
-  {
-    path: paths.DashBoard,
-    exact: true,
-    private: false,
-    component: DashBoard
-  },
-  {
-    private: false,
-    component: NoMatchPage,
-  },
-];
+function PublicRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={
+        ({ location }) => (
+          !localStorage.getItem("token")
+            ? (
+              children
+            ) : (
+              <Redirect
+                to={{
+                  pathname: paths.Importdata,
+                  state: { from: location }
+                }}
+              />
+            ))
+      }
+    />
+  );
+}
 
+function PrivateRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={
+        ({ location }) => (
+          localStorage.getItem("token")
+            ? (
+              children
+            ) : (
+              <Redirect
+                to={{
+                  pathname: paths.Main,
+                  state: { from: location }
+                }}
+              />
+            ))
+      }
+    />
+  );
+}
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Switch>
-          {routes.map((route, index) =>
-            <Route key={index} path={route.path} exact={route.exact} component={route.component} />
-          )}
+          <PublicRoute
+            path={paths.Login}
+          >
+            <LogIn />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.SignUp}
+          >
+            <Registration />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.Verify}
+          >
+            <VerifyEmail />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.OldVerification}
+          >
+            <Verification />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.Email}
+          >
+            <Email />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.ResetPassword}
+          >
+            <ResetPassword />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.ContactUs}
+          >
+            <ContactUs />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.Policy}
+          >
+            <Policy />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.Terms}
+          >
+            <Terms />
+          </PublicRoute>
+          {/*------------------------------------------------- new public pages---------------------------------------------------------------- */}
+          <PublicRoute
+            path={paths.NewRegistration}
+          >
+            <NewRegistration />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.NewLogin}
+          >
+            <NewLogin />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.NewEmail}
+          >
+            <NewEmail />
+          </PublicRoute>
+          {/* ---------------------------------------------------privates------------------------------------------------------------------------- */}
+          <PrivateRoute
+            path={paths.Profile}
+          >
+            <Profile />
+          </PrivateRoute>
+          <PrivateRoute
+            path={paths.Upgrade}
+          >
+            <Upgrade />
+          </PrivateRoute>
+          <PrivateRoute
+            path={paths.Desktop}
+          >
+            <Desktop />
+          </PrivateRoute>
+          <PrivateRoute
+            path={paths.Importdata}
+            exact={true}
+          >
+            <ImportData />
+          </PrivateRoute>
+          {/* --------------------------new private routes-------------------------------------------------------------------------------- */}
+          <PrivateRoute
+            path={paths.NewProfile}
+          >
+            <NewProfile />
+          </PrivateRoute>
+          <PrivateRoute
+            path={paths.NewImportData}
+          >
+            <NewImportData />
+          </PrivateRoute>
+          <PrivateRoute
+            path={paths.DashBoard}
+          >
+            <DashBoard />
+          </PrivateRoute>
+          <PublicRoute
+            path={paths.Main}
+          >
+            <Main />
+          </PublicRoute>
+          <Route>
+            <NoMatchPage />
+          </Route>
         </Switch>
       </BrowserRouter>
       <ToastContainer theme='colored' />
