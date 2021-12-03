@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
-import * as mjs from 'mjs2-ngv';
+import * as mjs from 'mjs2-edit';
 import './AnotationTool.scss';
 
 const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNotes, marks }) => {
