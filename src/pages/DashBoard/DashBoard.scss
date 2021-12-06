@@ -82,3 +82,63 @@
 .dashboard__delete__img {
     cursor: pointer;
 }
+
+.MuiDialogActions-root {
+    flex-direction: column;
+}
+
+.delete__dialog__content__wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.delete__dialog__content {
+    font-family: Comfortaa;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: -0.05em;
+
+    margin-top: 20px;
+}
+
+.delete__dialog__button {
+    width: 180px;
+    height: 46px;
+
+    background: #8924BF;
+    border-radius: 13px;
+
+    font-family: Comfortaa;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+
+    letter-spacing: -0.05em;
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+}
+
+.cancel__dialog__btn {
+    font-family: Comfortaa;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    /* identical to box height */
+
+    letter-spacing: -0.05em;
+    text-decoration-line: underline;
+
+    color: #000000;
+
+    margin-top: 20px;
+
+    cursor: pointer;
+}
