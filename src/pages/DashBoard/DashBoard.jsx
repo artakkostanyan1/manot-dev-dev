@@ -9,7 +9,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
-import QuestionMark from '../../styles/images/question-mark.svg';
 import paths from '../../utils/routing';
 import './DashBoard.scss';
 
@@ -159,6 +158,8 @@ function DashBoard() {
             .catch((error) => {
                 console.error('Error:', error);
             });
+
+        // setElementToDelete('')
     }
 
     const handleEditCreate = (el) => {
@@ -296,7 +297,6 @@ function DashBoard() {
                                     className='choose-button'
                                     color="primary"
                                     onClick={onImageUpload}
-                                    // style={chooseBtn}
                                 >
                                     Choose photo
                                 </button>
@@ -340,7 +340,6 @@ function DashBoard() {
                             border: '3px solid #257AAF'
                         }
                     }}
-                    className='folder-dialog'
                     onClose={handleEditToggle}
                     aria-labelledby="customized-dialog-title"
                     open={openEdit}
@@ -400,46 +399,52 @@ function DashBoard() {
                 <Dialog
                     PaperProps={{
                         style: {
-                            borderRadius: '25px',
+                            width: '522px',
+                            height: '227px',
+                            borderRadius: '13px',
                             background: '#FFFFFF',
-                            border: '3px solid #257AAF'
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
                         }
                     }}
-                    className='folder-dialog'
-                    aria-labelledby="customized-dialog-title"
+                    className='delete__dialog'
                     open={!!deleteToggle}
                 >
-                    <div className='header-icons-container'>
-                        <div onClick={(el) => {
-                            setElementToDelete(el);
-                            setDeleteToggle(null)
-                        }}>
-                            <CloseIcon />
-                        </div>
+                    <div className='delete__dialog__content__wrapper'>
+                        <DialogContent className='delete__dialog__content'>
+                            {'Are you sure you want to '}
+                            <b>delete</b>
+                            {' file '}
+                            <span style={{ color: '#8924BF' }}>{`${elementToDelete}`}</span>
+                            <br />
+                            The process is eirrevertable.
+                        </DialogContent>
+                        <DialogActions>
+                            <button
+                                className='delete__dialog__button'
+                                onClick={() => {
+                                    deleteFile(elementToDelete);
+                                    let newArr = foldersNames.filter((el) => el !== elementToDelete);
+                                    newArr.length ?
+                                        setFoldersNames(foldersNames.filter((el) => el !== elementToDelete))
+                                        :
+                                        history.push(paths.NewImportData)
+                                    // setElementToDelete('')
+                                }}
+                                color="primary"
+                            >
+                                Yes, delete
+                            </button>
+                            <div
+                                className='cancel__dialog__btn'
+                                onClick={() => toggleDelete()}
+                                color="primary"
+                            >
+                                Cancel
+                            </div>
+                        </DialogActions>
                     </div>
-                    <DialogContent className='delete-context'>
-                        <img src={QuestionMark} alt="Question mark" />
-                        Are you sure you want to delete this item?
-                    </DialogContent>
-                    <DialogActions className='dialog-action'>
-                        <button
-                            className='continue-button'
-                            onClick={() => {
-                                deleteFile(elementToDelete);
-                                setElementToDelete('')
-                            }}
-                            color="primary"
-                        >
-                            OK
-                        </button>
-                        <button
-                            className='continue-button'
-                            onClick={() => toggleDelete()}
-                            color="primary"
-                        >
-                            Cancel
-                        </button>
-                    </DialogActions>
                 </Dialog>
             </div>
         </>
