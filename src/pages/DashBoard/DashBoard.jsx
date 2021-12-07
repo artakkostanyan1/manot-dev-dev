@@ -7,7 +7,6 @@ import { ReactComponent as EditImg } from '../../styles/images/edit_img.svg';
 import { ReactComponent as DeleteImg } from '../../styles/images/delete_img.svg';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@material-ui/icons/Close';
-import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import paths from '../../utils/routing';
@@ -203,9 +202,8 @@ function DashBoard() {
     }
 
     const handleEditToggle = (el) => {
-        console.log(el);
+        !el.type && setEditFolderName(el);
         setOpenEdit(!openEdit);
-        setEditFolderName(el);
         setFolderNameErr('');
     }
 
