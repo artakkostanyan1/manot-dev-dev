@@ -5,6 +5,7 @@ import { ReactComponent as UploadBtnImg } from '../../styles/images/import_img.s
 import { ReactComponent as AddImg } from '../../styles/images/add_img.svg';
 import { ReactComponent as EditImg } from '../../styles/images/edit_img.svg';
 import { ReactComponent as DeleteImg } from '../../styles/images/delete_img.svg';
+import TextField from '@mui/material/TextField';
 import CloseIcon from '@material-ui/icons/Close';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 import ImageUploading from 'react-images-uploading';
@@ -23,6 +24,7 @@ function DashBoard() {
     const [togglePopup, setTogglePopup] = useState(false);
     const [imagesArray, setImagesArray] = useState([]);
     const [newImagesArray, setNewImagesArray] = useState([]);
+    const [folderNameErr, setFolderNameErr] = useState('');
     const token = localStorage.getItem('token');
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -162,16 +164,27 @@ function DashBoard() {
         // setElementToDelete('')
     }
 
+    const isValidFolderName = (name) => {
+        const validFolderNameRegEx = new RegExp("^[a-zA-Z][a-zA-Z1-9_-]{1,14}");
+        return validFolderNameRegEx.test(name)
+    }
+
     const handleEditCreate = (el) => {
-        editFolderName && setOpenEdit(false);
+        // editFolderName && setOpenEdit(false);
         const data = {
             folder_name: el,
             new_folder_name: editFolderName,
         }
-        foldersNames.includes(editFolderName)
-            ? setTogglePopup(togglePopup)
-            : setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
-        editFileName(data);
+        if (!isValidFolderName(editFolderName)) {
+            setFolderNameErr('Invalid folder name')
+        }
+        else if (foldersNames.includes(editFolderName)) {
+            setFolderNameErr('There is already folder with that name')
+        } else {
+            setFoldersNames(prev => prev.map(i => i === el ? editFolderName : i))
+            setOpenEdit(false);
+            editFileName(data);
+        }
     }
 
     const onChange = (imageList) => {
@@ -190,9 +203,17 @@ function DashBoard() {
     }
 
     const handleEditToggle = (el) => {
+        console.log(el);
         setOpenEdit(!openEdit);
         setEditFolderName(el);
+        setFolderNameErr('');
     }
+
+    const cancelEditFoldername = () => {
+        setOpenEdit(!openEdit);
+        setFolderNameErr('');
+    }
+
     const toggleDelete = (el = null) => {
         setDeleteToggle(el);
     }
@@ -200,7 +221,6 @@ function DashBoard() {
     const handleToggle = (data) => {
         setToggleMenu(data)
     }
-    // const chooseBtn = { ...styles.chooseButton, ...styles.Button };
     return (
         <>
             <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
@@ -320,14 +340,13 @@ function DashBoard() {
                                 Create
                             </button>
                         </span>
-                        {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={'Please choose photo'} />}
                     </div>
                     <button
                         // style={cancelBtn}
                         onClick={handleCloseAddImage}
                         color="primary"
                     >
-                        Cancel
+                        cancel
                     </button>
                 </Dialog>
 
@@ -335,64 +354,48 @@ function DashBoard() {
                 <Dialog
                     PaperProps={{
                         style: {
-                            borderRadius: '25px',
-                            background: '#FFFFFF',
-                            border: '3px solid #257AAF'
+                            width: '522px',
+                            height: '270px',
+                            borderRadius: '13px',
                         }
                     }}
                     onClose={handleEditToggle}
-                    aria-labelledby="customized-dialog-title"
                     open={openEdit}
                 >
-                    <div className='header-icons-container'>
-                        <div onClick={handleEditToggle}>
-                            <CloseIcon />
-                        </div>
+                    <div className='delete__dialog__content__wrapper'>
+                        <DialogTitle
+                            className='edit__dialog__title'
+                        >
+                            Edit folder name
+                        </DialogTitle>
+                        <>
+                            <DialogContent className='edit__dialog__content'>
+                                <TextField label='new name' variant="outlined" size="small" color="secondary"
+                                    value={editFolderName} onChange={(e) => {
+                                        setEditFolderName(e.target.value);
+                                    }} onFocus={() => setFolderNameErr('')}
+                                    error={folderNameErr} style={{
+                                        width: '427px',
+                                    }} />
+                                {folderNameErr && <div className='error__message' style={{ width: '100%' }}>{folderNameErr}</div>}
+                            </DialogContent>
+                            <DialogActions>
+                                <button
+                                    className='edit__dialog__button'
+                                    onClick={() => handleEditCreate(elementToEdit)}
+                                    color="primary"
+                                >
+                                    save
+                                </button>
+                                <div
+                                    className='cancel__dialog__btn'
+                                    onClick={cancelEditFoldername}
+                                >
+                                    cancel
+                                </div>
+                            </DialogActions>
+                        </>
                     </div>
-                    <DialogTitle
-                        className="dialog-title"
-                    >
-                        Edit Folder Name
-                    </DialogTitle>
-                    <>
-                        <DialogContent>
-                            <input
-                                className="folder-name-input"
-                                onChange={(e) => {
-                                    setEditFolderName(e.target.value);
-                                }}
-                                type='text'
-                                autoFocus
-                                placeholder='Folder Name'
-                                value={editFolderName}
-                                pattern="^([a-zA-Z]*[a-zA-Z1-9]_?-?[a-zA-Z1-9]*)$"
-                                minlength="3"
-                                maxlength="15"
-                                title="Folder name should contain letter and numbers. Words can be seperated by - or _ "
-                                required
-                                validationErrors={{
-                                    isDefaultRequiredValue: 'Field is required'
-                                }}
-                            />
-                        </DialogContent>
-                        {<ErrorPopup togglePopup={togglePopup} togglePopupf={setTogglePopup} errMsg={'Please choose photo'} />}
-                        <DialogActions className='dialog-action'>
-                            <button
-                                className='continue-button'
-                                onClick={() => handleEditCreate(elementToEdit)}
-                                color="primary"
-                            >
-                                Confirm
-                            </button>
-                            <button
-                                className='continue-button'
-                                onClick={handleEditToggle}
-                                color="primary"
-                            >
-                                Cancel
-                            </button>
-                        </DialogActions>
-                    </>
                 </Dialog>
 
                 {/* delete modal */}
@@ -439,9 +442,8 @@ function DashBoard() {
                             <div
                                 className='cancel__dialog__btn'
                                 onClick={() => toggleDelete()}
-                                color="primary"
                             >
-                                Cancel
+                                cancel
                             </div>
                         </DialogActions>
                     </div>
