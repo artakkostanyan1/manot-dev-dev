@@ -476,14 +476,14 @@ function DashBoard() {
                     open={!!deleteToggle}
                 >
                     <div className='delete__dialog__content__wrapper'>
-                        <DialogContent className='delete__dialog__content'>
+                        <DialogTitle className='delete__dialog__content'>
                             {'Are you sure you want to '}
                             <b>delete</b>
                             {' file '}
-                            <span style={{ color: '#8924BF' }}>{`${elementToDelete}`}</span>
+                            <span style={{ color: '#8924BF' }}>{`${elementToDelete}?`}</span>
                             <br />
                             The process is eirrevertable.
-                        </DialogContent>
+                        </DialogTitle>
                         <DialogActions>
                             <button
                                 className='delete__dialog__button'
