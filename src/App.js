@@ -6,7 +6,8 @@ import Registration from './pages/Registration/Registration';
 import Verification from './pages/Verification/Verification';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import LogIn from './pages/LogIn/LogIn';
-import Payment from './pages/Payment/Payment';
+// import Payment from './pages/Payment/Payment';
+import Stripe from './pages/Stripe/Stripe';
 import Profile from './pages/Profile/Profile';
 import Upgrade from './pages/Upgrade/Upgrade';
 import Desktop from './pages/Desktop/Desktop';
@@ -156,6 +157,11 @@ function App() {
             path={paths.Desktop}
           >
             <Desktop />
+          </PrivateRoute>
+          <PrivateRoute
+            path={paths.Payment}
+          >
+            <Stripe />
           </PrivateRoute>
           <PrivateRoute
             path={paths.Importdata}
