@@ -63,49 +63,126 @@ const ResetButton = ({ onClick }) => (
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
+    const [status, setStatus] = useState('');
+    const [clientSecret, setClientSecret] = useState('');
     const [error, setError] = useState(null);
     const [cardComplete, setCardComplete] = useState(false);
     const [processing, setProcessing] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [billingDetails, setBillingDetails] = useState({
         email: "",
-        phone: "",
+        // phone: "",
         name: "",
-        address: "",
+        // address: "",
     });
+    const apiUrl = process.env.REACT_APP_API_URL;
 
-    const handleSubmit = async (event) => {
+    const handleSubmitSub = async (event) => {
         event.preventDefault();
-
         if (!stripe || !elements) {
-            // Stripe.js has not loaded yet. Make sure to disable
-            // form submission until Stripe.js has loaded.
+            // Stripe.js has not yet loaded.
+            // Make sure to disable form submission until Stripe.js has loaded.
             return;
         }
-
-        if (error) {
-            elements.getElement("card").focus();
-            return;
-        }
-
-        if (cardComplete) {
-            setProcessing(true);
-        }
-
-        const payload = await stripe.createPaymentMethod({
-            type: "card",
-            card: elements.getElement(CardElement),
-            billing_details: billingDetails
-        });
-
-        setProcessing(false);
-
-        if (payload.error) {
-            setError(payload.error);
+        if (status !== '') {
+            const result = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: elements.getElement(CardElement),
+                    billing_details: billingDetails
+                },
+            });
+            if (result.error) {
+                console.log(result.error.message);
+                // Show error in payment form
+            } else {
+                console.log('Hell yea, you got that sub money!');
+            }
         } else {
-            setPaymentMethod(payload.paymentMethod);
+            const result = await stripe.createPaymentMethod({
+                type: 'card',
+                card: elements.getElement(CardElement),
+                billing_details: billingDetails
+            });
+
+            if (result.error) {
+                console.log(result.error.message);
+                // Show error in payment form
+            } else {
+                const payload = {
+                    email: billingDetails.email,
+                    payment_method: result.paymentMethod.id,
+                };
+                // Otherwise send paymentMethod.id to your server
+                // const res = await axios.post('http://localhost:5000/sub', payload);
+                fetch(`${apiUrl}sub`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        "x-access-token": localStorage.getItem('token')
+                    },
+                    body: JSON.stringify(payload)
+                })
+                    .then(res => {
+                        return res.json()
+                    })
+                    .then(res => {
+                        const { client_secret, status } = res.data;
+                        if (status === 'requires_action') {
+                            setStatus(status);
+                            setClientSecret(client_secret);
+                            stripe.confirmCardPayment(client_secret).then(function (result) {
+                                if (result.error) {
+                                    // Display error message in your UI.
+                                    // The card was declined (i.e. insufficient funds, card has expired, etc)
+                                    console.log(result.error.message);
+                                } else {
+                                    // Show a success message to your customer
+                                    console.log('Hell yea, you got that sub money!');
+                                }
+                            });
+                        } else {
+                            console.log('Hell yea, you got that sub money!');
+                        }
+                    })
+                    .catch(e => {
+                        console.log('err', e);
+                    })
+            }
         }
     };
+
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     if (!stripe || !elements) {
+    //         // Stripe.js has not loaded yet. Make sure to disable
+    //         // form submission until Stripe.js has loaded.
+    //         return;
+    //     }
+
+    //     if (error) {
+    //         elements.getElement("card").focus();
+    //         return;
+    //     }
+
+    //     if (cardComplete) {
+    //         setProcessing(true);
+    //     }
+
+    //     const payload = await stripe.createPaymentMethod({
+    //         type: "card",
+    //         card: elements.getElement(CardElement),
+    //         billing_details: billingDetails
+    //     });
+
+    //     setProcessing(false);
+
+    //     if (payload.error) {
+    //         setError(payload.error);
+    //     } else {
+    //         setPaymentMethod(payload.paymentMethod);
+    //     }
+    // };
 
     const reset = () => {
         setError(null);
@@ -113,9 +190,9 @@ const CheckoutForm = () => {
         setPaymentMethod(null);
         setBillingDetails({
             email: "",
-            phone: "",
+            // phone: "",
             name: "",
-            address: "",
+            // address: "",
         });
     };
 
@@ -131,7 +208,7 @@ const CheckoutForm = () => {
             <ResetButton onClick={reset} />
         </div>
     ) : (
-        <form className="Form" onSubmit={handleSubmit}>
+        <form className="Form" onSubmit={handleSubmitSub}>
             <fieldset className="FormGroup">
                 <Field
                     label="Name on Card"
@@ -157,7 +234,7 @@ const CheckoutForm = () => {
                         setBillingDetails({ ...billingDetails, email: e.target.value });
                     }}
                 />
-                <Field
+                {/* <Field
                     label="Phone"
                     id="phone"
                     type="tel"
@@ -168,8 +245,8 @@ const CheckoutForm = () => {
                     onChange={(e) => {
                         setBillingDetails({ ...billingDetails, phone: e.target.value });
                     }}
-                />
-                <Field
+                /> */}
+                {/* <Field
                     label="Address"
                     id="address"
                     type="text"
@@ -180,7 +257,7 @@ const CheckoutForm = () => {
                     onChange={(e) => {
                         setBillingDetails({ ...billingDetails, address: e.target.value });
                     }}
-                />
+                /> */}
             </fieldset>
             <fieldset className="FormGroup">
                 <div className="FormRow">
