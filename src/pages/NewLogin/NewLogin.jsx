@@ -155,8 +155,18 @@ function NewLogin(props) {
                                 </button>
                             </div>
                         </div>
-                        <Link className='redirect__to__forgot__password' to={paths.Email} >forgot password?</Link>
-                        <Link className='redirect__to__signup' to={paths.SignUp} >sign up</Link>
+                        <Link className='redirect__to__reset__password' to={paths.Email} >reset password</Link>
+                        <hr className='divider' />
+                        <div className="dont_have_account">Don't have an account?</div>
+                        <div className='signup2__button__wrapper'>
+                            <button
+                                type='submit'
+                                className='button__component'
+                                onClick={() => history.push(paths.NewRegistration)}
+                            >
+                                sign up
+                            </button>
+                        </div>
                     </div>
                 </div>
             }
