@@ -140,16 +140,14 @@
     flex-direction: column;
 }
 
-.delete__dialog__content {
+.delete__dialog__content h2{
     font-family: Comfortaa;
     font-style: normal;
     font-weight: 300;
     font-size: 18px;
-    line-height: 20px;
+    line-height: 22px;
     text-align: center;
     letter-spacing: -0.05em;
-
-    margin-top: 20px;
 }
 
 .delete__dialog__button {
@@ -170,6 +168,8 @@
     color: #FFFFFF;
 
     cursor: pointer;
+
+    margin-top: 10px;
 }
 
 .cancel__dialog__btn {
