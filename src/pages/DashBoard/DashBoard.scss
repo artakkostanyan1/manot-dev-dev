@@ -189,3 +189,22 @@
 
     cursor: pointer;
 }
+
+.import__dialog__content__wrapper {
+    height: 100%;
+}
+
+.import__dialog__content {
+    font-family: Comfortaa;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 27px;
+    /* identical to box height */
+
+    letter-spacing: -0.05em;
+
+    color: #000000;
+
+    text-align: center;
+}
