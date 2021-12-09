@@ -29,13 +29,8 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
         MA.show(); // show markerArea on image
         if (markerAreaState) { // if we have initial state, restore it
             sampleImageRef.current.style.opacity = 0;
-            // sampleImageRef.current.style.top = -40 + 'px';
             sourceImageRef.current.style.top = -40 + 'px';
             MA.restoreState(markerAreaState)
-            // if (!restored.current) {
-            //     restored.current = true;
-            //     MA.startRenderAndClose().then(() => showMarkerArea())
-            // }
         }
         if (!markerAreaState?.markers?.length) {
             MA.createNewMarker(mjs.FrameMarker)
@@ -43,7 +38,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
     }
 
     useEffect(() => { // INIT //
-        console.log(`marks`, marks)
         MA?.close();
         setMarkerAreaState({
             width: sampleImageRef.current?.clientWidth ?? 512,
@@ -94,7 +88,8 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             markerArea.uiStyleSettings.toolboxStyleColorsClassName = 'DN'
             markerArea.uiStyleSettings.toolboxPanelRowStyleColorsClassName = 'DN'
             markerArea.uiStyleSettings.toolboxButtonRowStyleColorsClassName = 'DN'
-            console.log(`markerArea`, markerArea)
+
+            markerArea.show();
 
             markerArea.addRenderEventListener((dataUrl, state) => {
                 if (sampleImageRef.current) {
@@ -132,7 +127,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         img_index: imageIndex,
                         labels: markers
                     }
-                    console.log('data', data)
                     setLoading(true)
                     fetch(`${apiUrl}create-data/${isRotationAllowed ? 'rbb' : 'bb'}`, {
                         method: 'POST',
@@ -146,7 +140,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                             return res.json()
                         })
                         .then(res => {
-                            console.log(`res`, res)
                             if (res.status === 'fail') {
                                 toast.update(toasterId, { render: res.message, type: 'error' })
                                 throw new Error(res.message)
@@ -168,7 +161,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             markerArea.addDeleteEventListener(marker => {
 
                 if (marker.notes && notes.current[marker.notes]) {
-                    console.log(notes.current[marker.notes]);
                     notes.current[marker.notes].count--;
                     if (notes.current[marker.notes].count < 1) {
                         delete notes.current[marker.notes]
@@ -178,7 +170,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                 markerArea.hideNotesEditor()
 
                 if (marker.notes && notes.current[marker.notes]) {
-                    console.log(notes.current[marker.notes]);
                     notes.current[marker.notes].count--;
                     if (notes.current[marker.notes].count < 1) {
                         delete notes.current[marker.notes]
@@ -190,10 +181,8 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                 if (markerArea.getState().markers.length) {
                     const { prevNote } = selectedMarker.current
                     const note = markerArea.hideNotesEditor();
-                    console.log(`selectedMarker.current, note`, selectedMarker.current, note)
                     if (!note || note.trim().includes(' ')) {
                         marker.select()
-                        console.log(`marker, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`, marker)
                         markerArea.setCurrentMarker(marker)
                         if (note) {
                             toast.error('The label can\'t include spaces')
@@ -202,7 +191,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     } else {
                         if (prevNote) {
                             notes.current[prevNote]--;
-                            console.log(`prevNote`, prevNote)
                             notes.current[note]++ || (notes.current[note] = 1);
 
                             if (notes.current[prevNote] < 1) {
@@ -256,7 +244,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
                 notesArea.style.left = mState.left - 20 + 'px'
                 notesArea.style.top = mState.top + mState.height + 'px'
-                // alert('Notes can\'t be empty')
                 notesArea.select()
             })
 
