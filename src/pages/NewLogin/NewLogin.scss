@@ -1,7 +1,7 @@
 .signin__fields__wrapper {
     position: relative;
-    background-color: #FFF;
-    height: 55%;
+    background-color: #fff;
+    height: 58%;
     width: 81.6%;
     border: 1px solid white;
     border-radius: 13px;
@@ -18,7 +18,7 @@
 
 .signin__inputs__wrapper {
     position: absolute;
-    top: 26%;
+    top: 23%;
 
     display: flex;
     flex-direction: column;
@@ -38,21 +38,46 @@
 
 .signin__button__wrapper {
     position: absolute;
-    top: 65%;
+    top: 50%;
     width: 100%;
+    text-align: center;
+
+    button {
+        width: 26%;
+    }
+}
+
+.redirect__to__reset__password {
+    font-family: Comfortaa;
+    position: absolute;
+    top: 56%;
     text-align: center;
 }
 
-.redirect__to__forgot__password {
+.divider {
+    width: 30%;
+    position: absolute;
+    top: 62.5%;
+    text-align: center;
+}
+
+.dont_have_account {
     font-family: Comfortaa;
     position: absolute;
     top: 66%;
     text-align: center;
 }
 
-.redirect__to__signup {
-    font-family: Comfortaa;
+.signup2__button__wrapper {
+    width: 10%;
     position: absolute;
     top: 70%;
     text-align: center;
+
+    button {
+        width: 100%;
+        border: 1px solid #8924bf;
+        background: white;
+        color: #8924bf;
+    }
 }
