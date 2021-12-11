@@ -81,8 +81,6 @@
 .dashboard__edit__img,
 .dashboard__delete__img {
     cursor: pointer;
-    background-size: cover;
-    z-index: -1;
 }
 
 .dashboard__add__img:hover,
@@ -95,10 +93,7 @@
 }
 
 .dashboard__delete__img:hover {
-    color: #8924BF;
-    // height: 35px;
-    background-image: url('../../styles/images/trash_icon.svg');
-    z-index: 1;
+    filter: invert(20%) sepia(86%) saturate(3127%) hue-rotate(272deg) brightness(79%) contrast(96%);
 }
 
 .MuiDialogActions-root {
