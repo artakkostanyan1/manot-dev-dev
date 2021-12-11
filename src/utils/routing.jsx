@@ -14,7 +14,6 @@ const paths = {
     Upgrade: '/upgrade',
     Desktop: '/desktop',
     ContactUs: '/contact-us',
-    NewRegistration: 'new-registration',
     Terms: '/terms',
     DashBoard: '/dashboard',
     ContactUs: '/contact-us',
