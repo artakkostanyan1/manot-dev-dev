@@ -84,14 +84,7 @@
 }
 
 .dashboard__add__img:hover,
-.dashboard__edit__img:hover {
-    g {
-        path {
-            fill: #8924BF
-        }
-    }
-}
-
+.dashboard__edit__img:hover,
 .dashboard__delete__img:hover {
     filter: invert(20%) sepia(86%) saturate(3127%) hue-rotate(272deg) brightness(79%) contrast(96%);
 }
