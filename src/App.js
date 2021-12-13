@@ -5,6 +5,7 @@ import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
 import Verification from './pages/Verification/Verification';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
+import NewResetPassword from './pages/NewResetPassword/NewResetPassword';
 import LogIn from './pages/LogIn/LogIn';
 // import Payment from './pages/Payment/Payment';
 import Stripe from './pages/Stripe/Stripe';
@@ -110,6 +111,11 @@ function App() {
             path={paths.ResetPassword}
           >
             <ResetPassword />
+          </PublicRoute>
+          <PublicRoute
+            path={paths.NewResetPassword}
+          >
+            <NewResetPassword />
           </PublicRoute>
           <PublicRoute
             path={paths.ContactUs}
