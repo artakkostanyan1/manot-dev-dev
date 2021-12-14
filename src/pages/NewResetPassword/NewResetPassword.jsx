@@ -10,11 +10,12 @@ import paths from '../../utils/routing';
 import Loader from '../../components/Loader/Loader';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 
-import './NewLogin.scss';
+import './NewResetPassword.scss';
 
 require('dotenv').config();
 
-function NewLogin(props) {
+function NewResetPassword(props) {
+    const [secondView, setSecondView] = useState(true);
 
     const [emailError, setEmailError] = useState(false);
     const [passError, setPassError] = useState(false);
@@ -32,32 +33,6 @@ function NewLogin(props) {
     const [isLoading, setIsLoading] = useState(false);
     // const [isFromEmail, setIsFromEmail] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
-
-    //TODO check loading part
-    // useEffect(() => {
-    //     // setIsFromEmail(params.id.includes('account') ? false : true);
-
-    //     fetch(`${apiUrl}verify-account`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             "x-access-token": params.id
-    //         }
-    //     })
-    //         .then(response => {
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             setIsLoading(false)
-    //         })
-
-    //     // const timeId = setTimeout(() => {
-    //     //     setIsFromEmail(false)
-    //     // }, 1800)
-
-    //     // return () => {
-    //     //     clearTimeout(timeId)
-    //     // }
-    // }, [])
 
     const login = (data) => {
         fetch(`${apiUrl}login`, {
@@ -139,23 +114,34 @@ function NewLogin(props) {
                         <div className='signin__fields__wrapper'>
                             <div className='signup__error__message__box'>{error}</div>
                             <div className='signup__fields__header'>
-                                login
+                                reset password
                             </div>
-                            <div className='signin__inputs__wrapper'>
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
-                            </div>
+                            {secondView ?
+                                <>
+                                    <div className='reset__fields__wrapper'>
+                                        Enter the email assiciated with your account, and we will send an email with a link to reset your password.
+                                    </div>
+                                    <div className='reset__input__wrapper'>
+                                        <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+                                    </div>
+                                </> :
+                                <div className='pass__input__wrapper'>
+                                    <InputComponent label='new password' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+                                    <InputComponent label='repeat new paaword' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+                                </div>
+                            }
                             <div className='signin__button__wrapper'>
                                 <button
                                     type='submit'
                                     className='button__component'
-                                    onClick={handleSubmit}
+                                    // onClick={handleSubmit}
+                                    onClick={() => setSecondView(false)}
                                 >
-                                    login
+                                    {secondView ? 'send email' : 'reset'}
                                 </button>
                             </div>
                         </div>
-                        <Link className='redirect__to__reset__password' to={paths.NewResetPassword} >reset password</Link>
+                        <Link className='redirect__to__reset__password' to={paths.NewLogin} >login</Link>
                         <hr className='divider' />
                         <div className="dont_have_account">Don't have an account?</div>
                         <div className='signup2__button__wrapper'>
@@ -174,4 +160,4 @@ function NewLogin(props) {
     )
 }
 
-export default NewLogin;
+export default NewResetPassword;

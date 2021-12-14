@@ -23,7 +23,8 @@ const paths = {
     NewImportData: '/new-importdata',
     NewEmail: '/new-email',
     NewLogin: '/new-login/:id',
-    NewRegistration: '/new-registration'
+    NewRegistration: '/new-registration',
+    NewResetPassword: '/new-reset-password'
 }
 
 export default paths;
