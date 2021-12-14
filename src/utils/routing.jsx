@@ -7,7 +7,7 @@ const paths = {
     Verify: '/verify',
     Email: '/email',
     SignUp: '/registration',
-    ResetPassword: '/reset-password/:id',
+    ResetPassword: '/new-reset-password',
     OldVerification: '/verification',
     Profile: '/profile',
     Payment: '/payment',
@@ -24,7 +24,7 @@ const paths = {
     NewEmail: '/new-email',
     NewLogin: '/new-login/:id',
     NewRegistration: '/new-registration',
-    NewResetPassword: '/new-reset-password'
+    NewResetPassword: '/reset-password/:id',
 }
 
 export default paths;

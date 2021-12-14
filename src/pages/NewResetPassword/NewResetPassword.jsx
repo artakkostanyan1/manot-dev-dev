@@ -8,7 +8,6 @@ import { Link, useParams } from "react-router-dom";
 import paths from '../../utils/routing';
 
 import Loader from '../../components/Loader/Loader';
-import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 
 import './NewResetPassword.scss';
 
@@ -18,48 +17,64 @@ function NewResetPassword(props) {
     const [secondView, setSecondView] = useState(true);
 
     const [emailError, setEmailError] = useState(false);
-    const [passError, setPassError] = useState(false);
+    const [newPassError, setNewPassError] = useState(false);
+    const [repeatPassError, setRepeatPassError] = useState(false);
 
     const params = useParams();
     const history = useHistory();
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
+    const [new_pass, setNewPass] = useState('');
+    const [repeat_pass, setRepeatPass] = useState('');
 
     const [error, setError] = useState('');
-    const [togglePopup, setTogglePopup] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
-    // const [isFromEmail, setIsFromEmail] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    const login = (data) => {
-        fetch(`${apiUrl}login`, {
+    const senEmail = () => {
+        fetch(`${apiUrl}forgot-password?email=${email}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
             },
-            body: JSON.stringify(data),
         })
+            .then(response => response.json())
             .then(response => {
-                return response.json();
-            })
-            .then((data) => {
-                if (data.status === 'fail' && data.message === "Wrong email or password.") {
-                    setPassError(true)
-                    setEmailError(true)
-                    setError('The email or password is invalid.');
-                } else if (data.status === 'fail' && data.message === "This account is not active. Verification link sent to user email.") {
-                    setError('Your account is not activated yet. Please check the email.');
-                } else {
-                    localStorage.setItem('token', data.token)
-                    history.push(paths.Importdata);
+                if (response.status === 'fail') {
+                    throw Error('No user registered.');
+                } else if (response.status === 'success') {
+                    setSecondView(false);
                 }
             })
             .catch((error) => {
-                setError(error.message);
+                setEmailError(error.message);
+                setSecondView(true);
+            });
+    }
+
+    const resetPass = (data) => {
+        // setIsLoading(true);
+        fetch(`${apiUrl}reset-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log('res', response);
+                if (response.status === 'fail') {
+                    throw Error('Error.');
+                } else {
+                    // setIsLoading(false);
+                    history.push(paths.NewLogin);
+                }
+            })
+            .catch((error) => {
+                // setError(error.message);
+                console.log('err', error);
             });
     }
 
@@ -68,32 +83,56 @@ function NewResetPassword(props) {
         return re.test(String(email).toLowerCase());
     }
 
+    function validatePassword(password) {
+        return strongRegex.test(`${password}`);
+    }
+
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
     function validate() {
         (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
-        password === '' ? setPassError(true) : setPassError(false);
     }
 
-    function isMissingField() {
-        if (password === '' || email === '') {
-            return true
-        } else {
-            return false;
-        }
+    function validatePass(password, errorFunction) {
+        return password === '', !validatePassword(new_pass) ? errorFunction(true) : errorFunction(false);
     }
 
-    function handleSubmit(event) {
+    function isPasswordsMatch() {
+        return new_pass === repeat_pass ? setError(false) : setError(true);
+    }
+
+    function isEmailMissing() {
+        return email === '';
+    }
+
+    function isPasswordsMissing() {
+        return new_pass === '' && repeat_pass === '';
+    }
+
+    function handleSubmitEmail(event) {
         event.preventDefault();
 
         const data = {
             email,
-            password,
         };
 
         validate();
 
-        !isMissingField() && strongRegex.test(password) && validateEmail(email) && login(data);
+        !isEmailMissing() && validateEmail(email) && senEmail(data);
+    }
+
+    function handleSubmitPass(event) {
+        event.preventDefault();
+
+        const data = {
+            new_pass,
+            repeat_pass
+        };
+
+        validatePass(new_pass, setNewPassError);
+        validatePass(repeat_pass, setRepeatPassError);
+
+        !isPasswordsMissing() && !isPasswordsMatch() && validatePassword(new_pass) && validatePassword(repeat_pass) && resetPass(data);
     }
 
     return (
@@ -112,7 +151,6 @@ function NewResetPassword(props) {
                     </div>
                     <div className='signup__right__part'>
                         <div className='signin__fields__wrapper'>
-                            <div className='signup__error__message__box'>{error}</div>
                             <div className='signup__fields__header'>
                                 reset password
                             </div>
@@ -124,18 +162,19 @@ function NewResetPassword(props) {
                                     <div className='reset__input__wrapper'>
                                         <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
                                     </div>
+                                    {emailError && <div className='error__message email__error__message__wrapper'> {emailError} </div>}
                                 </> :
                                 <div className='pass__input__wrapper'>
-                                    <InputComponent label='new password' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
-                                    <InputComponent label='repeat new paaword' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+                                    <InputComponent type='password' label='new password' value={new_pass} onChange={(e) => setNewPass(e.target.value)} onFocus={() => setNewPassError(false)} error={newPassError} />
+                                    <InputComponent type='password' label='repeat new paaword' value={repeat_pass} onChange={(e) => setRepeatPass(e.target.value)} onFocus={() => setRepeatPassError(false)} error={repeatPassError} />
+                                    {error && <div className='error__message pass_error__message__wrapper'  >Passwords don't match</div>}
                                 </div>
                             }
                             <div className='signin__button__wrapper'>
                                 <button
                                     type='submit'
                                     className='button__component'
-                                    // onClick={handleSubmit}
-                                    onClick={() => setSecondView(false)}
+                                    onClick={secondView ? handleSubmitEmail : handleSubmitPass}
                                 >
                                     {secondView ? 'send email' : 'reset'}
                                 </button>
