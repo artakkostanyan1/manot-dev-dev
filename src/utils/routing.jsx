@@ -24,6 +24,7 @@ const paths = {
     NewEmail: '/new-email',
     NewLogin: '/new-login/:id',
     NewRegistration: '/new-registration',
+    NewEmailPass: '/new-email-pass',
     NewResetPassword: '/reset-password/:id',
 }
 

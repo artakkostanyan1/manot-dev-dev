@@ -14,7 +14,7 @@ import './NewResetPassword.scss';
 require('dotenv').config();
 
 function NewResetPassword(props) {
-    const [secondView, setSecondView] = useState(true);
+    // const [secondView, setSecondView] = useState(true);
 
     const [emailError, setEmailError] = useState(false);
     const [newPassError, setNewPassError] = useState(false);
@@ -22,6 +22,11 @@ function NewResetPassword(props) {
 
     const params = useParams();
     const history = useHistory();
+    const pathname = window.location.pathname;
+    // const host = window.location.host;
+    // const pathName = path.slice(host.length + 1);
+    console.log('state', pathname);
+    const secondView = pathname.includes('reset-password');
 
     const [email, setEmail] = useState('');
     const [new_pass, setNewPass] = useState('');
@@ -44,12 +49,11 @@ function NewResetPassword(props) {
                 if (response.status === 'fail') {
                     throw Error('No user registered.');
                 } else if (response.status === 'success') {
-                    setSecondView(false);
+                    // setSecondView(false);
                 }
             })
             .catch((error) => {
                 setEmailError(error.message);
-                setSecondView(true);
             });
     }
 
@@ -154,7 +158,7 @@ function NewResetPassword(props) {
                             <div className='signup__fields__header'>
                                 reset password
                             </div>
-                            {secondView ?
+                            {!secondView ?
                                 <>
                                     <div className='reset__fields__wrapper'>
                                         Enter the email assiciated with your account, and we will send an email with a link to reset your password.
@@ -174,9 +178,9 @@ function NewResetPassword(props) {
                                 <button
                                     type='submit'
                                     className='button__component'
-                                    onClick={secondView ? handleSubmitEmail : handleSubmitPass}
+                                    onClick={!secondView ? handleSubmitEmail : handleSubmitPass}
                                 >
-                                    {secondView ? 'send email' : 'reset'}
+                                    {!secondView ? 'send email' : 'reset'}
                                 </button>
                             </div>
                         </div>
