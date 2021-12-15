@@ -139,6 +139,11 @@ function App() {
             <NewRegistration />
           </PublicRoute>
           <PublicRoute
+            path={paths.NewEmailPass}
+          >
+            <NewResetPassword />
+          </PublicRoute>
+          <PublicRoute
             path={paths.NewLogin}
           >
             <NewLogin />
