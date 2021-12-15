@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom'
 
@@ -9,10 +9,18 @@ import AnotationTool from '../../components/AnotationTool/AnotationTool';
 import defMarks from '../../components/AnotationTool/marks.json';
 import Loader from '../../components/Loader/Loader';
 import CircularUnderLoad from '../../components/Loader/Loader';
+import { PurpleRadio } from '../../components/CustomElements/PurpleRadio';
 
 import './Desktop.scss';
 
 import paths from '../../utils/routing';
+import {
+    FormControl,
+    FormControlLabel,
+    RadioGroup,
+    Typography
+} from '@material-ui/core';
+
 require('dotenv').config();
 
 
@@ -92,16 +100,30 @@ function Desktop() {
         <>
             {isLoading ? <Loader /> : <div className='comp-desktop'>
                 <UserHeader className='user_header_desktop' />
+                <div className='desktop__header'>
+                    <hr className='desktop__first__line' />
+                    <span>annotation of Image {imageIndex + 1}</span>
+                    <hr className='desktop__second__line' />
+                </div>
+
+
+                <div className='radio-buttons-container'>
+                    <FormControl component="fieldset">
+                        <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={() => setIsRotationAllowed(prev => !prev)}>
+                            <FormControlLabel value="B-box" control={<PurpleRadio checked={!isRotationAllowed}/>}
+                                              label={<Typography className='radio-buttons-label'>B-box</Typography>} />
+                            <FormControlLabel value="RB-Box" control={<PurpleRadio checked={isRotationAllowed}/>}
+                                              label={<Typography className='radio-buttons-label'>RB-box</Typography>} />
+                        </RadioGroup>
+                    </FormControl>
+                    <button className='button__component'> start full data annotation </button>
+                </div>
+
                 <div className='main-content-container'>
                     <LeftBar className='left_bar'
                         imagesList={imagesList}
                         setImagesList={setImagesList}
-                        isRotationAllowed={isRotationAllowed}
-                        setNotes={setNotes}
-                        marks={marks}
                         folderName={folderName}
-                        imageIndex={imageIndex}
-                        setIsRotationAllowed={setIsRotationAllowed}
                         setImageIndex={setImageIndex}
                     />
                     <div className='main-photo'>

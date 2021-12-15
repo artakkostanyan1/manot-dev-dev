@@ -1,32 +1,35 @@
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExit from '@material-ui/icons/FullscreenExit';
-import InfiniteScroll from 'react-infinite-scroll-component';
-
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Tooltip from '@mui/material/Tooltip';
-
 import { useRef, useState } from 'react';
 import './LeftBar.scss';
 
 require('dotenv').config();
 
-function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImagesList, setImageIndex, folderName }) {
-    const [isFullScreen, setIsFullscreen] = useState(true);
-    const [open, setOpen] = useState(false);
+function LeftBar({ imagesList, setImagesList, setImageIndex, folderName }) {
     const [hasMore, setHasMore] = useState(true);
+    const [isFetching, setIsFetching] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
-    const screen = isFullScreen ? 'full' : 'min';
     const interval = useRef(1);
+    const ref = useRef(null);
+    const scrollOffset = 500;
 
-    const handleTooltipClose = () => {
-        setOpen(false);
-    };
+    const scroll = offset => ref.current.scrollTop += offset;
 
-    const handleTooltipOpen = () => {
-        setOpen(true);
-    };
+    const canScroll = offset => ref.current.scrollTop + offset >= -scrollOffset + 1;
 
-    const fetchMoreData = () => {
+    const fetchMoreData = scrollOffset => {
+        setIsFetching(true);
+
+        if (!canScroll(scrollOffset)) {
+            setIsFetching(false);
+            return;
+        }
+
+        scroll(scrollOffset);
+
+        if (!hasMore) {
+            setIsFetching(false);
+            return;
+        }
+
         interval.current++;
         fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
             method: 'POST',
@@ -51,102 +54,35 @@ function LeftBar({ isRotationAllowed, setIsRotationAllowed, imagesList, setImage
             })
             .catch((err) => {
                 console.log('error', err);
+            }).finally(() => {
+                setIsFetching(false);
             })
     };
 
     return (
-        <div className={`left-bar-conatainer ${screen}`}>
-            <div
-                className='resize-button-container'
-                onClick={() => setIsFullscreen(!isFullScreen)}
-            >
-                {isFullScreen ? <FullscreenIcon /> : <FullscreenExit />}
-            </div>
-            {isFullScreen
-                ? <div className='full_screen_leftbar'>
-                    <form className='radio-buttons-container' onChange={() => setIsRotationAllowed(prev => !prev)}>
-                        <div>
-                            <input
-                                type="radio"
-                                name="box"
-                                value='B-Box'
-                                className='box-input'
-                                defaultChecked={!isRotationAllowed}
-                            />
-                            <label>B-box</label>
-                        </div>
-                        <div>
-                            <input
-                                type="radio"
-                                name="box"
-                                value='RB-Box'
-                                className='box-input'
-                                defaultChecked={isRotationAllowed}
-                            />
-                            <label>RB-box</label>
-                        </div>
-                    </form>
-
-                    <ClickAwayListener onClickAway={handleTooltipClose}>
-                        <div>
-                            <Tooltip
-                                PopperProps={{
-                                    disablePortal: true,
-                                }}
-                                onClose={handleTooltipClose}
-                                open={open}
-                                disableFocusListener
-                                disableHoverListener
-                                disableTouchListener
-                                title="For full data anotation upgrade your plan"
-                                arrow={true}
-                                placement={'bottom'}
-                            >
-                                <div className='full_annotation_btn_container'>
-                                    <div className='full_annotation_btn_border'>
-                                        <button
-                                            className='full_annotation_btn'
-                                            onClick={handleTooltipOpen}
-                                        >
-                                            Start full data annottation
-                                        </button>
-                                    </div>
-                                </div>
-                            </Tooltip>
-                        </div>
-                    </ClickAwayListener>
-                    <div className='photos-container'>
-                        <InfiniteScroll
-                            dataLength={imagesList.length}
-                            next={fetchMoreData}
-                            hasMore={hasMore}
-                            height={680}
-                            loader={<h4>Loading...</h4>}
-                            endMessage={
-                                <p style={{ textAlign: 'center' }}>
-                                    <b>Yay! You have seen it all</b>
-                                </p>
-                            }
-                        >
-                            {imagesList.length ? imagesList?.map((el, key) => {
-                                return (
-                                    <div key={key} className='image_container' onClick={() => setImageIndex(key)}>
-                                        <img
-                                            alt='girl'
-                                            src={el}
-                                            className='label-photo'
-                                        />
-                                        <label>{`image-${key + 1}`}</label>
-                                    </div>
-                                )
-                            }) : null}
-                        </InfiniteScroll>
-                    </div>
-                </div>
-                : <div className='icons-container'>
-                    <img src="dashboard.png" alt="dashboard" />
-                    <img src="image.png" alt='icon' />
+        <div className='left-bar-container full'>
+            <div className='full_screen_leftbar'>
+                {!isFetching &&
+                <div className='arrow-container'>
+                    <i onClick={() => fetchMoreData(-scrollOffset)} className='arrow up'/>
                 </div>}
+                <div className='photos-container' ref={ref}>
+                    {imagesList.length && imagesList?.map((el, key) => {
+                        return (
+                            <div key={key} className='image_container' onClick={() => setImageIndex(key)}>
+                                <label>{`Image ${key + 1}`}</label>
+                                <img alt='girl'
+                                    src={el}
+                                    className='label-photo'/>
+                            </div>
+                        )
+                    })}
+                </div>
+                {!isFetching &&
+                <div className='arrow-container'>
+                    <i onClick={() => fetchMoreData(scrollOffset)} className='arrow down'/>
+                </div>}
+            </div>
         </div>
     )
 }
