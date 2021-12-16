@@ -7,6 +7,7 @@ function RightBar({notes, detectOnSingleImage}) {
                 <b> Details about object </b>
             </div>
 
+            <div className='notes_list'>
             {(!Object.keys(notes).length) ? <div className='not_available'> Not available yet </div> :
                 Object.keys(notes).map((note, id) => notes[note] && (
                     <div>
@@ -17,6 +18,7 @@ function RightBar({notes, detectOnSingleImage}) {
                         {(id !== Object.keys(notes).length - 1) && <hr/>}
                     </div>
                 ))}
+            </div>
 
             <div className='btn_container'>
                 <div className='single_annotation_btn_container'>

@@ -38,6 +38,31 @@ function Desktop() {
     const [imageIndex, setImageIndex] = useState(0)
     const [marks, setMarks] = useState(defMarks[0])
 
+    const chooseImage = (index, isRotation) => {
+        setLoading(true);
+        isRotation = isRotation === undefined ? isRotationAllowed : isRotation;
+
+        fetch(`${apiUrl}get-image-info/${isRotation ? 'rbb' : 'bb'}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'x-access-token': localStorage.getItem('token')
+            },
+            body: JSON.stringify({folder_name: folderName, img_index: index})
+        }).then(res => res.json())
+            .then(data => {
+                setMarks(data.message && typeof data.message === 'object' && data.message[0] || []);
+                setImageIndex(index);
+            })
+            .catch(() => {})
+            .finally(() => setLoading(false))
+    }
+
+    const changeIsRotationAllowed = () => {
+        setIsRotationAllowed(prev => !prev);
+        chooseImage(imageIndex, !isRotationAllowed);
+    }
+
     useEffect(() => {
         setLoading(true);
         state === undefined ? history.push(paths.DashBoard)
@@ -55,6 +80,7 @@ function Desktop() {
                 .then(res => {
                     if (res.status !== 'fail') {
                         setImagesList(res.message);
+                        chooseImage(imageIndex);
                     } else {
                         history.push(paths.Importdata)
                     }
@@ -108,7 +134,7 @@ function Desktop() {
 
                 <div className='radio-buttons-container'>
                     <FormControl component="fieldset">
-                        <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={() => setIsRotationAllowed(prev => !prev)}>
+                        <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={() => changeIsRotationAllowed()}>
                             <FormControlLabel value="B-box" control={<PurpleRadio checked={!isRotationAllowed}/>}
                                               label={<Typography className='radio-buttons-label'>B-box</Typography>} />
                             <FormControlLabel value="RB-Box" control={<PurpleRadio checked={isRotationAllowed}/>}
@@ -123,7 +149,7 @@ function Desktop() {
                         imagesList={imagesList}
                         setImagesList={setImagesList}
                         folderName={folderName}
-                        setImageIndex={setImageIndex}
+                        setImageIndex={chooseImage}
                     />
                     <div className='main-photo'>
                         <AnotationTool
