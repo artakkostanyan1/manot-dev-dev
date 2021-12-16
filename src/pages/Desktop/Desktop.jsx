@@ -21,7 +21,6 @@ function Desktop() {
     const history = useHistory();
     const { state } = useLocation();
     const { folderName } = state;
-
     const [isLoading, setIsLoading] = useState(true);
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -33,7 +32,7 @@ function Desktop() {
 
     useEffect(() => {
         setLoading(true);
-        state === undefined ? history.push(paths.Importdata)
+        state === undefined ? history.push(paths.DashBoard)
             : fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
                 method: 'POST',
                 headers: {

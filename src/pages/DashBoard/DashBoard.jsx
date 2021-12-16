@@ -7,7 +7,6 @@ import { ReactComponent as AddImg } from '../../styles/images/add_img.svg';
 import { ReactComponent as EditImg } from '../../styles/images/edit_img.svg';
 import { ReactComponent as DeleteImg } from '../../styles/images/delete_img.svg';
 import TextField from '@mui/material/TextField';
-import CloseIcon from '@material-ui/icons/Close';
 import ImageUploading from 'react-images-uploading';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import paths from '../../utils/routing';
@@ -21,6 +20,7 @@ function DashBoard() {
     const [toggleAddImages, setToggleAddImages] = useState(false);
     const [deleteToggle, setDeleteToggle] = useState(null);
     const [toggleImportPopup, setToggleImportPopup] = useState(false);
+    const [toggleAddImagePopup, setToggleAddImagePopup] = useState(false);
     const [editFolderName, setEditFolderName] = useState('');
     const [togglePopup, setTogglePopup] = useState(false);
     const [imagesArray, setImagesArray] = useState([]);
@@ -109,14 +109,14 @@ function DashBoard() {
             body: JSON.stringify(data),
         })
             .then(response => response.json())
-            .then((data) => {
+            .then((response) => {
                 setIsLoading(false)
-                if (data.status === 'fail' && data.message === 'Token is invalid') {
+                if (response.status === 'fail' && response.message === 'Token is invalid') {
                     localStorage.removeItem('token');
                     history.push(paths.Main)
                 }
-                if (data.status === 'success') {
-                    history.push(paths.Desktop);
+                if (response.status === 'success') {
+                    history.push({ pathname: paths.Desktop, state: { folderName: data.folder_name } })
                 }
             })
             .catch((error) => {
@@ -125,7 +125,7 @@ function DashBoard() {
     }
 
     const addImages = (el) => {
-        Promise.all(newImagesArray.map((element) => {
+        Promise.all(imagesArray.map((element) => {
             return new Promise((res) => {
                 let i = new Image();
                 i.onload = () => {
@@ -144,7 +144,7 @@ function DashBoard() {
                     folder_name: el,
                     images: images,
                 }
-                // images.length ? addPhotos(data) : setTogglePopup(true);
+                images.length ? addPhotos(data) : setTogglePopup(true);
             })
     }
     const handleCreate = (e) => {
@@ -258,8 +258,9 @@ function DashBoard() {
         setToggleAddImages(!toggleAddImages);
     }
 
-    const handleAddImages = (el = null) => {
-        setToggleAddImages(!toggleAddImages);
+    const handleAddImages = (el) => {
+        setImagesArray(null)
+        setToggleAddImagePopup(true)
     }
 
     const handleEditToggle = (el) => {
@@ -307,9 +308,7 @@ function DashBoard() {
                                     className='file__name__box'
                                     onClick={() => history.push({ pathname: paths.Desktop, state: { folderName: el } })}
                                 >
-                                    {((el).length > maxlimit) ?
-                                        (((el).substring(0, maxlimit - 3)) + '...') :
-                                        el}
+                                    {el.length > maxlimit ? el.substring(0, maxlimit - 3) + '...' : el}
                                 </div>
                                 <div>
                                     <AddImg
@@ -341,74 +340,68 @@ function DashBoard() {
                 <Dialog
                     PaperProps={{
                         style: {
-                            borderRadius: '25px',
-                            background: '#FFFFFF',
-                            border: '3px solid #257AAF'
+                            width: '522px',
+                            height: '300px',
+                            borderRadius: '13px',
                         }
                     }}
-                    open={toggleAddImages}
+                    open={toggleAddImagePopup}
+                    onClose={() => { setNewImagesArray([]); setToggleAddImagePopup(false); }}
                 >
-                    <div className='header-icons-container'>
-                        <div onClick={handleAddImages}>
-                            <CloseIcon />
-                        </div>
-                    </div>
-                    <DialogTitle
-                        className="dialog-title"
-                    >
-                        Upload images to chosen folder
-                    </DialogTitle>
-                    <ImageUploading
-                        multiple
-                        value={newImagesArray}
-                        onChange={onChange}
-                        acceptType={['jpg', 'jpeg', 'png']}
-                        maxFileSize={100000}
-                        resolutionType="less"
-                        resolutionWidth={1024}
-                        resolutionHeight={1024}
-                        dataURLKey="data_url"
-                    >
-                        {({
-                            onImageUpload,
-                            errors,
-                        }) => (
-                            <span>
-                                <button
-                                    className='choose-button'
-                                    color="primary"
-                                    onClick={onImageUpload}
-                                >
-                                    Choose photo
-                                </button>
-                                {newImagesArray.length !== 0 && <div>{`YOU CHOOSED ${newImagesArray.length} PHOTOS`}</div>}
-                                {errors && <div>
-                                    {errors.maxFileSize && <div> Maxfile size error </div>}
-                                    {errors.maxNumber && <div>MAX number error</div>}
-                                    {errors.resolution && <div>Resolution error</div>}
-                                </div>}
-                            </span>
-                        )}
-                    </ImageUploading>
-                    <div className='dialog-action'>
-                        <span>
-                            <button
-                                type='submit'
-                                className='continue-button'
-                                color="primary"
-                                onClick={() => addImages(elementToAdd)}
+                    <div className='import__dialog__content__wrapper'>
+                        <DialogTitle className='add__image__dialog__title'>
+                            <span style={{ marginTop: '230px' }}> Upload more images to folder</span>
+                            <div style={{ color: '#8924BF' }}>{`${elementToAdd}`}</div>
+                        </DialogTitle>
+                        <DialogActions style={{ height: '160px' }}>
+                            {!newImagesArray.length && <ImageUploading
+                                multiple
+                                value={newImagesArray}
+                                onChange={onChange}
+                                maxNumber={maxNumber}
+                                acceptType={['jpg', 'jpeg', 'png']}
+                                maxFileSize={100000}
+                                resolutionWidth={1024}
+                                resolutionHeight={1024}
+                                dataURLKey="data_url"
                             >
-                                Create
-                            </button>
-                        </span>
+                                {({
+                                    onImageUpload
+                                }) => (
+                                    <span onClick={onImageUpload}>
+                                        <UploadImg />
+                                    </span>
+                                )}
+                            </ImageUploading>}
+                            {!!newImagesArray.length &&
+                                <>
+                                    {newImagesArray.map((el) => <div className='add__image__item__name'>
+                                        {el.file.name.length > maxlimit ?
+                                            el.file.name.substring(0, maxlimit - 3) + '...' : el.file.name}
+                                    </div>)}
+                                    <div className='upload__button__wrapper'>
+                                        <button
+                                            type='submit'
+                                            className='button__component'
+                                            style={{
+                                                width: '287px',
+                                                height: '46px'
+                                            }}
+                                            onClick={() => addImages(elementToAdd)}
+                                        >
+                                            proceed to annotation
+                                        </button>
+                                    </div>
+                                </>
+                            }
+                            <div
+                                className='cancel__dialog__btn'
+                                onClick={() => { setNewImagesArray([]); setToggleAddImagePopup(false) }}
+                            >
+                                cancel
+                            </div>
+                        </DialogActions>
                     </div>
-                    <button
-                        // style={cancelBtn}
-                        onClick={handleCloseAddImage}
-                        color="primary"
-                    >
-                        cancel
-                    </button>
                 </Dialog>
 
                 {/* edit modal */}
@@ -479,7 +472,7 @@ function DashBoard() {
                         <DialogTitle className='delete__dialog__content'>
                             {'Are you sure you want to '}
                             <b>delete</b>
-                            {' file '}
+                            {' folder '}
                             <span style={{ color: '#8924BF' }}>{`${elementToDelete}?`}</span>
                             <br />
                             The process is eirrevertable.
@@ -544,7 +537,7 @@ function DashBoard() {
                         <DialogActions>
                             <ImageUploading
                                 multiple
-                                value={newImagesArray}
+                                value={imagesArray}
                                 onChange={onChange}
                                 maxNumber={maxNumber}
                                 acceptType={['jpg', 'jpeg', 'png']}
@@ -583,7 +576,7 @@ function DashBoard() {
                         </DialogActions>
                     </div>
                 </Dialog>
-            </div>
+            </div >
         </>
     )
 }
