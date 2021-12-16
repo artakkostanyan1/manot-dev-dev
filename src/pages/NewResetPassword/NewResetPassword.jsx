@@ -14,7 +14,7 @@ import './NewResetPassword.scss';
 require('dotenv').config();
 
 function NewResetPassword(props) {
-    // const [secondView, setSecondView] = useState(true);
+    const [secondView, setSecondView] = useState(true);
 
     const [emailError, setEmailError] = useState(false);
     const [newPassError, setNewPassError] = useState(false);
@@ -23,10 +23,10 @@ function NewResetPassword(props) {
     const params = useParams();
     const history = useHistory();
     const pathname = window.location.pathname;
-    // const host = window.location.host;
-    // const pathName = path.slice(host.length + 1);
-    console.log('state', pathname);
-    const secondView = pathname.includes('reset-password');
+
+    useEffect(() => {
+        setSecondView(pathname.includes('reset-password'));
+    }, [pathname])
 
     const [email, setEmail] = useState('');
     const [new_pass, setNewPass] = useState('');
