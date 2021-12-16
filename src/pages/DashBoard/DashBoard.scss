@@ -89,6 +89,28 @@
     filter: invert(20%) sepia(86%) saturate(3127%) hue-rotate(272deg) brightness(79%) contrast(96%);
 }
 
+.add__image__dialog__title h2 {
+    font-family: Comfortaa;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 27px;
+
+    letter-spacing: -0.05em;
+
+    text-align: center;
+}
+
+.add__image__item__name {
+    height: 24px;
+
+    border: 0.5px solid #000000;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 1px;
+    margin: 2px;
+}
+
 .MuiDialogActions-root {
     flex-direction: column;
 }
@@ -146,7 +168,7 @@
     flex-direction: column;
 }
 
-.delete__dialog__content h2{
+.delete__dialog__content h2 {
     font-family: Comfortaa;
     font-style: normal;
     font-weight: 300;
