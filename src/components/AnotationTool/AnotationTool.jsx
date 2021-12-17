@@ -39,16 +39,16 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
     useEffect(() => { // INIT //
         MA?.close();
-        setMarkerAreaState({
+        const initialMarkerState = {
             width: sampleImageRef.current?.clientWidth ?? 512,
             height: sampleImageRef.current?.clientHeight ?? 512,
             markers: marks?.map(mark => ({
-                containerTransformMatrix: mark.matrix,
+                containerTransformMatrix: mark.matrix || { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
                 fillColor: "transparent",
                 height: mark.height,
                 width: mark.width,
-                top: 0,
-                left: 0,
+                top: mark.y || 0,
+                left: mark.x || 0,
                 id: 0,
                 notes: mark.name,
                 opacity: 1,
@@ -61,11 +61,12 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                 typeName: "FrameMarker",
                 visualTransformMatrix: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
             })) || []
-        });
+        }
+        setMarkerAreaState(initialMarkerState);
 
-        setNotes({});
-        markersInfoArray.current = {}
-        notes.current = {}
+        setNotes(getNotesFromMarkers(marks));
+        markersInfoArray.current = initialMarkerState.markers || {};
+        notes.current = getNotesFromMarkers(marks);
 
         if (sampleImageRef.current) {
             sampleImageRef.current.src = sourceImageRef.current.src;
@@ -90,6 +91,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             markerArea.uiStyleSettings.toolboxButtonRowStyleColorsClassName = 'DN'
 
             markerArea.show();
+            markerArea.restoreState(initialMarkerState);
 
             markerArea.addRenderEventListener((dataUrl, state) => {
                 if (sampleImageRef.current) {
@@ -250,6 +252,19 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             setMA(markerArea);
         }
     }, [isRotationAllowed, image, marks, setNotes])
+
+    const getNotesFromMarkers = (marks) => {
+        const notes = {};
+        marks?.forEach(mark => {
+            if (notes[mark.name]) {
+                notes[mark.name]++;
+            } else {
+                notes[mark.name] = 1;
+            }
+        });
+
+        return notes;
+    }
 
     return (
         <div className='anotationToolBox'>
