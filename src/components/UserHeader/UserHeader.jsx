@@ -62,7 +62,7 @@ export function CustomMenu(props) {
             <div className='menu__items__wrapper'>
                 <div onClick={() => history.push(paths.Importdata)}>dashboard</div>
                 <div onClick={() => history.push(paths.Profile)}>profile and password</div>
-                <div>payment details</div>
+                <div onClick={() => history.push(paths.Payment)}>payment details</div>
                 <div onClick={() => history.push(paths.Upgrade)}>upgrade</div>
                 <hr style={{width: '75%', margin: '5px'}}/>
                 <div onClick={handleCloseLogout}>log out</div>

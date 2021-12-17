@@ -7,7 +7,12 @@ button {
 .AppWrapper {
     width: 500px;
     height: 400px;
-    position: relative;
+
+    margin: auto;
+
+    position: absolute;
+    top: 30%;
+    left: 35%;
 }
 
 @keyframes fade {
