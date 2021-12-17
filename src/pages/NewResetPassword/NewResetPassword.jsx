@@ -38,11 +38,12 @@ function NewResetPassword(props) {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const senEmail = () => {
-        fetch(`${apiUrl}forgot-password?email=${email}`, {
+        fetch(`${apiUrl}forgot-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ email: email }),
         })
             .then(response => response.json())
             .then(response => {
@@ -60,7 +61,7 @@ function NewResetPassword(props) {
     const resetPass = (data) => {
         // setIsLoading(true);
         fetch(`${apiUrl}reset-password`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -129,8 +130,8 @@ function NewResetPassword(props) {
         event.preventDefault();
 
         const data = {
-            new_pass,
-            repeat_pass
+            password: new_pass,
+            confirmed_pass: repeat_pass
         };
 
         validatePass(new_pass, setNewPassError);
