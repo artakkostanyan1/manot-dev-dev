@@ -101,7 +101,7 @@ function Registration(props) {
 
         password !== confirmed_pass ? setIsMatched(false) : setIsMatched(true);
 
-        isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && validateEmail(email) && accept && register(data);
+        !error && isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && validateEmail(email) && accept && register(data);
     };
 
     // const hasAcceptCheckboxErrorBorder = !accept && 'with__err__border';
@@ -141,7 +141,7 @@ function Registration(props) {
                             </div>
                             {/* <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}> */}
                             <div className={'terms__policy__checkbox__wrapper'}>
-                                <input type="checkbox" className='terms__policy__checkbox' onClick={() => setAccept(!accept)} />
+                                <input type="checkbox" className='terms__policy__checkbox' checked={accept} onClick={() => setAccept(!accept)} />
                                 {'  Accept our  '}
                                 <Link to={paths.Terms} target='_blank'>Terms of Use</Link>
                                 {'  and  '}
