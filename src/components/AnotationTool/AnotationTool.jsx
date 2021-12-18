@@ -23,8 +23,8 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
     const dropboxDivRef = useRef(null)
 
     const markersArray = useRef([]) // TODO // to save markers state for backend
-    const [imgWidth, setImgWidth] = useState('')
-    const [imgHeight, setImgHeight] = useState('')
+    const [imgWidth, setImgWidth] = useState('');
+    const [imgHeight, setImgHeight] = useState('');
 
 
     const showMarkerArea = () => {
@@ -271,8 +271,8 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
     }
 
     const setWidthAndHeight = () => {
-        setImgWidth( getWidth() + 'px');
-        setImgHeight( getHeight() + 'px');
+        setImgWidth(getWidth() + 'px');
+        setImgHeight(getHeight() + 'px');
     }
 
     const getWidth = () => {
@@ -293,7 +293,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     src={image}
                     ref={sourceImageRef}
                     alt='Source'
-                    style={{ position: 'absolute',  height: 'auto' }}
+                    style={{ position: 'absolute', height: 'auto' }}
                     crossOrigin='anonymous'
                 />
                 <img
