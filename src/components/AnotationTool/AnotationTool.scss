@@ -1,12 +1,11 @@
 .anotationToolBox {
-  height: 95%;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
-.dropboxDiv{
+.dropboxDiv {
   outline: none;
   border: 1px solid #ccc;
   border-radius: 15px;
@@ -24,19 +23,21 @@
   z-index: 999;
 }
 
-.PF{
+.PF {
   position: fixed;
-  max-width: 512px;
   background-color: #333;
+  z-index: 1;
 }
 
-.DN{
+.DN {
   display: none !important;
 }
 
 .anoImageBox{
-  width: 512px;
-  height: 512px; 
-  overflow: 'auto';
-  position: 'absolute';
+  overflow: auto;
+  position: absolute;
+
+  img {
+    margin-top: 40px;
+  }
 }

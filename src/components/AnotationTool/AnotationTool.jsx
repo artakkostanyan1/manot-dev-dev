@@ -23,6 +23,8 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
     const dropboxDivRef = useRef(null)
 
     const markersArray = useRef([]) // TODO // to save markers state for backend
+    const [imgWidth, setImgWidth] = useState('')
+    const [imgHeight, setImgHeight] = useState('')
 
 
     const showMarkerArea = () => {
@@ -86,12 +88,14 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             markerArea.uiStyleSettings.notesButtonVisible = false;
             markerArea.uiStyleSettings.notesAreaStyleClassName = 'dropboxDiv';
             markerArea.uiStyleSettings.toolbarStyleColorsClassName = 'PF';
+            markerArea.uiStyleSettings.toolBarMaxWidth = getWidth() + 'px';
             markerArea.uiStyleSettings.toolboxStyleColorsClassName = 'DN'
             markerArea.uiStyleSettings.toolboxPanelRowStyleColorsClassName = 'DN'
             markerArea.uiStyleSettings.toolboxButtonRowStyleColorsClassName = 'DN'
 
             markerArea.show();
             markerArea.restoreState(initialMarkerState);
+            setWidthAndHeight(sourceImageRef);
 
             markerArea.addRenderEventListener((dataUrl, state) => {
                 if (sampleImageRef.current) {
@@ -266,14 +270,30 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
         return notes;
     }
 
+    const setWidthAndHeight = () => {
+        setImgWidth( getWidth() + 'px');
+        setImgHeight( getHeight() + 'px');
+    }
+
+    const getWidth = () => {
+        let width = sourceImageRef.current.naturalWidth < 800 ? sourceImageRef.current.naturalWidth : 800;
+        return width < 512 ? 512 : width;
+    }
+
+    const getHeight = () => {
+        let height = sourceImageRef.current.naturalHeight < 600 ? sourceImageRef.current.naturalHeight : 600;
+        return height < 512 ? 512 : height;
+    }
+
+
     return (
         <div className='anotationToolBox'>
-            <div style={{ width: 512, height: 512, overflow: 'auto auto', position: 'absolute' }}>
+            <div className='anoImageBox' style={{width: imgWidth, height: imgHeight}}>
                 <img
                     src={image}
                     ref={sourceImageRef}
                     alt='Source'
-                    style={{ position: 'absolute', height: 'auto' }}
+                    style={{ position: 'absolute',  height: 'auto' }}
                     crossOrigin='anonymous'
                 />
                 <img
