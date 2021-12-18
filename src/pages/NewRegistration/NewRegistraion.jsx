@@ -8,10 +8,8 @@ import { Link } from "react-router-dom";
 import paths from '../../utils/routing';
 
 import Loader from '../../components/Loader/Loader';
-import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 
 import './NewRegistration.scss';
-import { Error } from '@material-ui/icons';
 
 require('dotenv').config();
 
@@ -27,6 +25,7 @@ function Registration(props) {
     const [emailError, setEmailError] = useState(false);
     const [passError, setPassError] = useState(false);
     const [confirmed_passError, setConfirmed_passError] = useState(false);
+    const [hasAcceptCheckboxErrorBorder, setHasAcceptCheckboxErrorBorder] = useState('')
 
     const [isLoading, setIsLoading] = useState(false);
     const [accept, setAccept] = useState(false);
@@ -52,7 +51,7 @@ function Registration(props) {
             })
             .then(response => {
                 setIsLoading(false)
-                
+
                 if (response.status === 'fail' && response.message === "User already registered.") {
                     setEmailError(true)
                     setError('This email is already connected to an account');
@@ -98,13 +97,18 @@ function Registration(props) {
             confirmed_pass
         }
         validate();
+        if (password !== confirmed_pass) {
+            setIsMatched(false);
+            setPassError(true);
+            setConfirmed_passError(true);
+        } else {
+            setIsMatched(true);
+        }
 
-        password !== confirmed_pass ? setIsMatched(false) : setIsMatched(true);
+        !accept && setHasAcceptCheckboxErrorBorder('with__err__border')
 
         !error && isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && validateEmail(email) && accept && register(data);
     };
-
-    // const hasAcceptCheckboxErrorBorder = !accept && 'with__err__border';
 
     return (
         <>
@@ -129,7 +133,7 @@ function Registration(props) {
                                 <InputComponent label='first name' value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)} error={nameError} />
                                 <InputComponent label='last name' value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)} error={surnameError} />
 
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => {setEmailError(false); setError(false)}} error={emailError} />
+                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => { setEmailError(false); setError(false) }} error={emailError} />
                                 {error && password !== '' &&
                                     <div className='error__message'>{error}</div>}
 
@@ -139,9 +143,11 @@ function Registration(props) {
 
                                 <InputComponent label='repeat password' type="password" value={confirmed_pass} onChange={(e) => setConfirmed_pass(e.target.value)} onFocus={() => setConfirmed_passError(false)} error={confirmed_passError} />
                             </div>
-                            {/* <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}> */}
-                            <div className={'terms__policy__checkbox__wrapper'}>
-                                <input type="checkbox" className='terms__policy__checkbox' checked={accept} onClick={() => setAccept(!accept)} />
+                            <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}>
+                                <input type="checkbox" className='terms__policy__checkbox' onClick={() => {
+                                    !accept ? setHasAcceptCheckboxErrorBorder('') : setHasAcceptCheckboxErrorBorder('with__err__border')
+                                    setAccept(!accept)
+                                }} />
                                 {'  Accept our  '}
                                 <Link to={paths.Terms} target='_blank'>Terms of Use</Link>
                                 {'  and  '}
