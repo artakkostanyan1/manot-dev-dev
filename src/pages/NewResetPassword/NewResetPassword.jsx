@@ -19,6 +19,7 @@ function NewResetPassword(props) {
     const [emailError, setEmailError] = useState(false);
     const [newPassError, setNewPassError] = useState(false);
     const [repeatPassError, setRepeatPassError] = useState(false);
+    const [userMessage, setUserMessage] = useState('');
 
     const params = useParams();
     const history = useHistory();
@@ -50,7 +51,7 @@ function NewResetPassword(props) {
                 if (response.status === 'fail') {
                     throw Error('No user registered.');
                 } else if (response.status === 'success') {
-                    // setSecondView(false);
+                    setUserMessage('We sent you email. Please check it');
                 }
             })
             .catch((error) => {
@@ -59,7 +60,6 @@ function NewResetPassword(props) {
     }
 
     const resetPass = (data) => {
-        // setIsLoading(true);
         fetch(`${apiUrl}reset-password`, {
             method: 'PUT',
             headers: {
@@ -73,12 +73,10 @@ function NewResetPassword(props) {
                 if (response.status === 'fail') {
                     throw Error('Error.');
                 } else {
-                    // setIsLoading(false);
                     history.push(paths.NewLogin);
                 }
             })
             .catch((error) => {
-                // setError(error.message);
                 console.log('err', error);
             });
     }
@@ -165,14 +163,15 @@ function NewResetPassword(props) {
                                         Enter the email assiciated with your account, and we will send an email with a link to reset your password.
                                     </div>
                                     <div className='reset__input__wrapper'>
-                                        <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
+                                        <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => { setEmailError(false); setUserMessage('')}} error={emailError} />
                                     </div>
-                                    {emailError && <div className='error__message email__error__message__wrapper'> {emailError} </div>}
+                                    {emailError && <div className='error__message message__wrapper'> {emailError} </div>}
+                                    {userMessage && <div className='success_message message__wrapper'>{userMessage}</div>}
                                 </> :
                                 <div className='pass__input__wrapper'>
                                     <InputComponent type='password' label='new password' value={new_pass} onChange={(e) => setNewPass(e.target.value)} onFocus={() => setNewPassError(false)} error={newPassError} />
                                     <InputComponent type='password' label='repeat new paaword' value={repeat_pass} onChange={(e) => setRepeatPass(e.target.value)} onFocus={() => setRepeatPassError(false)} error={repeatPassError} />
-                                    {error && <div className='error__message pass_error__message__wrapper'  >Passwords don't match</div>}
+                                    {error && <div className='error__message message__wrapper'  >Passwords don't match</div>}
                                 </div>
                             }
                             <div className='signin__button__wrapper'>
