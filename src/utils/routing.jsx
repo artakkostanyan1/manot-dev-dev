@@ -3,7 +3,7 @@ import DashBoard from "../pages/DashBoard/DashBoard";
 const paths = {
     Main: '/',
     Importdata: '/importdata',
-    Login: '/login/:id',
+    Login: '/new-login/:id',
     Verify: '/verify',
     Email: '/email',
     SignUp: '/registration',
@@ -22,7 +22,8 @@ const paths = {
     NewProfile: '/new-profile',
     NewImportData: '/new-importdata',
     NewEmail: '/new-email',
-    NewLogin: '/new-login/:id',
+    NewLogin: '/login/:id',
+    // NewLogin: '/new-login/:id',
     NewRegistration: '/new-registration',
     NewEmailPass: '/new-email-pass',
     NewResetPassword: '/reset-password/:id',

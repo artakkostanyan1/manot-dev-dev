@@ -30,34 +30,34 @@ function NewLogin(props) {
     const [togglePopup, setTogglePopup] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
-    // const [isFromEmail, setIsFromEmail] = useState(false);
+    const [isFromEmail, setIsFromEmail] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    //TODO check loading part
-    // useEffect(() => {
-    //     // setIsFromEmail(params.id.includes('account') ? false : true);
+    // TODO check loading part
+    useEffect(() => {
+        setIsFromEmail(params.id.includes('account') ? false : true);
 
-    //     fetch(`${apiUrl}verify-account`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             "x-access-token": params.id
-    //         }
-    //     })
-    //         .then(response => {
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             setIsLoading(false)
-    //         })
+        fetch(`${apiUrl}verify-account`, {
+            method: 'PUT',
+            headers: {
+                "x-access-token": params.id
+            }
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                // setIsLoading(false)
+            })
 
-    //     // const timeId = setTimeout(() => {
-    //     //     setIsFromEmail(false)
-    //     // }, 1800)
+        const timeId = setTimeout(() => {
+            setIsFromEmail(false)
+        }, 1800)
 
-    //     // return () => {
-    //     //     clearTimeout(timeId)
-    //     // }
-    // }, [])
+        return () => {
+            clearTimeout(timeId)
+        }
+    }, [])
 
     const login = (data) => {
         fetch(`${apiUrl}login`, {
