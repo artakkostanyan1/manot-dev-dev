@@ -107,7 +107,7 @@ function Registration(props) {
 
         !accept && setHasAcceptCheckboxErrorBorder('with__err__border')
 
-        isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && validateEmail(email) && accept && register(data);
+        !error && isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && validateEmail(email) && accept && register(data);
     };
 
     return (

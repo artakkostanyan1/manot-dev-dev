@@ -155,7 +155,7 @@ function NewLogin(props) {
                                 </button>
                             </div>
                         </div>
-                        <Link className='redirect__to__reset__password' to={paths.NewResetPassword} >reset password</Link>
+                        <Link className='redirect__to__reset__password' to={paths.NewEmailPass} >reset password</Link>
                         <hr className='divider' />
                         <div className="dont_have_account">Don't have an account?</div>
                         <div className='signup2__button__wrapper'>
