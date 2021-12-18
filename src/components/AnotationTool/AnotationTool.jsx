@@ -95,7 +95,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
             markerArea.show();
             markerArea.restoreState(initialMarkerState);
-            setWidthAndHeight(sourceImageRef);
+            setWidthAndHeight();
 
             markerArea.addRenderEventListener((dataUrl, state) => {
                 if (sampleImageRef.current) {
