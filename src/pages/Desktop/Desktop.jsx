@@ -51,7 +51,7 @@ function Desktop() {
             body: JSON.stringify({folder_name: folderName, img_index: index})
         }).then(res => res.json())
             .then(data => {
-                setMarks(data.message && typeof data.message === 'object' && data.message[0] || []);
+                setMarks(data.message && typeof data.message === 'object' && data.message[index] || []);
                 setImageIndex(index);
             })
             .catch(() => {})
@@ -151,16 +151,14 @@ function Desktop() {
                         folderName={folderName}
                         setImageIndex={chooseImage}
                     />
-                    <div className='main-photo'>
-                        <AnotationTool
-                            image={imagesList[imageIndex]}
-                            isRotationAllowed={isRotationAllowed}
-                            setNotes={setNotes}
-                            marks={marks}
-                            folderName={folderName}
-                            imageIndex={imageIndex}
-                        />
-                    </div>
+                    <AnotationTool
+                        image={imagesList[imageIndex]}
+                        isRotationAllowed={isRotationAllowed}
+                        setNotes={setNotes}
+                        marks={marks}
+                        folderName={folderName}
+                        imageIndex={imageIndex}
+                    />
                     <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />
                 </div>
             </div>
