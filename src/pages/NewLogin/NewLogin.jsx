@@ -47,7 +47,9 @@ function NewLogin(props) {
                 return response.json();
             })
             .then(data => {
-                // setIsLoading(false)
+                if (data.status === 'success' && data.message === 'This account is activated. Now user can logged in.') {
+                    setIsLoading(false)
+                }
             })
 
         const timeId = setTimeout(() => {
