@@ -64,6 +64,7 @@ function NewResetPassword(props) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'x-access-token': window.location.pathname.slice(16),
             },
             body: JSON.stringify(data),
         })
