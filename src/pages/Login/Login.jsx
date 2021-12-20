@@ -10,7 +10,7 @@ import paths from '../../utils/routing';
 import Loader from '../../components/Loader/Loader';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
 
-import './NewLogin.scss';
+import './Login.scss';
 
 require('dotenv').config();
 
@@ -35,7 +35,7 @@ function NewLogin(props) {
 
     // TODO check loading part
     useEffect(() => {
-        setIsFromEmail(params.id.includes('account') ? false : true);
+        params.id && setIsFromEmail(params.id.includes('account') ? false : true);
 
         fetch(`${apiUrl}verify-account`, {
             method: 'PUT',

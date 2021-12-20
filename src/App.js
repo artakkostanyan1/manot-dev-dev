@@ -1,12 +1,11 @@
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import ImportData from './pages/ImportData/ImportData';
-import Main from './pages/Main/Main';
 import Registration from './pages/Registration/Registration';
 import Verification from './pages/Verification/Verification';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import NewResetPassword from './pages/NewResetPassword/NewResetPassword';
-import LogIn from './pages/LogIn/LogIn';
+import LogIn_old from './pages/LogIn_old/LogIn_old';
 // import Payment from './pages/Payment/Payment';
 import Stripe from './pages/Stripe/Stripe';
 import Profile from './pages/Profile/Profile';
@@ -15,7 +14,7 @@ import Desktop from './pages/Desktop/Desktop';
 import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
 import Email from './pages/Email/Email';
 import NewRegistration from './pages/NewRegistration/NewRegistraion';
-import NewLogin from './pages/NewLogin/NewLogin';
+import Login from './pages/Login/Login';
 import NewProfile from './pages/NewProfile/NewProfile';
 import NewEmail from './pages/NewEmail/NewEmail';
 import NewImportData from './pages/NewImportData/NewImportData';
@@ -83,11 +82,6 @@ function App() {
       <BrowserRouter>
         <Switch>
           <PublicRoute
-            path={paths.Login}
-          >
-            <LogIn />
-          </PublicRoute>
-          <PublicRoute
             path={paths.SignUp}
           >
             <Registration />
@@ -144,9 +138,10 @@ function App() {
             <NewResetPassword />
           </PublicRoute>
           <PublicRoute
-            path={paths.NewLogin}
+            path={paths.Login}
+            exact={false}
           >
-            <NewLogin />
+            <Login />
           </PublicRoute>
           <PublicRoute
             path={paths.NewEmail}
@@ -199,7 +194,7 @@ function App() {
           <PublicRoute
             path={paths.Main}
           >
-            <Main />
+            <Login />
           </PublicRoute>
           <Route>
             <NoMatchPage />

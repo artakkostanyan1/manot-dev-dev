@@ -14,11 +14,11 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 
 import paths from '../../utils/routing';
-import './LogIn.scss';
+import './LogIn_old.scss';
 
 require('dotenv').config();
 
-function LogIn(props) {
+function LogIn_old(props) {
 
     const params = useParams();
     const history = useHistory();
@@ -39,7 +39,7 @@ function LogIn(props) {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        setIsFromEmail(params.id.includes('account') ? false : true);
+        // setIsFromEmail(params.id.includes('account') ? false : true);
 
         fetch(`${apiUrl}verify-account`, {
             method: 'PUT',
@@ -198,4 +198,4 @@ return (
 )
 }
 
-export default LogIn;
+export default LogIn_old;
