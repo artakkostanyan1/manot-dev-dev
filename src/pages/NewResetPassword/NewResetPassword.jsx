@@ -156,7 +156,7 @@ function NewResetPassword(props) {
                     <div className='signup__right__part'>
                         <div className='signin__fields__wrapper'>
                             <div className='signup__fields__header'>
-                                reset password
+                                forgot password?
                             </div>
                             {!secondView ?
                                 <>
