@@ -47,18 +47,18 @@ function NewLogin(props) {
                 return response.json();
             })
             .then(data => {
-                if (data.status === 'success' && data.message === 'This account is activated. Now user can logged in.') {
-                    setIsLoading(false)
+                if (data) {
+                    setIsLoading(false);
                 }
+
             })
+        // const timeId = setTimeout(() => {
+        //     setIsFromEmail(false)
+        // }, 1800)
 
-        const timeId = setTimeout(() => {
-            setIsFromEmail(false)
-        }, 1800)
-
-        return () => {
-            clearTimeout(timeId)
-        }
+        // return () => {
+        //     clearTimeout(timeId)
+        // }
     }, [])
 
     const login = (data) => {
@@ -82,8 +82,40 @@ function NewLogin(props) {
                     setError('Your account is not activated yet. Please check the email.');
                 } else {
                     localStorage.setItem('token', data.token)
-                    history.push(paths.Importdata);
                 }
+            })
+            .then(() => {
+                fetch(`${apiUrl}get-folders`, {
+                    method: 'GET',
+                    headers: {
+                        "x-access-token": localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (response.status === 403) {
+                            localStorage.removeItem('token');
+                            history.push(paths.Main)
+                        }
+                        if (response.status === 422) {
+                            setError(true)
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('dataa', data);
+                        if (data.status === 'success') {
+                            if (data.message.length === 0) {
+                                history.push(paths.NewImportData);
+                            } else {
+                                history.push(paths.DashBoard);
+                            }
+                        } else {
+                            console.log(data.message);
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Errrr', err);
+                    })
             })
             .catch((error) => {
                 setError(error.message);
