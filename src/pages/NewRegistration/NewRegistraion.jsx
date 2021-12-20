@@ -144,10 +144,13 @@ function Registration(props) {
                                 <InputComponent label='repeat password' type="password" value={confirmed_pass} onChange={(e) => setConfirmed_pass(e.target.value)} onFocus={() => setConfirmed_passError(false)} error={confirmed_passError} />
                             </div>
                             <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}>
-                                <input type="checkbox" className='terms__policy__checkbox' onClick={() => {
-                                    !accept ? setHasAcceptCheckboxErrorBorder('') : setHasAcceptCheckboxErrorBorder('with__err__border')
-                                    setAccept(!accept)
-                                }} />
+                                <input type="checkbox"
+                                       className='terms__policy__checkbox'
+                                       defaultChecked={accept}
+                                       onClick={() => {
+                                           !accept ? setHasAcceptCheckboxErrorBorder('') : setHasAcceptCheckboxErrorBorder('with__err__border')
+                                           setAccept(!accept)
+                                       }}/>
                                 {'  Accept our  '}
                                 <Link to={paths.Terms} target='_blank'>Terms of Use</Link>
                                 {'  and  '}
