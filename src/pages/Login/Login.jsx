@@ -52,7 +52,7 @@ function NewLogin(props) {
                 }
 
             })
-        // const timeId = setTimeout(() => {
+            // const timeId = setTimeout(() => {
         //     setIsFromEmail(false)
         // }, 1800)
 
@@ -194,7 +194,7 @@ function NewLogin(props) {
                                 </button>
                             </div>
                         </div>
-                        <Link className='redirect__to__reset__password' to={paths.EmailPass} >reset password</Link>
+                        <Link className='redirect__to__reset__password' to={paths.EmailPass} >forgot password?</Link>
                         <hr className='divider' />
                         <div className="dont_have_account">Don't have an account?</div>
                         <div className='signup2__button__wrapper'>
