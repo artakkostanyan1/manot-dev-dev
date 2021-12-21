@@ -1,81 +1,50 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
-import { useHistory } from 'react-router';
-import paths from '../../utils/routing';
-import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
+import { ReactComponent as EmailImg } from '../../styles/images/email_page_img.svg';
+
+// import Loader from '../../components/Loader/Loader';
+
 import './Email.scss';
 
 require('dotenv').config();
 
-function Email() {
-    const history = useHistory();
-    const [email, setEmail] = useState('');
-    const [isEmailEmptyErr, setIsEmailEmptyErr] = useState('');
-    const [togglePopup, setTogglePopup] = useState(false);
-    const [message, setMessage] = useState('');
+function Email(props) {
+
+    // const [isLoading, setIsLoading] = useState(true);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    const sendEmail = () => {
-        fetch(`${apiUrl}forgot-password?email=${email}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(response => {
-                // {'status': 'fail', 'message': 'No user registered.'}), 422
-                if (response.status === 'fail' && response.message === 'No user registered.') {
-                    throw Error('There is no user registered with this mail.')
-                } else {
-                    setMessage(response.message);
-                    setTogglePopup(!togglePopup);
-                }
-            })
-            .catch((error) => {
-                setMessage(error.message);
-                setTogglePopup(!togglePopup);
-            });
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        if (email === '') {
-            setIsEmailEmptyErr('Please enter your email to reset your password');
-        }
-
-        (email !== '') && sendEmail(email);
-    }
     return (
-        <div className='email_container'>
-            <Header />
-            <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit}>
-                    <div className='heading'>Confirm Email</div>
-                    <input
-                        type='email'
-                        className="email_input"
-                        placeholder='Email'
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value)
-                        }}
-                        onFocus={() => {
-                            setIsEmailEmptyErr('');
-                        }}
-                    />
-                    {isEmailEmptyErr && <div className='error_message'>{isEmailEmptyErr}</div>}
-                    <button
-                        className='submit_button'
-                        type='submit'
-                    >
-                        Send
-                    </button>
-                </form>
-                <ErrorPopup togglePopup={togglePopup} errMsg={message} togglePopupf={setTogglePopup} />
-            </div>
-        </div>
+        <>
+            {/* {isLoading ? <Loader /> : */}
+                <div className='registration__wrapper'>
+                    <div className='signup__left__part'>
+                        <Header />
+                        <div className='email__img__wrapper'>
+                            <EmailImg className='email__page__image' />
+                        </div>
+                    </div>
+                    <div className='signup__right__part'>
+                        <div className='signin__fields__wrapper'>
+                            <div className='signup__fields__header'>
+                                verify your email
+                            </div>
+                            <div className='mail__content__wrapper'>
+                                <div className='mail__content__subwrapper'>
+                                    <div>We have sent an email</div>
+                                    <div>
+                                        You need to verify your email to continue, if you have not recieved verification email, please check your “Spam” or “Bulk Email” folder. 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* :TODO later discuss and implement, not must for the first release */}
+                        {/* <div className='resend__button'onClick={() => console.log('resend')}>
+                            resend confirmation email
+                        </div> */}
+                    </div>
+                </div>
+            {/* } */}
+        </>
     )
 }
 

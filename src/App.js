@@ -1,23 +1,23 @@
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import ImportData from './pages/ImportData/ImportData';
-import Registration from './pages/Registration/Registration';
+// import ImportData_old from './pages/ImportData_old/ImportData_old';
+import Registration_old from './pages/Registration_old/Registration_old';
 import Verification from './pages/Verification/Verification';
+// import ResetPassword from './pages/ResetPassword_old/ResetPassword_old';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
-import NewResetPassword from './pages/NewResetPassword/NewResetPassword';
-import LogIn_old from './pages/LogIn_old/LogIn_old';
+// import LogIn_old from './pages/LogIn_old/LogIn_old';
 // import Payment from './pages/Payment/Payment';
 import Stripe from './pages/Stripe/Stripe';
-import Profile from './pages/Profile/Profile';
+// import Profile_old from './pages/Profile_old/Profile_old';
 import Upgrade from './pages/Upgrade/Upgrade';
 import Desktop from './pages/Desktop/Desktop';
-import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
-import Email from './pages/Email/Email';
-import NewRegistration from './pages/NewRegistration/NewRegistraion';
+// import VerifyEmail from './pages/VerifyEmail/VerifyEmail';
+// import Email_old from './pages/Email_old/Email_old';
+import Registration from './pages/Registration/Registraion';
 import Login from './pages/Login/Login';
-import NewProfile from './pages/NewProfile/NewProfile';
-import NewEmail from './pages/NewEmail/NewEmail';
-import NewImportData from './pages/NewImportData/NewImportData';
+import Profile from './pages/Profile/Profile';
+import Email from './pages/Email/Email';
+import ImportData from './pages/ImportData/ImportData';
 import DashBoard from './pages/DashBoard/DashBoard';
 
 import Terms from './pages/Terms/Terms';
@@ -82,15 +82,15 @@ function App() {
       <BrowserRouter>
         <Switch>
           <PublicRoute
-            path={paths.SignUp}
+            path={paths.Registration}
           >
             <Registration />
           </PublicRoute>
-          <PublicRoute
+          {/* <PublicRoute
             path={paths.Verify}
           >
             <VerifyEmail />
-          </PublicRoute>
+          </PublicRoute> */}
           <PublicRoute
             path={paths.OldVerification}
           >
@@ -106,11 +106,11 @@ function App() {
           >
             <ResetPassword />
           </PublicRoute>
-          <PublicRoute
+          {/* <PublicRoute
             path={paths.NewResetPassword}
           >
             <NewResetPassword />
-          </PublicRoute>
+          </PublicRoute> */}
           <PublicRoute
             path={paths.ContactUs}
           >
@@ -127,15 +127,15 @@ function App() {
             <Terms />
           </PublicRoute>
           {/*------------------------------------------------- new public pages---------------------------------------------------------------- */}
-          <PublicRoute
+          {/* <PublicRoute
             path={paths.NewRegistration}
           >
             <NewRegistration />
-          </PublicRoute>
+          </PublicRoute> */}
           <PublicRoute
-            path={paths.NewEmailPass}
+            path={paths.EmailPass}
           >
-            <NewResetPassword />
+            <ResetPassword />
           </PublicRoute>
           <PublicRoute
             path={paths.Login}
@@ -143,11 +143,11 @@ function App() {
           >
             <Login />
           </PublicRoute>
-          <PublicRoute
-            path={paths.NewEmail}
+          {/* <PublicRoute
+            path={paths.Email}
           >
-            <NewEmail />
-          </PublicRoute>
+            <Email />
+          </PublicRoute> */}
           {/* ---------------------------------------------------privates------------------------------------------------------------------------- */}
           <PrivateRoute
             path={paths.Profile}
@@ -176,16 +176,16 @@ function App() {
             <ImportData />
           </PrivateRoute>
           {/* --------------------------new private routes-------------------------------------------------------------------------------- */}
-          <PrivateRoute
+          {/* <PrivateRoute
             path={paths.NewProfile}
           >
             <NewProfile />
-          </PrivateRoute>
-          <PrivateRoute
-            path={paths.NewImportData}
+          </PrivateRoute> */}
+          {/* <PrivateRoute
+            path={paths.ImportData}
           >
-            <NewImportData />
-          </PrivateRoute>
+            <ImportData />
+          </PrivateRoute> */}
           <PrivateRoute
             path={paths.DashBoard}
           >

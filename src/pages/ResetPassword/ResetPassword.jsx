@@ -1,134 +1,205 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
-
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
+import { ReactComponent as SignUpImg } from '../../styles/images/signup_page_img.svg';
+import InputComponent from '../../components/InputComponent/InputComponent';
+import { Link, useParams } from "react-router-dom";
 
 import paths from '../../utils/routing';
+
+import Loader from '../../components/Loader/Loader';
+
 import './ResetPassword.scss';
 
 require('dotenv').config();
 
 function ResetPassword(props) {
+    const [secondView, setSecondView] = useState(true);
+
+    const [emailError, setEmailError] = useState(false);
+    const [newPassError, setNewPassError] = useState(false);
+    const [repeatPassError, setRepeatPassError] = useState(false);
+    const [userMessage, setUserMessage] = useState('');
+
+    const params = useParams();
     const history = useHistory();
-    const [passwordType, setPasswordType] = useState('password');
-    const [repeatPasswordType, setRepeatPasswordType] = useState('password');
-    const [pass1, setPass1] = useState('');
-    const [pass2, setPass2] = useState('');
-    const [isMatched, setIsMatched] = useState(true);
-    const [emptyPsswdErr, setEmptyPsswdErr] = useState('');
-    const [hasFocus, setHasFocus] = useState(false);
+    const pathname = window.location.pathname;
+
+    useEffect(() => {
+        setSecondView(pathname.includes('reset-password'));
+    }, [pathname])
+
+    const [email, setEmail] = useState('');
+    const [new_pass, setNewPass] = useState('');
+    const [repeat_pass, setRepeatPass] = useState('');
+
     const [error, setError] = useState('');
 
+    const [isLoading, setIsLoading] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
-    // TO DO: /////////////////////////////////////////////////////resserpassword api path
 
-    const resetPassword = (data) => {
-        console.log('data', data);
-        fetch(`${apiUrl}reset-password`, {
+    const senEmail = () => {
+        fetch(`${apiUrl}forgot-password`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email }),
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === 'fail') {
+                    throw Error('No user registered.');
+                } else if (response.status === 'success') {
+                    setUserMessage('We sent you email. Please check it');
+                }
+            })
+            .catch((error) => {
+                setEmailError(error.message);
+            });
+    }
+
+    const resetPass = (data) => {
+        fetch(`${apiUrl}reset-password`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         })
+            .then(response => response.json())
             .then(response => {
-                if (!response.ok) {
-                    setError(response.statusText);
+                console.log('res', response);
+                if (response.status === 'fail') {
+                    throw Error('Error.');
                 } else {
-                    history.push(paths.Login);
+                    history.push(paths.NewLogin);
                 }
-                console.log('res', response)
-                return response.json();
             })
             .catch((error) => {
-                setError(error.message);
+                console.log('err', error);
             });
+    }
+
+    function validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    function validatePassword(password) {
+        return strongRegex.test(`${password}`);
     }
 
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
-    function handleClick1() {
-        (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
+    function validate() {
+        (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
     }
 
-    function handleClick2() {
-        (repeatPasswordType === 'password') ? setRepeatPasswordType('text') : setRepeatPasswordType('password');
+    function validatePass(password, errorFunction) {
+        return password === '', !validatePassword(new_pass) ? errorFunction(true) : errorFunction(false);
     }
 
-    function handleSubmit(event) {
+    function isPasswordsMatch() {
+        return new_pass === repeat_pass ? setError(false) : setError(true);
+    }
+
+    function isEmailMissing() {
+        return email === '';
+    }
+
+    function isPasswordsMissing() {
+        return new_pass === '' && repeat_pass === '';
+    }
+
+    function handleSubmitEmail(event) {
         event.preventDefault();
 
-        if (pass1 === '' && pass2 === '') {
-            setEmptyPsswdErr('Passwords are required')
-        }
+        const data = {
+            email,
+        };
+
+        validate();
+
+        !isEmailMissing() && validateEmail(email) && senEmail(data);
+    }
+
+    function handleSubmitPass(event) {
+        event.preventDefault();
 
         const data = {
-            pass1,
-            pass2,
-        }
+            password: new_pass,
+            confirmed_pass: repeat_pass
+        };
 
-        pass1 !== pass2 ? setIsMatched(false) : setIsMatched(true);
-        (pass1 === pass2 && pass1 !== '' && pass2 !== '' && strongRegex.test(pass1)) && resetPassword(data);
+        validatePass(new_pass, setNewPassError);
+        validatePass(repeat_pass, setRepeatPassError);
+
+        !isPasswordsMissing() && !isPasswordsMatch() && validatePassword(new_pass) && validatePassword(repeat_pass) && resetPass(data);
     }
 
     return (
-        <div className='reset_pssvd_container'>
-            <Header />
-            <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit}>
-                    <div className='heading'>Reset Password</div>
-                    <div className='pass_wrapper'>
-                        <input
-                            type={passwordType}
-                            className='new_password_input'
-                            placeholder='Password'
-                            value={pass1}
-                            onChange={(e) => setPass1(e.target.value)}
-                            onFocus={() => {
-                                if (emptyPsswdErr) {
-                                    setEmptyPsswdErr('')
-                                }
-                            }}
-                        />
-                        <div className='pass_button' onClick={handleClick1}>
-                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
+        <>
+            {isLoading ? <Loader /> :
+                <div className='registration__wrapper'>
+                    <div className='signup__left__part'>
+                        <Header />
+                        <div className='welcome__header'>
+                            {'welcome to '}
+                            <b>
+                                manot
+                            </b>
+                        </div>
+                        <SignUpImg className='signup__page__image' />
+                    </div>
+                    <div className='signup__right__part'>
+                        <div className='signin__fields__wrapper'>
+                            <div className='signup__fields__header'>
+                                reset password
+                            </div>
+                            {!secondView ?
+                                <>
+                                    <div className='reset__fields__wrapper'>
+                                        Enter the email assiciated with your account, and we will send an email with a link to reset your password.
+                                    </div>
+                                    <div className='reset__input__wrapper'>
+                                        <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => { setEmailError(false); setUserMessage('')}} error={emailError} />
+                                    </div>
+                                    {emailError && <div className='error__message message__wrapper'> {emailError} </div>}
+                                    {userMessage && <div className='success_message message__wrapper'>{userMessage}</div>}
+                                </> :
+                                <div className='pass__input__wrapper'>
+                                    <InputComponent type='password' label='new password' value={new_pass} onChange={(e) => setNewPass(e.target.value)} onFocus={() => setNewPassError(false)} error={newPassError} />
+                                    <InputComponent type='password' label='repeat new paaword' value={repeat_pass} onChange={(e) => setRepeatPass(e.target.value)} onFocus={() => setRepeatPassError(false)} error={repeatPassError} />
+                                    {error && <div className='error__message message__wrapper'  >Passwords don't match</div>}
+                                </div>
                             }
+                            <div className='signin__button__wrapper'>
+                                <button
+                                    type='submit'
+                                    className='button__component'
+                                    onClick={!secondView ? handleSubmitEmail : handleSubmitPass}
+                                >
+                                    {!secondView ? 'send email' : 'reset'}
+                                </button>
+                            </div>
+                        </div>
+                        <Link className='redirect__to__reset__password' to={paths.Login} >login</Link>
+                        <hr className='divider' />
+                        <div className="dont_have_account">Don't have an account?</div>
+                        <div className='signup2__button__wrapper'>
+                            <button
+                                type='submit'
+                                className='button__component'
+                                onClick={() => history.push(paths.Registration)}
+                            >
+                                sign up
+                            </button>
                         </div>
                     </div>
-                    {!strongRegex.test(pass1) && pass1 !== '' &&
-                        <div className='error_message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
-
-                    <div className='pass_wrapper'>
-                        <input
-                            type={repeatPasswordType}
-                            className='new_password_input'
-                            placeholder='Repeat password'
-                            value={pass2}
-                            onChange={(e) => { setPass2(e.target.value) }}
-                        />
-                        <div className='pass_button' onClick={handleClick2}>
-                            {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                            }
-                        </div>
-                    </div>
-                    {!isMatched && <div className='error_message'>Passwords don't match</div>}
-                    {emptyPsswdErr && <div className='error_message'>{emptyPsswdErr}</div>}
-
-                    <button
-                        className='submit_button'
-                        type='submit'
-                    >
-                        <div className='submit_text'>
-                            Submit
-                        </div>
-                    </button>
-                </form>
-            </div>
-        </div>
+                </div>
+            }
+        </>
     )
 }
 
