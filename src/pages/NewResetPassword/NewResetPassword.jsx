@@ -74,7 +74,7 @@ function NewResetPassword(props) {
                 if (response.status === 'fail') {
                     throw Error('Error.');
                 } else {
-                    history.push(paths.NewLogin);
+                    history.push(paths.Login);
                 }
             })
             .catch((error) => {
@@ -164,14 +164,42 @@ function NewResetPassword(props) {
                                         Enter the email assiciated with your account, and we will send an email with a link to reset your password.
                                     </div>
                                     <div className='reset__input__wrapper'>
-                                        <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => { setEmailError(false); setUserMessage('')}} error={emailError} />
+                                        <InputComponent
+                                            label='email'
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            onFocus={() => {
+                                                setEmailError(false);
+                                                setUserMessage('')
+                                            }}
+                                            error={emailError}
+                                        />
                                     </div>
                                     {emailError && <div className='error__message message__wrapper'> {emailError} </div>}
                                     {userMessage && <div className='success_message message__wrapper'>{userMessage}</div>}
                                 </> :
                                 <div className='pass__input__wrapper'>
-                                    <InputComponent type='password' label='new password' value={new_pass} onChange={(e) => setNewPass(e.target.value)} onFocus={() => setNewPassError(false)} error={newPassError} />
-                                    <InputComponent type='password' label='repeat new paaword' value={repeat_pass} onChange={(e) => setRepeatPass(e.target.value)} onFocus={() => setRepeatPassError(false)} error={repeatPassError} />
+                                    <InputComponent
+                                        type='password'
+                                        label='new password'
+                                        value={new_pass}
+                                        onChange={(e) => setNewPass(e.target.value)}
+                                        onFocus={() => {
+                                            setNewPassError(false);
+                                            setError(false);
+                                        }}
+                                        error={newPassError}
+                                    />
+                                    <InputComponent
+                                        type='password'
+                                        label='repeat new paaword'
+                                        value={repeat_pass} onChange={(e) => setRepeatPass(e.target.value)}
+                                        onFocus={() => {
+                                            setRepeatPassError(false);
+                                            setError(false);
+                                        }}
+                                        error={repeatPassError}
+                                    />
                                     {error && <div className='error__message message__wrapper'  >Passwords don't match</div>}
                                 </div>
                             }
