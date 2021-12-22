@@ -1,0 +1,29 @@
+.toast-info-container {
+  .Toastify__toast-body {
+    padding: 0 !important;
+  }
+
+  background: #C42DA7 !important;
+  border-radius: 13px !important;
+  width: 305px;
+  height: 64px;
+}
+
+.toast-info {
+  height: 100%;
+  display: flex;
+  align-items: center
+}
+
+.toast-icon {
+  width: 2em;
+  margin-left: 5px;
+}
+
+.toast-text {
+  margin-left: 20px;
+  margin-right: 30px;
+  font-size: 13px;
+  color: #FFFFFF;
+  line-height: 20px;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { toast } from 'react-toastify';
 import * as mjs from 'mjs2-edit';
+
+import { Toaster } from '../Toaster/Toaster';
 import './AnotationTool.scss';
 
 const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNotes, marks }) => {
@@ -129,7 +130,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
                     setMarkersInfoArray(markers)
 
-                    const toasterId = toast.loading('Creating an XML file for your Image', { theme: 'colored' })
+                    const toasterId = Toaster.notify('Creating an XML file for your Image');
                     const data = {
                         folder_name: folderName,
                         img_index: imageIndex,
@@ -149,18 +150,18 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         })
                         .then(res => {
                             if (res.status === 'fail') {
-                                toast.update(toasterId, { render: res.message, type: 'error' })
+                                Toaster.update(toasterId, res.message);
                                 throw new Error(res.message)
                             }
-                            toast.update(toasterId, { render: 'The XML has been generated successfully', type: 'success', pauseOnHover: false, pauseOnFocusLoss: false, progress: undefined, autoClose: 2000, draggable: true, hideProgressBar: false, })
+                            Toaster.update(toasterId, 'The XML has been generated successfully');
                         })
                         .catch(e => {
-                            toast.update(toasterId, { render: `${e}`, type: 'error', autoClose: 2000, pauseOnHover: false, pauseOnFocusLoss: false, draggable: true, progress: undefined, hideProgressBar: false })
+                            Toaster.update(toasterId, e);
                         })
                         .finally(() => {
                             setLoading(false)
                             setTimeout(() => {
-                                toast.dismiss(toasterId)
+                                Toaster.dismiss(toasterId)
                             }, 2000)
                         })
                 }
@@ -193,7 +194,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         marker.select()
                         markerArea.setCurrentMarker(marker)
                         if (note) {
-                            toast.error('The label can\'t include spaces')
+                            Toaster.notify('The label can\'t include spaces');
                         }
                         markerArea.deleteSelectedMarker(false)
                     } else {
