@@ -82,7 +82,7 @@ function Desktop() {
                         setImagesList(res.message);
                         chooseImage(imageIndex);
                     } else {
-                        history.push(paths.Importdata)
+                        history.push(paths.DashBoard)
                     }
                     setIsLoading(false);
                 })
