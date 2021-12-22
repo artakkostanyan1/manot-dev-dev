@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import UserHeader from '../../components/UserHeader/UserHeader';
+import UserHeader, { CustomMenu } from '../../components/UserHeader/UserHeader';
 import Loader from '../../components/Loader/Loader';
+import TextField from '@mui/material/TextField';
 
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import paths from '../../utils/routing';
 
 import './Profile.scss';
@@ -27,11 +26,8 @@ function Profile(props) {
     const [old_passwordError, setOldPasswordError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmed_passError, setConfirmed_passError] = useState('');
+    const [toggleMenu, setToggleMenu] = useState(false);
 
-    const [oldPasswordType, setOldPasswordType] = useState('password');
-    const [passwordType, setPasswordType] = useState('password');
-    const [repeatPasswordType, setRepeatPasswordType] = useState('password');
-    
     const history = useHistory();
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -57,137 +53,179 @@ function Profile(props) {
             })
     }, [])
 
-    function validate() {
-        if (name === '') { setNameError('Please enter your name') }
-        if (surname === '') { setSurnameError('Please enter your surname') }
-        if (old_password === '') { setOldPasswordError('Please enter your old password') }
-        if (password === '') { setPasswordError('Please enter your password') }
-        if (confirmed_pass === '') { setConfirmed_passError('Please enter password') }
+    const sendUserNewData = (data) => {
+        fetch(`${apiUrl}edit-profile`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                "x-access-token": localStorage.getItem('token')
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(() => {
+                fetch(`${apiUrl}get-folders`, {
+                    method: 'GET',
+                    headers: {
+                        "x-access-token": localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        if (response.status === 403) {
+                            localStorage.removeItem('token');
+                            history.push(paths.Main)
+                        }
+                        if (response.status === 422) {
+                            setError(true)
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('dataa', data);
+                        if (data.status === 'fail' && data.message === "No folder created.") {
+                            history.push(paths.Importdata);
+                        } else {
+                            history.push(paths.DashBoard);
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Errrr', err);
+                    })
+            })
+            .catch((err) => console.log('err', err))
+        // history.push(paths.Importdata)
     }
 
-    function handleClick0() {
-        (oldPasswordType === 'password') ? setOldPasswordType('text') : setOldPasswordType('password');
+    function validateNameAndSurname() {
+        name === '' ? setNameError(true) : setNameError(false);
+        surname === '' ? setSurnameError(true) : setSurnameError(false);
+    }
+    // old_password === '' ? setOldPasswordError(true) : setOldPasswordError(false);
+    // (password === '' || password !== confirmed_pass) ? setPasswordError(true) : setPasswordError(false);
+    // (confirmed_pass === '' || password !== confirmed_pass) ? setConfirmed_passError(true) : setConfirmed_passError(false);
+
+    function isMissingField() {
+        if (name !== '' && surname !== '' && email !== '') {
+            if (old_password === '' && confirmed_pass === '' && password === '') {
+                return true;
+            }
+            if (old_password !== '' && confirmed_pass !== '' && password !== '') {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
-    function handleClick1() {
-        (passwordType === 'password') ? setPasswordType('text') : setPasswordType('password');
-    }
-
-    function handleClick2() {
-        (repeatPasswordType === 'password') ? setRepeatPasswordType('text') : setRepeatPasswordType('password');
-    }
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
     function handleSubmit(event) {
         event.preventDefault();
+        let data;
 
-        const data = {
-            name,
-            surname,
-            email,
-            old_password,
-            password,
-            confirmed_pass,
+        validateNameAndSurname();
+
+        if (name !== '' && surname !== '' && email !== '') {
+            if (old_password === '' && confirmed_pass === '' && password === '') {
+                data = {
+                    name,
+                    surname,
+                    email,
+                }
+                isMissingField() && sendUserNewData(data)
+            }
+            if (old_password !== '' || confirmed_pass !== '' || password !== '') {
+                old_password === '' ? setOldPasswordError(true) : setOldPasswordError(false);
+                (password === '' || password !== confirmed_pass) ? setPasswordError(true) : setPasswordError(false);
+                (confirmed_pass === '' || password !== confirmed_pass) ? setConfirmed_passError(true) : setConfirmed_passError(false);
+                data = {
+                    name,
+                    surname,
+                    email,
+                    old_password,
+                    password,
+                    confirmed_pass,
+                }
+
+                isMissingField() && (password === confirmed_pass) && strongRegex.test(password) && sendUserNewData(data)
+            }
         }
-
-        validate();
-
-    //  history.push(paths.Importdata);
     }
 
-    return (<>
-        {isLoading ? <Loader /> : <div className='profile_container'>
-            <UserHeader />
-            <div className='form_wrapper'>
-                <form className='form' onSubmit={handleSubmit}>
-                    <div className='heading'>Profile and password</div>
+    const showMenu = toggleMenu ? 'show__menu' : 'hide__menu'
 
-                    <input
-                        type='text'
-                        className="name_input"
-                        placeholder='Name'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    {nameError && <div className='error_message'>{nameError}</div>}
+    const handleToggle = (data) => {
+        setToggleMenu(data)
+    }
 
-                    <input
-                        type='text'
-                        className="surname_input"
-                        placeholder='Surname'
-                        value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
-                    />
-                    {surnameError && <div className='error_message'>{surnameError}</div>}
+    return (
+        <>
+            {isLoading ? <Loader /> : <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+                <div className={`profile_container ${showMenu}`}>
+                    <UserHeader handleToggle={handleToggle} showBurger={toggleMenu} />
+                    <div className='profile__wrapper'>
+                        <div className='profile__heading'>profile and password</div>
+                        <TextField label='first name' variant="outlined" size="small" color="secondary"
+                            value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)}
+                            error={nameError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='last name' variant="outlined" size="small" color="secondary"
+                            value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)}
+                            error={surnameError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='email' variant="outlined" size="small" color="secondary" disabled
+                            value={email} onChange={(e) => setEmail(e.target.value)}
+                            style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='current password' variant="outlined" size="small" color="secondary" type="password"
+                            value={old_password} onChange={(e) => setOldPassword(e.target.value)} onFocus={() => setOldPasswordError(false)}
+                            error={old_passwordError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField label='new password' variant="outlined" size="small" color="secondary" type="password"
+                            value={password} onChange={(e) => setPassword(e.target.value)} onFocus={() => setPasswordError(false)}
+                            error={passwordError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        {!strongRegex.test(password) && password !== '' &&
+                            <div className='error__message' style={{ width: '440px' }}>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
-                    <input
-                        type='email'
-                        className="email_input"
-                        placeholder='Email'
-                        value={email}
-                        disabled
-                    />
+                        <TextField label='repeat password' variant="outlined" size="small" color="secondary" type="password"
+                            value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)} onFocus={() => setConfirmed_passError(false)}
+                            error={confirmed_passError} style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
 
-                    <br />
-                    <div className='pass_wrapper'>
-                        <input
-                            type={oldPasswordType}
-                            className='new_password_input'
-                            placeholder='Old Password'
-                            value={old_password}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                        />
-                        <div className='pass_button' onClick={handleClick0}>
-                            {(oldPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                            }
+                        <div className='save__button__wrapper'>
+                            <button
+                                type='submit'
+                                className='button__component'
+                                onClick={handleSubmit}
+                            >
+                                save
+                            </button>
+                        </div>
+                        <div className='cancel__button' onClick={() => history.go(-1)}>
+                            cancel
                         </div>
                     </div>
-                    {old_passwordError && <div className='error_message'>{old_passwordError}</div>}
-
-                    <div className='pass_wrapper'>
-                        <input
-                            type={passwordType}
-                            className='new_password_input'
-                            placeholder='New Password'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <div className='pass_button' onClick={handleClick1}>
-                            {(passwordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                            }
-                        </div>
-                    </div>
-                    {passwordError && <div className='error_message'>{passwordError}</div>}
-
-                    <div className='pass_wrapper'>
-                        <input
-                            type={repeatPasswordType}
-                            className='new_password_input'
-                            placeholder='Repeat New Password'
-                            value={confirmed_pass}
-                            onChange={(e) => setConfirmedPassword(e.target.value)}
-                        />
-                        <div className='pass_button' onClick={handleClick2}>
-                            {(repeatPasswordType === 'text') ? <VisibilityOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                                : <VisibilityOffOutlinedIcon style={{ fontSize: '22', color: 'grey' }} />
-                            }
-                        </div>
-                    </div>
-                    {confirmed_passError && <div className='error_message'>{confirmed_passError}</div>}
-
-                    <button
-                        className='submit_button'
-                        type='submit'
-                    >
-                        <div className='submit_text'>
-                            Save changes
-                        </div>
-                    </button>
-                </form>
+                </div>
+                {toggleMenu && <CustomMenu handleToggle={handleToggle} />}
             </div>
-        </div>}
-    </>
+            }
+        </>
+
     )
 }
 

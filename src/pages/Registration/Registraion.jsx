@@ -9,7 +9,7 @@ import paths from '../../utils/routing';
 
 import Loader from '../../components/Loader/Loader';
 
-import './NewRegistration.scss';
+import './Registration.scss';
 
 require('dotenv').config();
 
@@ -56,7 +56,7 @@ function Registration(props) {
                     setEmailError(true)
                     setError('This email is already connected to an account');
                 } else {
-                    history.push(paths.Verify);
+                    history.push(paths.Email);
                 }
             })
             .catch((error) => {

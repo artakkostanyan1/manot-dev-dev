@@ -103,14 +103,19 @@ function NewLogin(props) {
                     })
                     .then(data => {
                         console.log('dataa', data);
-                        if (data.status === 'success') {
-                            if (data.message.length === 0) {
-                                history.push(paths.NewImportData);
-                            } else {
-                                history.push(paths.DashBoard);
-                            }
+                        //     if (data.status === 'success') {
+                        //         if (data.message.length === 0) {
+                        //             history.push(paths.ImportData);
+                        //         } else {
+                        //             history.push(paths.DashBoard);
+                        //         }
+                        //     } else {
+                        //         console.log(data.message);
+                        //     }
+                        if (data.status === 'fail' && data.message === "No folder created.") {
+                            history.push(paths.Importdata);
                         } else {
-                            console.log(data.message);
+                            history.push(paths.DashBoard);
                         }
                     })
                     .catch(err => {
@@ -189,14 +194,14 @@ function NewLogin(props) {
                                 </button>
                             </div>
                         </div>
-                        <Link className='redirect__to__reset__password' to={paths.NewEmailPass} >forgot password?</Link>
+                        <Link className='redirect__to__reset__password' to={paths.EmailPass} >forgot password?</Link>
                         <hr className='divider' />
                         <div className="dont_have_account">Don't have an account?</div>
                         <div className='signup2__button__wrapper'>
                             <button
                                 type='submit'
                                 className='button__component'
-                                onClick={() => history.push(paths.NewRegistration)}
+                                onClick={() => history.push(paths.Registration)}
                             >
                                 sign up
                             </button>

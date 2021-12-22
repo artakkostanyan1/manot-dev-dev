@@ -11,11 +11,11 @@ import paths from '../../utils/routing';
 
 import Loader from '../../components/Loader/Loader';
 import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
-import './Registration.scss';
+import './Registration_old.scss';
 
 require('dotenv').config();
 
-function Registration(props) {
+function Registration_old(props) {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
@@ -220,4 +220,4 @@ function Registration(props) {
     )
 }
 
-export default Registration;
+export default Registration_old;

@@ -2,107 +2,58 @@
     height: 100vh;
 }
 
-.form_wrapper {
-    height: 80%;
+.profile__wrapper {
+    height: 73%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.form {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
 }
 
-.heading {
-    width: 244px;
-    height: 40px;
+.show__menu {
+    width: 80%;
+}
 
-    font-family:  PT Sans, sans-serif;;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 26px;
-    line-height: 40px;
-    /* identical to box height, or 154% */
+.hide__menu {
+    width: 100%;
+}
 
+.profile__heading {
+    position: absolute;
+    top: 9%;
+    font-family: Comfortaa;
+    font-size: 36px;
+    letter-spacing: -0.05em;
+}
+
+.profile__wrapper input {
+    font-family: Comfortaa;
+}
+
+.profile__wrapper label {
+    font-family: Comfortaa;
+}
+
+.profile__wrapper fieldset {
+    border-radius: 11px;
+}
+
+.save__button__wrapper {
+    position: absolute;
+    top: 77%;
+    width: 100%;
     text-align: center;
-
-    color: #000000;
 }
 
-.name_input, .surname_input, .email_input {
-    width: 482px;
-    height: 40px;
+.cancel__button {
+    font-family: Comfortaa;
+    font-size: 17px;
 
-    border: 0.5px solid lightgray;
-    box-sizing: border-box;
-    border-radius: 30px;
+    position: absolute;
+    top: 85%;
 
-    outline: none;
+    text-decoration-line: underline;
 
-    padding: 10px;
-    margin: 15px;
-}
-
-.error_message {
-    width: 482px;
-    color: red;
-
-    margin-top: 3px;
-    margin-bottom: 3px;
-}
-
-.submit_button {
-    width: 162px;
-    height: 33px;
-
-    background: #257AAF;
-    border: 1px solid #257AAF;
-    box-sizing: border-box;
-    border-radius: 30px;
-
-    color: white;
-}
-
-.pass_wrapper {
-    display: flex;
-}
-
-.new_password_input {
-    width: 442px;
-    height: 40px;
-
-    border: 0.5px solid lightgray;
-    border-right: none;
-    box-sizing: border-box;
-    border-bottom-left-radius: 30px;
-    border-top-left-radius: 30px;
-    outline: none;
-
-    padding: 10px;
-    margin: 15px;
-    margin-right: 0px;
-}
-
-.pass_button {
-    width: 40px;
-    height: 40px;
-
-    border: 0.5px solid lightgray;
-    border-left: none;
-
-    box-sizing: border-box;
-    border-bottom-right-radius: 30px;
-    border-top-right-radius: 30px;
-
-    outline: none;
-    background-color: white;
-
-    padding: 5px;
-    margin: 15px;
-    margin-left: 0px;
+    cursor: pointer;
 }
