@@ -86,6 +86,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             markerArea.uiStyleSettings.hideToolbar = false;
             markerArea.uiStyleSettings.hideToolbox = true;
             markerArea.uiStyleSettings.notesButtonVisible = false;
+            markerArea.uiStyleSettings.selectButtonVisible = false;
             markerArea.uiStyleSettings.notesAreaStyleClassName = 'dropboxDiv';
             markerArea.uiStyleSettings.toolbarStyleColorsClassName = 'PF';
             markerArea.uiStyleSettings.toolBarMaxWidth = getWidth() + 'px';
@@ -95,6 +96,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
             markerArea.show();
             markerArea.restoreState(initialMarkerState);
+            markerArea.switchToSelectMode();
             setWidthAndHeight();
 
             markerArea.addRenderEventListener((dataUrl, state) => {
@@ -276,18 +278,23 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
     }
 
     const getWidth = () => {
-        let width = sourceImageRef.current.naturalWidth < 800 ? sourceImageRef.current.naturalWidth : 800;
-        return width < 512 ? 512 : width;
+        let offsetWidth = document.getElementById('annotationContainer')?.offsetWidth;
+        offsetWidth = offsetWidth || 700;
+
+        return sourceImageRef.current.naturalWidth < offsetWidth ? sourceImageRef.current.naturalWidth : offsetWidth;
     }
 
     const getHeight = () => {
-        let height = sourceImageRef.current.naturalHeight < 600 ? sourceImageRef.current.naturalHeight : 600;
+        let offsetHeight = document.getElementById('annotationContainer')?.offsetHeight;
+        offsetHeight = offsetHeight || 550;
+
+        let height = sourceImageRef.current.naturalHeight < offsetHeight ? sourceImageRef.current.naturalHeight : offsetHeight;
         return height < 512 ? 512 : height;
     }
 
 
     return (
-        <div className='anotationToolBox'>
+        <div className='anotationToolBox' id='annotationContainer'>
             <div className='anoImageBox' style={{width: imgWidth, height: imgHeight}}>
                 <img
                     src={image}

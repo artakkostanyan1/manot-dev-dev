@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: center;
   margin-top: 40px;
+  width: 100%;
 }
 
 .dropboxDiv {
@@ -33,7 +34,7 @@
   display: none !important;
 }
 
-.anoImageBox{
+.anoImageBox {
   overflow: auto;
   position: absolute;
 

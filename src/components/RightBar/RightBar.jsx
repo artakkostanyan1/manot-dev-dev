@@ -10,7 +10,7 @@ function RightBar({notes, detectOnSingleImage}) {
             <div className='notes_list'>
             {(!Object.keys(notes).length) ? <div className='not_available'> Not available yet </div> :
                 Object.keys(notes).map((note, id) => notes[note] && (
-                    <div>
+                    <div key={id}>
                         <div className='paper_inner_div'>
                             <div className='note_part'>{note}</div>
                             <div className='counter_part'>{notes[note]}</div>
