@@ -37,7 +37,7 @@ function DashBoard() {
     const [isLoading, setIsLoading] = useState(true);
 
     const history = useHistory();
-    const maxNumber = 1000;
+    const maxNumber = 500;
     const maxlimit = 10;
 
     const showMenu = toggleMenu ? 'show__menu' : 'hide__menu';
@@ -360,7 +360,7 @@ function DashBoard() {
                                 onChange={onChange}
                                 maxNumber={maxNumber}
                                 acceptType={['jpg', 'jpeg', 'png']}
-                                maxFileSize={100000}
+                                maxFileSize={1000000}
                                 resolutionWidth={1024}
                                 resolutionHeight={1024}
                                 dataURLKey="data_url"
@@ -541,7 +541,7 @@ function DashBoard() {
                                 onChange={onChange}
                                 maxNumber={maxNumber}
                                 acceptType={['jpg', 'jpeg', 'png']}
-                                maxFileSize={100000}
+                                maxFileSize={1000000}
                                 resolutionWidth={1024}
                                 resolutionHeight={1024}
                                 dataURLKey="data_url"
