@@ -64,6 +64,7 @@ function ResetPassword(props) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'x-access-token': window.location.pathname.slice(16),
             },
             body: JSON.stringify(data),
         })
@@ -155,7 +156,7 @@ function ResetPassword(props) {
                     <div className='signup__right__part'>
                         <div className='signin__fields__wrapper'>
                             <div className='signup__fields__header'>
-                                reset password
+                                forgot password
                             </div>
                             {!secondView ?
                                 <>
@@ -186,6 +187,7 @@ function ResetPassword(props) {
                         </div>
                         <Link className='redirect__to__reset__password' to={paths.Login} >login</Link>
                         <hr className='divider' />
+
                         <div className="dont_have_account">Don't have an account?</div>
                         <div className='signup2__button__wrapper'>
                             <button
