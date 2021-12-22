@@ -73,3 +73,28 @@
     margin: 10px;
     cursor: pointer;
 }
+
+.menu__items__wrapper {
+    div:hover {
+        text-decoration: underline;
+        font-weight: bold;
+    }
+}
+
+.upgrade {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    height: 40px;
+    border: 1px solid #f4f4f4;
+    box-sizing: border-box;
+    border-radius: 13px;
+    font-family: Comfortaa;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 21px;
+    line-height: 23px;
+    letter-spacing: -0.05em;
+    color: #d235a8;
+}
