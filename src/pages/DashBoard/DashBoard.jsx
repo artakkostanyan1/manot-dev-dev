@@ -39,6 +39,7 @@ function DashBoard() {
     const history = useHistory();
     const maxNumber = 500;
     const maxlimit = 10;
+    const maxLimitOfSelectedImages = 15;
 
     const showMenu = toggleMenu ? 'show__menu' : 'hide__menu';
 
@@ -353,7 +354,13 @@ function DashBoard() {
                             <span style={{ marginTop: '230px' }}> Upload more images to folder</span>
                             <div style={{ color: '#8924BF' }}>{`${elementToAdd}`}</div>
                         </DialogTitle>
-                        <DialogActions style={{ height: '160px' }}>
+                        {!!newImagesArray.length && <div className='selected__images__container'>
+                            {newImagesArray.map((el) => <span className='add__image__item__name'>
+                                {el.file.name.length > maxLimitOfSelectedImages ?
+                                    el.file.name.substring(0, maxLimitOfSelectedImages - 3) + '...' : el.file.name}
+                            </span>)}
+                        </div>}
+                        <DialogActions style={{ height: !!newImagesArray.length ? '85px' : '160px' }}>
                             {!newImagesArray.length && <ImageUploading
                                 multiple
                                 value={newImagesArray}
@@ -375,10 +382,6 @@ function DashBoard() {
                             </ImageUploading>}
                             {!!newImagesArray.length &&
                                 <>
-                                    {newImagesArray.map((el) => <div className='add__image__item__name'>
-                                        {el.file.name.length > maxlimit ?
-                                            el.file.name.substring(0, maxlimit - 3) + '...' : el.file.name}
-                                    </div>)}
                                     <div className='upload__button__wrapper'>
                                         <button
                                             type='submit'
