@@ -127,7 +127,7 @@ function Desktop() {
                 <UserHeader className='user_header_desktop' />
                 <div className='desktop__header'>
                     <hr className='desktop__first__line' />
-                    <span>annotation of Image {imageIndex + 1}</span>
+                    <span className='annotation__title'>annotation of {folderName}</span>
                     <hr className='desktop__second__line' />
                 </div>
 
