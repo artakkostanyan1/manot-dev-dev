@@ -78,7 +78,7 @@ function NewLogin(props) {
                     setPassError(true)
                     setEmailError(true)
                     setError('The email or password is invalid.');
-                } else if (data.status === 'fail' && data.message === "This account is not active. Verification link sent to user email.") {
+                } else if (data.status === 'fail' && data.message === "This account is not active.") {
                     setError('Your account is not activated yet. Please check the email.');
                 } else {
                     localStorage.setItem('token', data.token)
