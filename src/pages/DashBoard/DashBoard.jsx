@@ -489,7 +489,7 @@ function DashBoard() {
                                     newArr.length ?
                                         setFoldersNames(foldersNames.filter((el) => el !== elementToDelete))
                                         :
-                                        history.push(paths.NewImportData)
+                                        history.push(paths.Importdata)
                                     // setElementToDelete('')
                                 }}
                                 color="primary"
