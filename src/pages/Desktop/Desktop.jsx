@@ -39,7 +39,6 @@ function Desktop() {
     const [marks, setMarks] = useState(defMarks[0])
 
     const chooseImage = (index, isRotation) => {
-        setLoading(true);
         isRotation = isRotation === undefined ? isRotationAllowed : isRotation;
 
         fetch(`${apiUrl}get-image-info/${isRotation ? 'rbb' : 'bb'}`, {
@@ -55,7 +54,6 @@ function Desktop() {
                 setImageIndex(index);
             })
             .catch(() => {})
-            .finally(() => setLoading(false))
     }
 
     const changeIsRotationAllowed = () => {
