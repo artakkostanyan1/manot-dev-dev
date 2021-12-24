@@ -22,7 +22,7 @@ function Registration(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmed_pass, setConfirmed_pass] = useState('');
-    const [showpass, setShowPass] = useState(false);
+    const [showPass, setShowPass] = useState(false);
     const [showConfirmed_pass, setShowConfirmed_pass] = useState(false);
 
     const [nameError, setNameError] = useState(false);
@@ -162,7 +162,7 @@ function Registration(props) {
 
                                 <InputComponent
                                     label="password"
-                                    type={showpass ? 'text' : 'password'}
+                                    type={showPass ? 'text' : 'password'}
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value) }}
                                     onFocus={() => setPassError(false)}
@@ -171,9 +171,9 @@ function Registration(props) {
                                         endAdornment: (
                                             <InputAdornment position="end" className='pass__eye'>
                                                 <div
-                                                    onClick={() => setShowPass(!showpass)}
+                                                    onClick={() => setShowPass(!showPass)}
                                                 >
-                                                    {showpass ? <Visibility /> : <VisibilityOff />}
+                                                    {showPass ? <Visibility /> : <VisibilityOff />}
                                                 </div>
                                             </InputAdornment>
                                         )
