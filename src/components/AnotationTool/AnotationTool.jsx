@@ -45,14 +45,14 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
         const initialMarkerState = {
             width: sampleImageRef.current?.clientWidth ?? 512,
             height: sampleImageRef.current?.clientHeight ?? 512,
-            markers: marks?.map(mark => ({
+            markers: marks?.map((mark, index) => ({
                 containerTransformMatrix: mark.matrix || { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
                 fillColor: "transparent",
                 height: mark.height,
                 width: mark.width,
                 top: mark.y || 0,
                 left: mark.x || 0,
-                id: 0,
+                id: index,
                 notes: mark.name,
                 opacity: 1,
                 prevNotes: undefined,
@@ -62,7 +62,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                 strokeDasharray: "",
                 strokeWidth: 3,
                 typeName: "FrameMarker",
-                visualTransformMatrix: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 },
+                visualTransformMatrix: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
             })) || []
         }
         setMarkerAreaState(initialMarkerState);
@@ -130,6 +130,11 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
                     setMarkersInfoArray(markers)
 
+                    if (markers.some(marker => marker.name.includes(' '))) {
+                        Toaster.notify('The label can\'t include spaces');
+                        return;
+                    }
+
                     const toasterId = Toaster.notify('Creating an XML file for your Image');
                     const data = {
                         folder_name: folderName,
@@ -145,13 +150,21 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         },
                         body: JSON.stringify(data)
                     })
-                        .then(res => {
-                            return res.json()
-                        })
+                        .then(res => res.json())
                         .then(res => {
                             if (res.status === 'fail') {
                                 Toaster.update(toasterId, res.message);
                                 throw new Error(res.message)
+                            }
+                            if (markerArea.getState().markers.length) {
+                                const note = markerArea.hideNotesEditor();
+                                if (note) {
+                                    notes.current[note]++ || (notes.current[note] = 1);
+                                    setNotes({...notes.current});
+                                }
+
+                                selectedMarker.current = null;
+                                markerArea.setCurrentMarker();
                             }
                             Toaster.update(toasterId, 'The XML has been generated successfully');
                         })
@@ -167,52 +180,34 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                 }
             });
 
-            markerArea.addDeleteEventListener(marker => {
-
-                if (marker.notes && notes.current[marker.notes]) {
-                    notes.current[marker.notes].count--;
-                    if (notes.current[marker.notes].count < 1) {
-                        delete notes.current[marker.notes]
-                    }
-                }
-
-                markerArea.hideNotesEditor()
-
-                if (marker.notes && notes.current[marker.notes]) {
-                    notes.current[marker.notes].count--;
-                    if (notes.current[marker.notes].count < 1) {
-                        delete notes.current[marker.notes]
-                    }
-                }
-            })
+            // TODO: implement with the next ticket
+            // markerArea.addDeleteEventListener(marker => {
+            //
+            //     if (marker.notes && notes.current[marker.notes]) {
+            //         notes.current[marker.notes].count--;
+            //         if (notes.current[marker.notes].count < 1) {
+            //             delete notes.current[marker.notes]
+            //         }
+            //     }
+            //
+            //     markerArea.hideNotesEditor()
+            //
+            //     if (marker.notes && notes.current[marker.notes]) {
+            //         notes.current[marker.notes].count--;
+            //         if (notes.current[marker.notes].count < 1) {
+            //             delete notes.current[marker.notes]
+            //         }
+            //     }
+            // })
 
             markerArea.addDeselectEventListener(marker => {
-                if (markerArea.getState().markers.length) {
-                    const { prevNote } = selectedMarker.current
-                    const note = markerArea.hideNotesEditor();
-                    if (!note || note.trim().includes(' ')) {
-                        marker.select()
-                        markerArea.setCurrentMarker(marker)
-                        if (note) {
-                            Toaster.notify('The label can\'t include spaces');
-                        }
-                        markerArea.deleteSelectedMarker(false)
-                    } else {
-                        if (prevNote) {
-                            notes.current[prevNote]--;
-                            notes.current[note]++ || (notes.current[note] = 1);
-
-                            if (notes.current[prevNote] < 1) {
-                                delete notes.current[prevNote]
-                            }
-                        } else {
-                            notes.current[note]++ || (notes.current[note] = 1);
-                        }
-                    }
-
-                    selectedMarker.current = null
-                    setNotes({ ...notes.current })
+                if (!markersInfoArray.current.some(markerInfo => markerInfo.id === marker.id) &&
+                    !markersArray.current.some(m => m.id === marker.id)) {
+                    markerArea.setCurrentMarker(marker);
+                    markerArea.deleteSelectedMarker(false);
                 }
+                markerArea.hideNotesEditor();
+                selectedMarker.current = null;
             });
 
             markerArea.addSelectEventListener((marker, id) => {
@@ -292,7 +287,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
         let height = sourceImageRef.current.naturalHeight < offsetHeight ? sourceImageRef.current.naturalHeight : offsetHeight;
         return height < 512 ? 512 : height;
     }
-
 
     return (
         <div className='anotationToolBox' id='annotationContainer'>
