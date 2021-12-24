@@ -64,6 +64,10 @@
     justify-content: center;
 
     width: 100%;
+
+    .pass__eye {
+        cursor: pointer;
+    }
 }
 
 .signup__inputs__wrapper label {

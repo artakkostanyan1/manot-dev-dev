@@ -4,6 +4,9 @@ import { useHistory } from 'react-router';
 import { ReactComponent as SignUpImg } from '../../styles/images/signup_page_img.svg';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import { Link, useParams } from "react-router-dom";
+import { InputAdornment } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import paths from '../../utils/routing';
 
@@ -24,6 +27,7 @@ function NewLogin(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const [error, setError] = useState('');
@@ -52,7 +56,7 @@ function NewLogin(props) {
                 }
 
             })
-            // const timeId = setTimeout(() => {
+        // const timeId = setTimeout(() => {
         //     setIsFromEmail(false)
         // }, 1800)
 
@@ -181,8 +185,32 @@ function NewLogin(props) {
                                 login
                             </div>
                             <div className='signin__inputs__wrapper'>
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
+                                <InputComponent
+                                    label='email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    onFocus={() => setEmailError(false)}
+                                    error={emailError}
+                                />
+                                <InputComponent
+                                    label='password'
+                                    type={showPassword ? 'text' : "password"}
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    onFocus={() => setPassError(false)}
+                                    error={passError}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end" className='pass__eye'>
+                                                <div
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </div>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
                             </div>
                             <div className='signin__button__wrapper'>
                                 <button
