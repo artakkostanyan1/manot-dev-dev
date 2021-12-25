@@ -112,11 +112,6 @@ function App() {
             <NewResetPassword />
           </PublicRoute> */}
           <PublicRoute
-            path={paths.ContactUs}
-          >
-            <ContactUs />
-          </PublicRoute>
-          <PublicRoute
             path={paths.Policy}
           >
             <Policy />
@@ -163,6 +158,11 @@ function App() {
             path={paths.Desktop}
           >
             <Desktop />
+          </PrivateRoute>
+          <PrivateRoute
+            path={paths.ContactUs}
+          >
+            <ContactUs />
           </PrivateRoute>
           <PrivateRoute
             path={paths.Payment}
