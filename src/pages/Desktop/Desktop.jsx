@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom'
 
-import UserHeader from '../../components/UserHeader/UserHeader';
+import UserHeader, { CustomMenu } from '../../components/UserHeader/UserHeader';
 import LeftBar from '../../components/LeftBar/LeftBar';
 import RightBar from '../../components/RightBar/RightBar';
 import AnotationTool from '../../components/AnotationTool/AnotationTool';
@@ -37,6 +37,7 @@ function Desktop() {
     const [notes, setNotes] = useState({})
     const [imageIndex, setImageIndex] = useState(0)
     const [marks, setMarks] = useState(defMarks[0])
+    const [toggleMenu, setToggleMenu] = useState(false);
 
     const chooseImage = (index, isRotation) => {
         isRotation = isRotation === undefined ? isRotationAllowed : isRotation;
@@ -47,13 +48,13 @@ function Desktop() {
                 'Content-type': 'application/json; charset=UTF-8',
                 'x-access-token': localStorage.getItem('token')
             },
-            body: JSON.stringify({folder_name: folderName, img_index: index})
+            body: JSON.stringify({ folder_name: folderName, img_index: index })
         }).then(res => res.json())
             .then(data => {
                 setMarks(data.message && typeof data.message === 'object' && data.message[index] || []);
                 setImageIndex(index);
             })
-            .catch(() => {})
+            .catch(() => { })
     }
 
     const changeIsRotationAllowed = () => {
@@ -117,48 +118,57 @@ function Desktop() {
             .finally(() => setLoading(false))
     }
 
-    if (loading) return <CircularUnderLoad />
+    const showMenu = toggleMenu ? 'show__menu' : 'hide__menu';
 
+    const handleToggle = (data) => {
+        setToggleMenu(data)
+    }
+
+    if (loading) return <CircularUnderLoad />
+    
     return (
         <>
-            {isLoading ? <Loader /> : <div className='comp-desktop'>
-                <UserHeader className='user_header_desktop' />
-                <div className='desktop__header'>
-                    <hr className='desktop__first__line' />
-                    <span className='annotation__title'>annotation of {folderName}</span>
-                    <hr className='desktop__second__line' />
-                </div>
+            {isLoading ? <Loader /> : <div className='desktop__wrapper'>
+                <div className={`comp-desktop ${showMenu}`}>
+                    <UserHeader className='user_header_desktop' handleToggle={handleToggle} showBurger={toggleMenu} />
+                    <div className='desktop__header'>
+                        <hr className='desktop__first__line' />
+                        <span className='annotation__title'>annotation of {folderName}</span>
+                        <hr className='desktop__second__line' />
+                    </div>
 
 
-                <div className='radio-buttons-container'>
-                    <FormControl component="fieldset">
-                        <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={() => changeIsRotationAllowed()}>
-                            <FormControlLabel value="B-box" control={<PurpleRadio checked={!isRotationAllowed}/>}
-                                              label={<Typography className='radio-buttons-label'>B-box</Typography>} />
-                            <FormControlLabel value="RB-Box" control={<PurpleRadio checked={isRotationAllowed}/>}
-                                              label={<Typography className='radio-buttons-label'>RB-box</Typography>} />
-                        </RadioGroup>
-                    </FormControl>
-                    <button className='button__component'> start full data annotation </button>
-                </div>
+                    <div className='radio-buttons-container'>
+                        <FormControl component="fieldset">
+                            <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={() => changeIsRotationAllowed()}>
+                                <FormControlLabel value="B-box" control={<PurpleRadio checked={!isRotationAllowed} />}
+                                    label={<Typography className='radio-buttons-label'>B-box</Typography>} />
+                                <FormControlLabel value="RB-Box" control={<PurpleRadio checked={isRotationAllowed} />}
+                                    label={<Typography className='radio-buttons-label'>RB-box</Typography>} />
+                            </RadioGroup>
+                        </FormControl>
+                        <button className='button__component'> start full data annotation </button>
+                    </div>
 
-                <div className='main-content-container'>
-                    <LeftBar className='left_bar'
-                        imagesList={imagesList}
-                        setImagesList={setImagesList}
-                        folderName={folderName}
-                        setImageIndex={chooseImage}
-                    />
-                    <AnotationTool
-                        image={imagesList[imageIndex]}
-                        isRotationAllowed={isRotationAllowed}
-                        setNotes={setNotes}
-                        marks={marks}
-                        folderName={folderName}
-                        imageIndex={imageIndex}
-                    />
-                    <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />
+                    <div className='main-content-container'>
+                        <LeftBar className='left_bar'
+                            imagesList={imagesList}
+                            setImagesList={setImagesList}
+                            folderName={folderName}
+                            setImageIndex={chooseImage}
+                        />
+                        <AnotationTool
+                            image={imagesList[imageIndex]}
+                            isRotationAllowed={isRotationAllowed}
+                            setNotes={setNotes}
+                            marks={marks}
+                            folderName={folderName}
+                            imageIndex={imageIndex}
+                        />
+                        <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />
+                    </div>
                 </div>
+                {toggleMenu && <CustomMenu handleToggle={handleToggle} />}
             </div>
             }
         </>
