@@ -137,7 +137,6 @@ function Desktop() {
                         <hr className='desktop__second__line' />
                     </div>
 
-
                     <div className='radio-buttons-container'>
                         <FormControl component="fieldset">
                             <RadioGroup row aria-label="position" name="position" defaultValue="top" onChange={() => changeIsRotationAllowed()}>
