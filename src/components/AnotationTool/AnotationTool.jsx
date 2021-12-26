@@ -153,8 +153,13 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         .then(res => res.json())
                         .then(res => {
                             if (res.status === 'fail') {
-                                Toaster.update(toasterId, res.message);
-                                throw new Error(res.message)
+                                let message = "Something went wrong. Try again.";
+                                if (res.message?.labels) {
+                                    message = "There are no labels to save";
+                                }
+
+                                Toaster.update(toasterId, message);
+                                return;
                             }
                             if (markerArea.getState().markers.length) {
                                 const note = markerArea.hideNotesEditor();
@@ -180,25 +185,18 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                 }
             });
 
-            // TODO: implement with the next ticket
-            // markerArea.addDeleteEventListener(marker => {
-            //
-            //     if (marker.notes && notes.current[marker.notes]) {
-            //         notes.current[marker.notes].count--;
-            //         if (notes.current[marker.notes].count < 1) {
-            //             delete notes.current[marker.notes]
-            //         }
-            //     }
-            //
-            //     markerArea.hideNotesEditor()
-            //
-            //     if (marker.notes && notes.current[marker.notes]) {
-            //         notes.current[marker.notes].count--;
-            //         if (notes.current[marker.notes].count < 1) {
-            //             delete notes.current[marker.notes]
-            //         }
-            //     }
-            // })
+            markerArea.addDeleteEventListener(marker => {
+                if (markersInfoArray.current.some(markerInfo => markerInfo.id === marker.id) ||
+                    markersArray.current.some(m => m.id === marker.id)) {
+                    if (marker.notes && notes.current[marker.notes]) {
+                        notes.current[marker.notes]--;
+                        if (notes.current[marker.notes] < 1) {
+                            delete notes.current[marker.notes]
+                        }
+                        setNotes({...notes.current});
+                    }
+                }
+            });
 
             markerArea.addDeselectEventListener(marker => {
                 if (!markersInfoArray.current.some(markerInfo => markerInfo.id === marker.id) &&
