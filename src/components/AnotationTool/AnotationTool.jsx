@@ -179,7 +179,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         .finally(() => {
                             setLoading(false)
                             setTimeout(() => {
-                                // Toaster.dismiss(toasterId)
+                                Toaster.dismiss(toasterId)
                             }, 2000)
                         })
                 }
