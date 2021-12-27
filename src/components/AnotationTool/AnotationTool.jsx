@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as mjs from 'mjs2-edit';
 
-import {Toaster, ToasterType} from '../Toaster/Toaster';
+import { Toaster, ToasterType } from '../Toaster/Toaster';
 import './AnotationTool.scss';
 
 const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNotes, marks }) => {
@@ -178,9 +178,9 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         })
                         .finally(() => {
                             setLoading(false)
-                            // setTimeout(() => {
-                            //     // Toaster.dismiss(toasterId)
-                            // }, 2000)
+                            setTimeout(() => {
+                                // Toaster.dismiss(toasterId)
+                            }, 2000)
                         })
                 }
             });

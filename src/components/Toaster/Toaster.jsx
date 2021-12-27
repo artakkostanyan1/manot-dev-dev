@@ -53,7 +53,7 @@ const ToastComponent = ({ message, type }) => {
 
         <div className='toast-text-container'>
             <span className='toast-text'> { getTitleFromType(type) }  </span>
-            <span className='toast-text'>{message}</span>
+            <span className='toast-text'> {message} </span>
         </div>
     </div>
 }
