@@ -52,7 +52,7 @@ function NewLogin(props) {
                 }
 
             })
-            // const timeId = setTimeout(() => {
+        // const timeId = setTimeout(() => {
         //     setIsFromEmail(false)
         // }, 1800)
 
@@ -85,42 +85,34 @@ function NewLogin(props) {
                 }
             })
             .then(() => {
-                fetch(`${apiUrl}get-folders`, {
-                    method: 'GET',
-                    headers: {
-                        "x-access-token": localStorage.getItem('token')
-                    }
-                })
-                    .then(response => {
-                        if (response.status === 403) {
-                            localStorage.removeItem('token');
-                            history.push(paths.Main)
-                        }
-                        if (response.status === 422) {
-                            setError(true)
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('dataa', data);
-                        //     if (data.status === 'success') {
-                        //         if (data.message.length === 0) {
-                        //             history.push(paths.ImportData);
-                        //         } else {
-                        //             history.push(paths.DashBoard);
-                        //         }
-                        //     } else {
-                        //         console.log(data.message);
-                        //     }
-                        if (data.status === 'fail' && data.message === "No folder created.") {
-                            history.push(paths.Importdata);
-                        } else {
-                            history.push(paths.DashBoard);
+                if (data.token) {
+                    fetch(`${apiUrl}get-folders`, {
+                        method: 'GET',
+                        headers: {
+                            "x-access-token": localStorage.getItem('token')
                         }
                     })
-                    .catch(err => {
-                        console.log('Errrr', err);
-                    })
+                        .then(response => {
+                            if (response.status === 403) {
+                                localStorage.removeItem('token');
+                                history.push(paths.Main)
+                            }
+                            if (response.status === 422) {
+                                setError(true)
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.status === 'fail' && data.message === "No folder created.") {
+                                history.push(paths.Importdata);
+                            } else {
+                                history.push(paths.DashBoard);
+                            }
+                        })
+                        .catch(err => {
+                            console.log('Errrr', err);
+                        })
+                }
             })
             .catch((error) => {
                 setError(error.message);
@@ -181,8 +173,27 @@ function NewLogin(props) {
                                 login
                             </div>
                             <div className='signin__inputs__wrapper'>
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
+                                <InputComponent
+                                    label='email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    onFocus={() => {
+                                        setEmailError(false);
+                                        setError(false);
+                                    }}
+                                    error={emailError}
+                                />
+                                <InputComponent
+                                    label='password'
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    onFocus={() => {
+                                        setPassError(false);
+                                        setError(false);
+                                    }}
+                                    error={passError}
+                                />
                             </div>
                             <div className='signin__button__wrapper'>
                                 <button
