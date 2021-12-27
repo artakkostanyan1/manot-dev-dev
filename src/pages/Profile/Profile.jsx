@@ -174,20 +174,40 @@ function Profile(props) {
                     <UserHeader handleToggle={handleToggle} showBurger={toggleMenu} />
                     <div className='profile__wrapper'>
                         <div className='profile__heading'>profile and password</div>
-                        <TextField label='first name' variant="outlined" size="small" color="secondary"
-                            value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)}
-                            error={nameError} style={{
+                        <TextField
+                            label='first name'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            onFocus={() => setNameError(false)}
+                            error={nameError}
+                            style={{
                                 width: '450px',
                                 margin: '9px'
                             }} />
-                        <TextField label='last name' variant="outlined" size="small" color="secondary"
-                            value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)}
-                            error={surnameError} style={{
+                        <TextField
+                            label='last name'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            value={surname}
+                            onChange={(e) => setSurname(e.target.value)}
+                            onFocus={() => setSurnameError(false)}
+                            error={surnameError}
+                            style={{
                                 width: '450px',
                                 margin: '9px'
                             }} />
-                        <TextField label='email' variant="outlined" size="small" color="secondary" disabled
-                            value={email} onChange={(e) => setEmail(e.target.value)}
+                        <TextField
+                            label='email'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            disabled
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             style={{
                                 width: '450px',
                                 margin: '9px'
