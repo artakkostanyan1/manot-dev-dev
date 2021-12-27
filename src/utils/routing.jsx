@@ -16,7 +16,6 @@ const paths = {
     ContactUs: '/contact-us',
     Terms: '/terms',
     DashBoard: '/dashboard',
-    ContactUs: '/contact-us',
     Policy: '/policy',
     Terms: '/terms',
     // NewProfile: '/new-profile',
