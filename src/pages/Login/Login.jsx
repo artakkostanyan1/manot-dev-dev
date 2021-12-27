@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { ReactComponent as SignUpImg } from '../../styles/images/signup_page_img.svg';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import { Link, useParams } from "react-router-dom";
+import { Toaster, ToasterType } from '../../components/Toaster/Toaster';
 
 import paths from '../../utils/routing';
 
@@ -21,6 +23,8 @@ function NewLogin(props) {
 
     const params = useParams();
     const history = useHistory();
+    const { state } = useLocation();
+    console.log('statae', state);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -52,7 +56,7 @@ function NewLogin(props) {
                 }
 
             })
-            // const timeId = setTimeout(() => {
+        // const timeId = setTimeout(() => {
         //     setIsFromEmail(false)
         // }, 1800)
 
@@ -164,6 +168,7 @@ function NewLogin(props) {
         <>
             {isLoading ? <Loader /> :
                 <div className='registration__wrapper'>
+                    {state.message && Toaster.notify(state.message, ToasterType.success)}
                     <div className='signup__left__part'>
                         <Header />
                         <div className='welcome__header'>

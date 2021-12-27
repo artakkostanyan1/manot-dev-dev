@@ -70,11 +70,10 @@ function ResetPassword(props) {
         })
             .then(response => response.json())
             .then(response => {
-                console.log('res', response);
                 if (response.status === 'fail') {
                     throw Error('Error.');
-                } else {
-                    history.push(paths.NewLogin);
+                } else if (response.status === 'success') {
+                    history.push(paths.Login, { message: response.message });
                 }
             })
             .catch((error) => {
@@ -136,7 +135,11 @@ function ResetPassword(props) {
         validatePass(new_pass, setNewPassError);
         validatePass(repeat_pass, setRepeatPassError);
 
-        !isPasswordsMissing() && !isPasswordsMatch() && validatePassword(new_pass) && validatePassword(repeat_pass) && resetPass(data);
+        !isPasswordsMissing()
+            && !isPasswordsMatch()
+            && validatePassword(new_pass)
+            && validatePassword(repeat_pass)
+            && resetPass(data);
     }
 
     return (
@@ -164,7 +167,13 @@ function ResetPassword(props) {
                                         Enter the email assiciated with your account, and we will send an email with a link to reset your password.
                                     </div>
                                     <div className='reset__input__wrapper'>
-                                        <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => { setEmailError(false); setUserMessage('')}} error={emailError} />
+                                        <InputComponent
+                                            label='email'
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            onFocus={() => { setEmailError(false); setUserMessage('') }}
+                                            error={emailError}
+                                        />
                                     </div>
                                     {emailError && <div className='error__message message__wrapper'> {emailError} </div>}
                                     {userMessage && <div className='success_message message__wrapper'>{userMessage}</div>}
