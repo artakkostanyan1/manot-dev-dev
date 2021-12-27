@@ -65,7 +65,7 @@ function Desktop() {
     useEffect(() => {
         setLoading(true);
         state === undefined ? history.push(paths.DashBoard)
-            : fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
+            : fetch(`${apiUrl}get-images?folder_name=${folderName}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -136,7 +136,6 @@ function Desktop() {
                         <span className='annotation__title'>annotation of {folderName}</span>
                         <hr className='desktop__second__line' />
                     </div>
-
 
                     <div className='radio-buttons-container'>
                         <FormControl component="fieldset">

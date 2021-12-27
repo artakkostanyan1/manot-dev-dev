@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as mjs from 'mjs2-edit';
 
-import { Toaster } from '../Toaster/Toaster';
+import { Toaster, ToasterType } from '../Toaster/Toaster';
 import './AnotationTool.scss';
 
 const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNotes, marks }) => {
@@ -131,11 +131,11 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     setMarkersInfoArray(markers)
 
                     if (markers.some(marker => marker.name.includes(' '))) {
-                        Toaster.notify('The label can\'t include spaces');
+                        Toaster.notify('The label can\'t include spaces.', ToasterType.failure);
                         return;
                     }
 
-                    const toasterId = Toaster.notify('Creating an XML file for your Image');
+                    const toasterId = Toaster.notify('Creating an XML file for your image.', ToasterType.info);
                     const data = {
                         folder_name: folderName,
                         img_index: imageIndex,
@@ -155,10 +155,10 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                             if (res.status === 'fail') {
                                 let message = "Something went wrong. Try again.";
                                 if (res.message?.labels) {
-                                    message = "There are no labels to save";
+                                    message = "There are no labels to save.";
                                 }
 
-                                Toaster.update(toasterId, message);
+                                Toaster.update(toasterId, message, ToasterType.failure);
                                 return;
                             }
                             if (markerArea.getState().markers.length) {
@@ -171,10 +171,10 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                                 selectedMarker.current = null;
                                 markerArea.setCurrentMarker();
                             }
-                            Toaster.update(toasterId, 'The XML has been generated successfully');
+                            Toaster.update(toasterId, 'The XML has been generated successfully.', ToasterType.success);
                         })
                         .catch(e => {
-                            Toaster.update(toasterId, e);
+                            Toaster.update(toasterId, e, ToasterType.failure);
                         })
                         .finally(() => {
                             setLoading(false)

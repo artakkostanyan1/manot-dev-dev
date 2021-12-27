@@ -4,6 +4,9 @@ import { useHistory } from 'react-router';
 import { ReactComponent as SignUpImg } from '../../styles/images/signup_page_img.svg';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import { Link, useParams } from "react-router-dom";
+import { InputAdornment } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import paths from '../../utils/routing';
 
@@ -24,6 +27,7 @@ function NewLogin(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const [error, setError] = useState('');
@@ -185,7 +189,7 @@ function NewLogin(props) {
                                 />
                                 <InputComponent
                                     label='password'
-                                    type="password"
+                                    type={showPassword ? 'text' : "password"}
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value) }}
                                     onFocus={() => {
@@ -193,6 +197,17 @@ function NewLogin(props) {
                                         setError(false);
                                     }}
                                     error={passError}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end" className='pass__eye'>
+                                                <div
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </div>
+                                            </InputAdornment>
+                                        )
+                                    }}
                                 />
                             </div>
                             <div className='signin__button__wrapper'>
