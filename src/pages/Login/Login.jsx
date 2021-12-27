@@ -89,42 +89,34 @@ function NewLogin(props) {
                 }
             })
             .then(() => {
-                fetch(`${apiUrl}get-folders`, {
-                    method: 'GET',
-                    headers: {
-                        "x-access-token": localStorage.getItem('token')
-                    }
-                })
-                    .then(response => {
-                        if (response.status === 403) {
-                            localStorage.removeItem('token');
-                            history.push(paths.Main)
-                        }
-                        if (response.status === 422) {
-                            setError(true)
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('dataa', data);
-                        //     if (data.status === 'success') {
-                        //         if (data.message.length === 0) {
-                        //             history.push(paths.ImportData);
-                        //         } else {
-                        //             history.push(paths.DashBoard);
-                        //         }
-                        //     } else {
-                        //         console.log(data.message);
-                        //     }
-                        if (data.status === 'fail' && data.message === "No folder created.") {
-                            history.push(paths.Importdata);
-                        } else {
-                            history.push(paths.DashBoard);
+                if (data.token) {
+                    fetch(`${apiUrl}get-folders`, {
+                        method: 'GET',
+                        headers: {
+                            "x-access-token": localStorage.getItem('token')
                         }
                     })
-                    .catch(err => {
-                        console.log('Errrr', err);
-                    })
+                        .then(response => {
+                            if (response.status === 403) {
+                                localStorage.removeItem('token');
+                                history.push(paths.Main)
+                            }
+                            if (response.status === 422) {
+                                setError(true)
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.status === 'fail' && data.message === "No folder created.") {
+                                history.push(paths.Importdata);
+                            } else {
+                                history.push(paths.DashBoard);
+                            }
+                        })
+                        .catch(err => {
+                            console.log('Errrr', err);
+                        })
+                }
             })
             .catch((error) => {
                 setError(error.message);
@@ -189,7 +181,10 @@ function NewLogin(props) {
                                     label='email'
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    onFocus={() => setEmailError(false)}
+                                    onFocus={() => {
+                                        setEmailError(false);
+                                        setError(false);
+                                    }}
                                     error={emailError}
                                 />
                                 <InputComponent
@@ -197,7 +192,10 @@ function NewLogin(props) {
                                     type={showPassword ? 'text' : "password"}
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value) }}
-                                    onFocus={() => setPassError(false)}
+                                    onFocus={() => {
+                                        setPassError(false);
+                                        setError(false);
+                                    }}
                                     error={passError}
                                     InputProps={{
                                         endAdornment: (
