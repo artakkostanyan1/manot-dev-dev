@@ -4,6 +4,9 @@ import { useHistory } from 'react-router';
 import { ReactComponent as SignUpImg } from '../../styles/images/signup_page_img.svg';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import { Link } from "react-router-dom";
+import { InputAdornment } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import paths from '../../utils/routing';
 
@@ -19,6 +22,8 @@ function Registration(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmed_pass, setConfirmed_pass] = useState('');
+    const [showPass, setShowPass] = useState(false);
+    const [showConfirmed_pass, setShowConfirmed_pass] = useState(false);
 
     const [nameError, setNameError] = useState(false);
     const [surnameError, setSurnameError] = useState(false);
@@ -130,27 +135,81 @@ function Registration(props) {
                                 sign up
                             </div>
                             <div className='signup__inputs__wrapper'>
-                                <InputComponent label='first name' value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)} error={nameError} />
-                                <InputComponent label='last name' value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)} error={surnameError} />
+                                <InputComponent
+                                    label='first name'
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    onFocus={() => setNameError(false)}
+                                    error={nameError}
+                                />
+                                <InputComponent
+                                    label='last name'
+                                    value={surname}
+                                    onChange={(e) => setSurname(e.target.value)}
+                                    onFocus={() => setSurnameError(false)}
+                                    error={surnameError}
+                                />
 
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => { setEmailError(false); setError(false) }} error={emailError} />
+                                <InputComponent
+                                    label='email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    onFocus={() => { setEmailError(false); setError(false) }}
+                                    error={emailError}
+                                />
                                 {error && password !== '' &&
                                     <div className='error__message'>{error}</div>}
 
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
+                                <InputComponent
+                                    label="password"
+                                    type={showPass ? 'text' : 'password'}
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    onFocus={() => setPassError(false)}
+                                    error={passError}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end" className='pass__eye'>
+                                                <div
+                                                    onClick={() => setShowPass(!showPass)}
+                                                >
+                                                    {showPass ? <Visibility /> : <VisibilityOff />}
+                                                </div>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
                                 {!strongRegex.test(password) && password !== '' &&
                                     <div className='error__message'>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
-                                <InputComponent label='repeat password' type="password" value={confirmed_pass} onChange={(e) => setConfirmed_pass(e.target.value)} onFocus={() => setConfirmed_passError(false)} error={confirmed_passError} />
+                                <InputComponent
+                                    label='repeat password'
+                                    type={showConfirmed_pass ? 'text' : "password"}
+                                    value={confirmed_pass}
+                                    onChange={(e) => setConfirmed_pass(e.target.value)}
+                                    onFocus={() => setConfirmed_passError(false)}
+                                    error={confirmed_passError}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end" className='pass__eye'>
+                                                <div
+                                                    onClick={() => setShowConfirmed_pass(!showConfirmed_pass)}
+                                                >
+                                                    {showConfirmed_pass ? <Visibility /> : <VisibilityOff />}
+                                                </div>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
                             </div>
                             <div className={`terms__policy__checkbox__wrapper ${hasAcceptCheckboxErrorBorder}`}>
                                 <input type="checkbox"
-                                       className='terms__policy__checkbox'
-                                       defaultChecked={accept}
-                                       onClick={() => {
-                                           !accept ? setHasAcceptCheckboxErrorBorder('') : setHasAcceptCheckboxErrorBorder('with__err__border')
-                                           setAccept(!accept)
-                                       }}/>
+                                    className='terms__policy__checkbox'
+                                    defaultChecked={accept}
+                                    onClick={() => {
+                                        !accept ? setHasAcceptCheckboxErrorBorder('') : setHasAcceptCheckboxErrorBorder('with__err__border')
+                                        setAccept(!accept)
+                                    }} />
                                 {'  Accept our  '}
                                 <Link to={paths.Terms} target='_blank'>Terms of Use</Link>
                                 {'  and  '}

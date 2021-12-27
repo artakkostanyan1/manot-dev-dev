@@ -427,11 +427,18 @@ function DashBoard() {
                         </DialogTitle>
                         <>
                             <DialogContent className='edit__dialog__content'>
-                                <TextField label='new name' variant="outlined" size="small" color="secondary"
-                                    value={editFolderName} onChange={(e) => {
+                                <TextField
+                                    label='new name'
+                                    variant="outlined"
+                                    size="small"
+                                    color="secondary"
+                                    value={editFolderName}
+                                    onChange={(e) => {
                                         setEditFolderName(e.target.value);
-                                    }} onFocus={() => setFolderNameErr('')}
-                                    error={!!folderNameErr} style={{
+                                    }}
+                                    onFocus={() => setFolderNameErr('')}
+                                    error={!!folderNameErr}
+                                    style={{
                                         width: '427px',
                                     }} />
                                 {folderNameErr && <div className='error__message' style={{ width: '100%' }}>{folderNameErr}</div>}
@@ -527,8 +534,14 @@ function DashBoard() {
                         <DialogContent className='import__dialog__content'>
                             <span style={{ marginTop: '230px' }}> Create new folder</span>
                             <div className='upload__subwrapper' style={{ marginTop: '15px' }}>
-                                <TextField label='folder name' variant="outlined" size="small" color="secondary"
-                                    value={folder_name} onChange={(e) => setFolderName(e.target.value)} onFocus={() => setFolderNameErr(false)}
+                                <TextField
+                                    label='folder name'
+                                    variant="outlined"
+                                    size="small"
+                                    color="secondary"
+                                    value={folder_name}
+                                    onChange={(e) => setFolderName(e.target.value)}
+                                    onFocus={() => setFolderNameErr(false)}
                                     error={!!folderNameErr}
                                     style={{
                                         width: '450px',

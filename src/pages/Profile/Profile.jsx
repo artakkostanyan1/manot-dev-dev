@@ -3,6 +3,9 @@ import { useHistory } from 'react-router';
 import UserHeader, { CustomMenu } from '../../components/UserHeader/UserHeader';
 import Loader from '../../components/Loader/Loader';
 import TextField from '@mui/material/TextField';
+import { InputAdornment } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import paths from '../../utils/routing';
 
@@ -18,6 +21,10 @@ function Profile(props) {
     const [old_password, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
     const [confirmed_pass, setConfirmedPassword] = useState('');
+
+    const [showOld_passwords, setShowOld_password] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmed_pass, setShowConfirmed_pass] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
@@ -167,32 +174,88 @@ function Profile(props) {
                     <UserHeader handleToggle={handleToggle} showBurger={toggleMenu} />
                     <div className='profile__wrapper'>
                         <div className='profile__heading'>profile and password</div>
-                        <TextField label='first name' variant="outlined" size="small" color="secondary"
-                            value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameError(false)}
-                            error={nameError} style={{
-                                width: '450px',
-                                margin: '9px'
-                            }} />
-                        <TextField label='last name' variant="outlined" size="small" color="secondary"
-                            value={surname} onChange={(e) => setSurname(e.target.value)} onFocus={() => setSurnameError(false)}
-                            error={surnameError} style={{
-                                width: '450px',
-                                margin: '9px'
-                            }} />
-                        <TextField label='email' variant="outlined" size="small" color="secondary" disabled
-                            value={email} onChange={(e) => setEmail(e.target.value)}
+                        <TextField
+                            label='first name'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            onFocus={() => setNameError(false)}
+                            error={nameError}
                             style={{
                                 width: '450px',
                                 margin: '9px'
                             }} />
-                        <TextField label='current password' variant="outlined" size="small" color="secondary" type="password"
-                            value={old_password} onChange={(e) => setOldPassword(e.target.value)} onFocus={() => setOldPasswordError(false)}
+                        <TextField
+                            label='last name'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            value={surname}
+                            onChange={(e) => setSurname(e.target.value)}
+                            onFocus={() => setSurnameError(false)}
+                            error={surnameError}
+                            style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField
+                            label='email'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            disabled
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            style={{
+                                width: '450px',
+                                margin: '9px'
+                            }} />
+                        <TextField
+                            label='current password'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            type={showOld_passwords ? 'text' : "password"}
+                            value={old_password}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            onFocus={() => setOldPasswordError(false)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end" className='pass__eye'>
+                                        <div
+                                            onClick={() => setShowOld_password(!showOld_passwords)}
+                                        >
+                                            {showOld_passwords ? <Visibility /> : <VisibilityOff />}
+                                        </div>
+                                    </InputAdornment>
+                                )
+                            }}
                             error={old_passwordError} style={{
                                 width: '450px',
                                 margin: '9px'
                             }} />
-                        <TextField label='new password' variant="outlined" size="small" color="secondary" type="password"
-                            value={password} onChange={(e) => setPassword(e.target.value)} onFocus={() => setPasswordError(false)}
+                        <TextField
+                            label='new password'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            type={showPassword ? 'text' : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            onFocus={() => setPasswordError(false)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end" className='pass__eye'>
+                                        <div
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </div>
+                                    </InputAdornment>
+                                )
+                            }}
                             error={passwordError} style={{
                                 width: '450px',
                                 margin: '9px'
@@ -200,8 +263,26 @@ function Profile(props) {
                         {!strongRegex.test(password) && password !== '' &&
                             <div className='error__message' style={{ width: '440px' }}>Password must contain at least 6 characters, including upper + lowercase, numbers and special symbols[!@#$%^&*]</div>}
 
-                        <TextField label='repeat password' variant="outlined" size="small" color="secondary" type="password"
-                            value={confirmed_pass} onChange={(e) => setConfirmedPassword(e.target.value)} onFocus={() => setConfirmed_passError(false)}
+                        <TextField
+                            label='repeat password'
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            type={showConfirmed_pass ? 'text' : "password"}
+                            value={confirmed_pass}
+                            onChange={(e) => setConfirmedPassword(e.target.value)}
+                            onFocus={() => setConfirmed_passError(false)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end" className='pass__eye'>
+                                        <div
+                                            onClick={() => setShowConfirmed_pass(!showConfirmed_pass)}
+                                        >
+                                            {showConfirmed_pass ? <Visibility /> : <VisibilityOff />}
+                                        </div>
+                                    </InputAdornment>
+                                )
+                            }}
                             error={confirmed_passError} style={{
                                 width: '450px',
                                 margin: '9px'
