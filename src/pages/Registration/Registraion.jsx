@@ -213,7 +213,7 @@ function Registration(props) {
                                 {'  Accept our  '}
                                 <Link to={paths.Terms} target='_blank'>Terms of Use</Link>
                                 {'  and  '}
-                                <Link to={paths.Terms} target='_blank'>Privacy Policy</Link>
+                                <Link to={paths.Policy} target='_blank'>Privacy Policy</Link>
                             </div>
                             <div className='signup__button__wrapper'>
                                 <button
