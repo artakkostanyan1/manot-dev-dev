@@ -65,7 +65,7 @@ function ContactUs(props) {
                         <div className='contactUs__heading'>contact us</div>
                         <TextField
                             key='1'
-                            label='first name'
+                            label='full name'
                             variant="outlined"
                             size="small"
                             color="secondary"
@@ -111,7 +111,7 @@ function ContactUs(props) {
                             variant="outlined"
                             size="small"
                             multiline
-                            rows={7}
+                            rows={9}
                             color="secondary"
                             type="text"
                             value={message}
