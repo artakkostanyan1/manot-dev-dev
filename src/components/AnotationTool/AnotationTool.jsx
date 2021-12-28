@@ -162,9 +162,19 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                                 return;
                             }
                             if (markerArea.getState().markers.length) {
+                                const prevNote = selectedMarker?.current?.prevNote;
                                 const note = markerArea.hideNotesEditor();
                                 if (note) {
-                                    notes.current[note]++ || (notes.current[note] = 1);
+                                    if (prevNote) {
+                                        notes.current[prevNote]--;
+                                        notes.current[note]++ || (notes.current[note] = 1);
+
+                                        if (notes.current[prevNote] < 1) {
+                                            delete notes.current[prevNote]
+                                        }
+                                    } else {
+                                        notes.current[note]++ || (notes.current[note] = 1);
+                                    }
                                     setNotes({...notes.current});
                                 }
 
@@ -186,8 +196,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             });
 
             markerArea.addDeleteEventListener(marker => {
-                if (markersInfoArray.current.some(markerInfo => markerInfo.id === marker.id) ||
-                    markersArray.current.some(m => m.id === marker.id)) {
+                if (isMarkerSaved(marker)) {
                     if (marker.notes && notes.current[marker.notes]) {
                         notes.current[marker.notes]--;
                         if (notes.current[marker.notes] < 1) {
@@ -199,10 +208,10 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             });
 
             markerArea.addDeselectEventListener(marker => {
-                if (!markersInfoArray.current.some(markerInfo => markerInfo.id === marker.id) &&
-                    !markersArray.current.some(m => m.id === marker.id)) {
+                if (!isMarkerSaved(marker)) {
                     markerArea.setCurrentMarker(marker);
-                    markerArea.deleteSelectedMarker(false);
+                    // throws error, when deleting unsaved box, but is needed on deselecting.
+                    try { markerArea.deleteSelectedMarker(false); } catch (e) {}
                 }
                 markerArea.hideNotesEditor();
                 selectedMarker.current = null;
@@ -252,6 +261,11 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             setMA(markerArea);
         }
     }, [isRotationAllowed, image, marks, setNotes])
+
+    const isMarkerSaved = marker => {
+        return markersInfoArray.current.some(markerInfo => markerInfo.id === marker.id && markerInfo.notes === marker.notes) ||
+            markersArray.current.some(m => m.id === marker.id && m.notes === marker.notes);
+    }
 
     const getNotesFromMarkers = (marks) => {
         const notes = {};
