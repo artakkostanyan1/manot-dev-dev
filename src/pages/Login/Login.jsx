@@ -89,11 +89,13 @@ function NewLogin(props) {
                 }
             })
             .then(() => {
-                if (data.token) {
+                const token = localStorage.getItem('token');
+
+                if (token) {
                     fetch(`${apiUrl}get-folders`, {
                         method: 'GET',
                         headers: {
-                            "x-access-token": localStorage.getItem('token')
+                            "x-access-token": token
                         }
                     })
                         .then(response => {
