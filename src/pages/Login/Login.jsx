@@ -6,6 +6,9 @@ import { ReactComponent as SignUpImg } from '../../styles/images/signup_page_img
 import InputComponent from '../../components/InputComponent/InputComponent';
 import { Link, useParams } from "react-router-dom";
 import { Toaster, ToasterType } from '../../components/Toaster/Toaster';
+import { InputAdornment } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import paths from '../../utils/routing';
 
@@ -28,6 +31,7 @@ function NewLogin(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const [error, setError] = useState('');
@@ -89,42 +93,36 @@ function NewLogin(props) {
                 }
             })
             .then(() => {
-                fetch(`${apiUrl}get-folders`, {
-                    method: 'GET',
-                    headers: {
-                        "x-access-token": localStorage.getItem('token')
-                    }
-                })
-                    .then(response => {
-                        if (response.status === 403) {
-                            localStorage.removeItem('token');
-                            history.push(paths.Main)
-                        }
-                        if (response.status === 422) {
-                            setError(true)
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('dataa', data);
-                        //     if (data.status === 'success') {
-                        //         if (data.message.length === 0) {
-                        //             history.push(paths.ImportData);
-                        //         } else {
-                        //             history.push(paths.DashBoard);
-                        //         }
-                        //     } else {
-                        //         console.log(data.message);
-                        //     }
-                        if (data.status === 'fail' && data.message === "No folder created.") {
-                            history.push(paths.Importdata);
-                        } else {
-                            history.push(paths.DashBoard);
+                const token = localStorage.getItem('token');
+
+                if (token) {
+                    fetch(`${apiUrl}get-folders`, {
+                        method: 'GET',
+                        headers: {
+                            "x-access-token": token
                         }
                     })
-                    .catch(err => {
-                        console.log('Errrr', err);
-                    })
+                        .then(response => {
+                            if (response.status === 403) {
+                                localStorage.removeItem('token');
+                                history.push(paths.Main)
+                            }
+                            if (response.status === 422) {
+                                setError(true)
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.status === 'fail' && data.message === "No folder created.") {
+                                history.push(paths.Importdata);
+                            } else {
+                                history.push(paths.DashBoard);
+                            }
+                        })
+                        .catch(err => {
+                            console.log('Errrr', err);
+                        })
+                }
             })
             .catch((error) => {
                 setError(error.message);
@@ -186,8 +184,38 @@ function NewLogin(props) {
                                 login
                             </div>
                             <div className='signin__inputs__wrapper'>
-                                <InputComponent label='email' value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailError(false)} error={emailError} />
-                                <InputComponent label='password' type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} onFocus={() => setPassError(false)} error={passError} />
+                                <InputComponent
+                                    label='email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    onFocus={() => {
+                                        setEmailError(false);
+                                        setError(false);
+                                    }}
+                                    error={emailError}
+                                />
+                                <InputComponent
+                                    label='password'
+                                    type={showPassword ? 'text' : "password"}
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    onFocus={() => {
+                                        setPassError(false);
+                                        setError(false);
+                                    }}
+                                    error={passError}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end" className='pass__eye'>
+                                                <div
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </div>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
                             </div>
                             <div className='signin__button__wrapper'>
                                 <button

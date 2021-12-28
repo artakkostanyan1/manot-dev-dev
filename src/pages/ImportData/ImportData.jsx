@@ -142,8 +142,14 @@ function ImportData() {
                     <div className={`upload__wrapper ${showMenu}`}>
                         <div className='upload__subwrapper'>
                             <div>Start with...</div>
-                            <TextField label='folder name' variant="outlined" size="small" color="secondary"
-                                value={folder_name} onChange={(e) => setFolderName(e.target.value)} onFocus={() => setFolderNameErr(false)}
+                            <TextField
+                                label='folder name'
+                                variant="outlined"
+                                size="small"
+                                color="secondary"
+                                value={folder_name}
+                                onChange={(e) => setFolderName(e.target.value)}
+                                onFocus={() => setFolderNameErr(false)}
                                 error={folderNameErr}
                                 style={{
                                     width: '450px',

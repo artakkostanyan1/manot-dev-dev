@@ -31,7 +31,7 @@ function LeftBar({ imagesList, setImagesList, setImageIndex, folderName }) {
         }
 
         interval.current++;
-        fetch(`${apiUrl}get-annotation-images?folder_name=${folderName}`, {
+        fetch(`${apiUrl}get-images?folder_name=${folderName}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',

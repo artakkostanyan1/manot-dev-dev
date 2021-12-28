@@ -4,6 +4,9 @@ import { useHistory } from 'react-router';
 import { ReactComponent as SignUpImg } from '../../styles/images/signup_page_img.svg';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import { Link, useParams } from "react-router-dom";
+import { InputAdornment } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import paths from '../../utils/routing';
 
@@ -32,6 +35,8 @@ function ResetPassword(props) {
     const [email, setEmail] = useState('');
     const [new_pass, setNewPass] = useState('');
     const [repeat_pass, setRepeatPass] = useState('');
+    const [showNew_pass, setShowNew_pass] = useState(false);
+    const [showRepeat_pass, setShowRepeat_pass] = useState(false);
 
     const [error, setError] = useState('');
 
@@ -159,7 +164,7 @@ function ResetPassword(props) {
                     <div className='signup__right__part'>
                         <div className='signin__fields__wrapper'>
                             <div className='signup__fields__header'>
-                                forgot password
+                                forgot password?
                             </div>
                             {!secondView ?
                                 <>
@@ -168,6 +173,7 @@ function ResetPassword(props) {
                                     </div>
                                     <div className='reset__input__wrapper'>
                                         <InputComponent
+                                            type='text'
                                             label='email'
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
@@ -179,8 +185,44 @@ function ResetPassword(props) {
                                     {userMessage && <div className='success_message message__wrapper'>{userMessage}</div>}
                                 </> :
                                 <div className='pass__input__wrapper'>
-                                    <InputComponent type='password' label='new password' value={new_pass} onChange={(e) => setNewPass(e.target.value)} onFocus={() => setNewPassError(false)} error={newPassError} />
-                                    <InputComponent type='password' label='repeat new paaword' value={repeat_pass} onChange={(e) => setRepeatPass(e.target.value)} onFocus={() => setRepeatPassError(false)} error={repeatPassError} />
+                                    <InputComponent
+                                        type={showNew_pass ? "text" : "password"}
+                                        label='new password'
+                                        value={new_pass}
+                                        onChange={(e) => setNewPass(e.target.value)}
+                                        onFocus={() => setNewPassError(false)}
+                                        error={newPassError}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end" className='pass__eye'>
+                                                    <div
+                                                        onClick={() => setShowNew_pass(!showNew_pass)}
+                                                    >
+                                                        {showNew_pass ? <Visibility /> : <VisibilityOff />}
+                                                    </div>
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                    />
+                                    <InputComponent
+                                        type={showRepeat_pass ? "text" : "password"}
+                                        label='repeat new paaword'
+                                        value={repeat_pass}
+                                        onChange={(e) => setRepeatPass(e.target.value)}
+                                        onFocus={() => setRepeatPassError(false)}
+                                        error={repeatPassError}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end"  className='pass__eye'>
+                                                    <div
+                                                        onClick={() => setShowRepeat_pass(!showRepeat_pass)}
+                                                    >
+                                                        {showRepeat_pass ? <Visibility /> : <VisibilityOff />}
+                                                    </div>
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                    />
                                     {error && <div className='error__message message__wrapper'  >Passwords don't match</div>}
                                 </div>
                             }

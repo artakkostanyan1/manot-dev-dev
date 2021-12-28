@@ -12,13 +12,11 @@ require('dotenv').config();
 function ContactUs(props) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [message, setMessage] = useState('');
 
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
-    const [phoneNumbeError, setPhoneNumberError] = useState('');
     const [companyNameError, setCompanyNameError] = useState('');
     const [messageError, setMessageError] = useState('');
 
@@ -34,7 +32,6 @@ function ContactUs(props) {
     function validateData() {
         name === '' ? setNameError(true) : setNameError(false);
         (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
-        phoneNumber === '' ? setPhoneNumberError(true) : setPhoneNumberError(false);
         companyName === '' ? setCompanyNameError(true) : setCompanyNameError(false);
         message === '' ? setMessageError(true) : setMessageError(false);
     }
@@ -42,12 +39,10 @@ function ContactUs(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        let data;
 
-        data = {
+        const data = {
             name,
             email,
-            phoneNumber,
             companyName,
             message,
         }
@@ -69,6 +64,7 @@ function ContactUs(props) {
                     <div className='contactUs__wrapper'>
                         <div className='contactUs__heading'>contact us</div>
                         <TextField
+                            key='1'
                             label='first name'
                             variant="outlined"
                             size="small"
@@ -81,6 +77,7 @@ function ContactUs(props) {
                                 margin: '9px'
                             }} />
                         <TextField
+                            key='2'
                             label='email'
                             variant="outlined"
                             size="small"
@@ -94,20 +91,7 @@ function ContactUs(props) {
                                 margin: '9px'
                             }} />
                         <TextField
-                            label='phone number'
-                            variant="outlined"
-                            size="small"
-                            color="secondary"
-                            type="number"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            onFocus={() => setPhoneNumberError(false)}
-                            error={phoneNumbeError}
-                            style={{
-                                width: '450px',
-                                margin: '9px'
-                            }} />
-                        <TextField
+                            key='3'
                             label='company name'
                             variant="outlined"
                             size="small"
@@ -122,6 +106,7 @@ function ContactUs(props) {
                                 margin: '9px'
                             }} />
                         <TextField
+                            key='4'
                             label='message'
                             variant="outlined"
                             size="small"
