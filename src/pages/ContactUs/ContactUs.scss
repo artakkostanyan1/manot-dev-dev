@@ -9,6 +9,18 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    .message {
+        text-align: center;
+    }
+
+    .success {
+        color: #177418;
+    }
+
+    .error {
+        color: red;
+    }
 }
 
 .show__menu {
@@ -21,7 +33,7 @@
 
 .contactUs__heading {
     position: absolute;
-    top: 15%;
+    top: 3.5em;
     font-family: Comfortaa;
     font-size: 36px;
     letter-spacing: -0.05em;
@@ -50,7 +62,8 @@
 }
 
 .save__button__wrapper {
-    top: 75%;
+    padding-top: 1em;
+    top: 45em;
 
     .button__component {
         width: 180px;
@@ -58,5 +71,19 @@
 }
 
 .cancel__button {
-    top: 82%;
+    padding-top: 2em;
+    top: 45em;
+}
+
+@media only screen and (max-height: 760px) {
+    .contactUs__heading {
+        top: 1em;
+    }
+    .save__button__wrapper {
+        top: 35em;
+    }
+
+    .cancel__button {
+        top: 35em;
+    }
 }

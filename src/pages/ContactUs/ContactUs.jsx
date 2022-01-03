@@ -3,8 +3,6 @@ import { useHistory } from 'react-router';
 import UserHeader, { CustomMenu } from '../../components/UserHeader/UserHeader';
 import TextField from '@mui/material/TextField';
 
-import paths from '../../utils/routing';
-
 import './ContactUs.scss';
 
 require('dotenv').config();
@@ -12,15 +10,17 @@ require('dotenv').config();
 function ContactUs(props) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [companyName, setCompanyName] = useState('');
+    const [company, setCompany] = useState('');
     const [message, setMessage] = useState('');
 
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
-    const [companyNameError, setCompanyNameError] = useState('');
+    const [companyError, setCompanyError] = useState('');
     const [messageError, setMessageError] = useState('');
 
     const [toggleMenu, setToggleMenu] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const history = useHistory();
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -32,9 +32,37 @@ function ContactUs(props) {
     function validateData() {
         name === '' ? setNameError(true) : setNameError(false);
         (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
-        companyName === '' ? setCompanyNameError(true) : setCompanyNameError(false);
+        company === '' ? setCompanyError(true) : setCompanyError(false);
         message === '' ? setMessageError(true) : setMessageError(false);
     }
+
+    function isMissing() {
+        return name === '' || email === '' || company === '' || message === '';
+    }
+
+    function sendData(data) {
+        fetch(`${apiUrl}contact`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                "x-access-token": localStorage.getItem('token')
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.status === 'fail') {
+                    console.log('err', res.message);
+                } else if (res.status === 'success') {
+                    setSuccessMessage(res.message);
+                    setName('');
+                    setEmail('');
+                    setCompany('');
+                    setMessage('');
+                }
+            })
+    }
+
 
 
     function handleSubmit(event) {
@@ -43,11 +71,13 @@ function ContactUs(props) {
         const data = {
             name,
             email,
-            companyName,
+            company,
             message,
         }
 
-        validateData() && history.push(paths.DashBoard);
+        validateData();
+        isMissing && setErrorMessage('Plesase fill all filds');
+        !isMissing && sendData(data);
     }
 
     const showMenu = toggleMenu ? 'show__menu' : 'hide__menu'
@@ -63,6 +93,8 @@ function ContactUs(props) {
                     <UserHeader handleToggle={handleToggle} showBurger={toggleMenu} />
                     <div className='contactUs__wrapper'>
                         <div className='contactUs__heading'>contact us</div>
+                        {successMessage && <div className="success message">{successMessage}</div>}
+                        {errorMessage && <div className="error message">{errorMessage}</div>}
                         <TextField
                             key='1'
                             label='full name'
@@ -71,7 +103,11 @@ function ContactUs(props) {
                             color="secondary"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            onFocus={() => setNameError(false)}
+                            onFocus={() => {
+                                setNameError(false);
+                                setSuccessMessage(false);
+                                setErrorMessage(false);
+                            }}
                             error={nameError} style={{
                                 width: '450px',
                                 margin: '9px'
@@ -84,7 +120,11 @@ function ContactUs(props) {
                             color="secondary"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            onFocus={() => setEmailError(false)}
+                            onFocus={() => {
+                                setEmailError(false);
+                                setSuccessMessage(false);
+                                setErrorMessage(false);
+                            }}
                             error={emailError}
                             style={{
                                 width: '450px',
@@ -97,10 +137,14 @@ function ContactUs(props) {
                             size="small"
                             color="secondary"
                             type="text"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                            onFocus={() => setCompanyNameError(false)}
-                            error={companyNameError}
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
+                            onFocus={() => {
+                                setCompanyError(false);
+                                setSuccessMessage(false);
+                                setErrorMessage(false);
+                            }}
+                            error={companyError}
                             style={{
                                 width: '450px',
                                 margin: '9px'
@@ -115,8 +159,15 @@ function ContactUs(props) {
                             color="secondary"
                             type="text"
                             value={message}
+                            inputProps={{
+                                maxLength: 100,
+                            }}
                             onChange={(e) => setMessage(e.target.value)}
-                            onFocus={() => setMessageError(false)}
+                            onFocus={() => {
+                                setMessageError(false);
+                                setSuccessMessage(false);
+                                setErrorMessage(false);
+                            }}
                             error={messageError}
                             style={{
                                 width: '450px',
