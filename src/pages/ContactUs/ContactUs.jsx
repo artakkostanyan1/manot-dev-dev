@@ -31,7 +31,8 @@ function ContactUs(props) {
 
     function validateData() {
         name === '' ? setNameError(true) : setNameError(false);
-        (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
+        (email === '' ) ? setEmailError(true) : setEmailError(false);
+        !validateEmail(email) ? setErrorMessage('Email is invalid.') : setErrorMessage('');
         company === '' ? setCompanyError(true) : setCompanyError(false);
         message === '' ? setMessageError(true) : setMessageError(false);
     }
@@ -76,8 +77,8 @@ function ContactUs(props) {
         }
 
         validateData();
-        isMissing && setErrorMessage('Plesase fill all filds');
-        !isMissing && sendData(data);
+
+        !isMissing() && validateEmail(email) ? sendData(data) : setErrorMessage('Plesase fill all filds');
     }
 
     const showMenu = toggleMenu ? 'show__menu' : 'hide__menu'
