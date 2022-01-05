@@ -78,7 +78,8 @@ function ContactUs(props) {
 
         validateData();
 
-        !isMissing() && validateEmail(email) ? sendData(data) : setErrorMessage('Plesase fill all filds');
+        !isMissing() && validateEmail(email) && sendData(data);
+        isMissing() && setErrorMessage('Plesase fill all filds');
     }
 
     const showMenu = toggleMenu ? 'show__menu' : 'hide__menu'
