@@ -24,7 +24,7 @@
 
 .notes_list {
   max-height: 420px;
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .text_part {
