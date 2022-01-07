@@ -290,6 +290,7 @@ function DashBoard() {
                     <div className='dashboard__import__new__data__btn__wrapper'>
                         <div className='dashboard__import__new__data__btn'
                             onClick={(el) => {
+                                setFolderName('');
                                 setToggleImportPopup(el)
                             }}
                         >
@@ -528,7 +529,7 @@ function DashBoard() {
                         }
                     }}
                     className='import__dialog'
-                    onClose={() => { setFolderNameErr(false); setFolderName(''); setToggleImportPopup(false) }}
+                    onClose={() => { setFolderNameErr(false); setToggleImportPopup(false) }}
                     open={toggleImportPopup}
                 >
                     <div className='import__dialog__content__wrapper'>
@@ -587,7 +588,7 @@ function DashBoard() {
                             </div>
                             <div
                                 className='cancel__dialog__btn'
-                                onClick={() => { setFolderNameErr(false); setFolderName(''); setToggleImportPopup(false) }}
+                                onClick={() => { setFolderNameErr(false); setToggleImportPopup(false) }}
                             >
                                 cancel
                             </div>
