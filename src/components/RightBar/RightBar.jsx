@@ -8,33 +8,46 @@ function RightBar({ notes, detectOnSingleImage, folderName }) {
 
     const handleDownload = () => {
         fetch(`${apiUrl}download/bb?folder_name=${folderName}`, {
-            method: 'POST',
+            method: 'GET',
             headers: {
-                'Content-type': 'application/json; charset=UTF-8',
+                'Content-type': 'application/zip; charset=UTF-8',
                 "x-access-token": localStorage.getItem('token')
             },
         })
             .then(response => {
-                return response.json();
+                return response.blob();
             })
-            .then(res => {
-                console.log('res', res)
+            .then((blob) => {
+                // Create blob link to download
+                const url = window.URL.createObjectURL(
+                    new Blob([blob]),
+                );
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute(
+                    'download',
+                    `manot_data.zip`,
+                );
+
+                // Append to html link element page
+                document.body.appendChild(link);
+
+                // Start download
+                link.click();
+
+                // Clean up and remove the link
+                link.parentNode.removeChild(link);
             })
             .catch((err) => {
                 console.log('error', err);
             })
     }
+
     return (
         <div className='right_bar_container'>
             <div className='text_part'>
                 <b> Details about object </b>
-                <a
-                    // href={`${apiUrl}download/bb?folder_name=${folderName}`}
-                    onClick={handleDownload} target="_blank" download
-                // onclick={`location.href=this.href+'?folder_name=${folderName};return false;`}
-                >
-                    <GetAppIcon />
-                </a>
+                <GetAppIcon onClick={handleDownload} />
             </div>
             <div className='notes_list'>
                 {(!Object.keys(notes).length) ? <div className='not_available'> Not available yet </div> :
