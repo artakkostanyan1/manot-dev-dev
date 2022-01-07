@@ -125,7 +125,7 @@ function Desktop() {
     }
 
     if (loading) return <CircularUnderLoad />
-    
+
     return (
         <>
             {isLoading ? <Loader /> : <div className='desktop__wrapper'>
@@ -148,7 +148,7 @@ function Desktop() {
                         </FormControl>
                         <button className='button__component'> start full data annotation </button>
                     </div>
-
+                    {console.log('foldername', folderName)}
                     <div className='main-content-container'>
                         <LeftBar className='left_bar'
                             imagesList={imagesList}
@@ -164,7 +164,11 @@ function Desktop() {
                             folderName={folderName}
                             imageIndex={imageIndex}
                         />
-                        <RightBar detectOnSingleImage={detectOnSingleImage} notes={notes} />
+                        <RightBar
+                            detectOnSingleImage={detectOnSingleImage}
+                            notes={notes}
+                            folderName={folderName}
+                        />
                     </div>
                 </div>
                 {toggleMenu && <CustomMenu handleToggle={handleToggle} />}

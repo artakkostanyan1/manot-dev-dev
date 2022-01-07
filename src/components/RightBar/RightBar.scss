@@ -28,11 +28,21 @@
 }
 
 .text_part {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   text-align: center;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 40px;
+  cursor: pointer;
+}
+
+.text_part {
+  svg:hover {
+    fill: #8924bf;
+  }
 }
 
 .note_part {
