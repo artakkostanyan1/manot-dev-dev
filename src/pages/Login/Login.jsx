@@ -130,11 +130,18 @@ function NewLogin(props) {
         return re.test(String(email).toLowerCase());
     }
 
+    function validatePassword(password) {
+        console.log('dcjdcjhdbkjcn', strongRegex.test(password));
+        return strongRegex.test(password);
+    }
+
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})");
 
     function validate() {
         (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
-        password === '' ? setPassError(true) : setPassError(false);
+        (password === '' || !validatePassword(password)) ? setPassError(true) : setPassError(false);
+        console.log('validateEmail', validatePassword(password));
+        !validatePassword(password) && setError('The email or password is invalid.');
     }
 
     function isMissingField() {
