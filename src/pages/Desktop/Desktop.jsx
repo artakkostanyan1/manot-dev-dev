@@ -148,7 +148,6 @@ function Desktop() {
                         </FormControl>
                         <button className='button__component'> start full data annotation </button>
                     </div>
-                    {console.log('foldername', folderName)}
                     <div className='main-content-container'>
                         <LeftBar className='left_bar'
                             imagesList={imagesList}
@@ -168,6 +167,7 @@ function Desktop() {
                             detectOnSingleImage={detectOnSingleImage}
                             notes={notes}
                             folderName={folderName}
+                            isRotationAllowed={isRotationAllowed}
                         />
                     </div>
                 </div>

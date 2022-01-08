@@ -1,13 +1,15 @@
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { Toaster, ToasterType } from '../Toaster/Toaster';
+
 import './RightBar.scss';
 
 require('dotenv').config();
 
-function RightBar({ notes, detectOnSingleImage, folderName }) {
+function RightBar({ notes, detectOnSingleImage, folderName, isRotationAllowed }) {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleDownload = () => {
-        fetch(`${apiUrl}download/bb?folder_name=${folderName}`, {
+        fetch(`${apiUrl}download/${isRotationAllowed ? 'rbb' : 'bb'}?folder_name=${folderName}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/zip; charset=UTF-8',
@@ -15,28 +17,34 @@ function RightBar({ notes, detectOnSingleImage, folderName }) {
             },
         })
             .then(response => {
-                return response.blob();
+                if (response.status === 403) {
+                    Toaster.notify('There is not any data to download.', ToasterType.failure);
+                } else if (response.status === 200) {
+                    return response.blob();
+                }
             })
             .then((blob) => {
-                // Create blob link to download
-                const url = window.URL.createObjectURL(
-                    new Blob([blob]),
-                );
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute(
-                    'download',
-                    `manot_data.zip`,
-                );
+                if (blob) {
+                    // Create blob link to download
+                    const url = window.URL.createObjectURL(
+                        new Blob([blob]),
+                    );
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute(
+                        'download',
+                        `manot_data_${isRotationAllowed ? 'rbb' : 'bb'}_annotation.zip`,
+                    );
 
-                // Append to html link element page
-                document.body.appendChild(link);
+                    // Append to html link element page
+                    document.body.appendChild(link);
 
-                // Start download
-                link.click();
+                    // Start download
+                    link.click();
 
-                // Clean up and remove the link
-                link.parentNode.removeChild(link);
+                    // Clean up and remove the link
+                    link.parentNode.removeChild(link);
+                }
             })
             .catch((err) => {
                 console.log('error', err);
