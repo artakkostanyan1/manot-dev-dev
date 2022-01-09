@@ -3,12 +3,24 @@
 }
 
 .contactUs__wrapper {
-    height: 73%;
+    height: 80%;
 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    .message {
+        text-align: center;
+    }
+
+    .success {
+        color: #177418;
+    }
+
+    .error {
+        color: red;
+    }
 }
 
 .show__menu {
@@ -21,7 +33,7 @@
 
 .contactUs__heading {
     position: absolute;
-    top: 9%;
+    top: 3.5em;
     font-family: Comfortaa;
     font-size: 36px;
     letter-spacing: -0.05em;
@@ -47,4 +59,31 @@
 
 .contactUs__wrapper fieldset {
     border-radius: 11px;
+}
+
+.save__button__wrapper {
+    padding-top: 1em;
+    top: 45em;
+
+    .button__component {
+        width: 180px;
+    }
+}
+
+.cancel__button {
+    padding-top: 2em;
+    top: 47em;
+}
+
+@media only screen and (max-height: 760px) {
+    .contactUs__heading {
+        top: 1em;
+    }
+    .save__button__wrapper {
+        top: 35em;
+    }
+
+    .cancel__button {
+        top: 36.5em;
+    }
 }

@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react';
+import LinearProgress from '@mui/material/LinearProgress';
+
 import './LeftBar.scss';
 
 require('dotenv').config();
@@ -63,9 +65,9 @@ function LeftBar({ imagesList, setImagesList, setImageIndex, folderName }) {
         <div className='left-bar-container full'>
             <div className='full_screen_leftbar'>
                 {!isFetching &&
-                <div className='arrow-container'>
-                    <i onClick={() => fetchMoreData(-scrollOffset)} className='arrow up'/>
-                </div>}
+                    <div className='arrow-container'>
+                        <i onClick={() => fetchMoreData(-scrollOffset)} className='arrow up' />
+                    </div>}
                 <div className='photos-container' ref={ref}>
                     {imagesList.length && imagesList?.map((el, key) => {
                         return (
@@ -78,10 +80,9 @@ function LeftBar({ imagesList, setImagesList, setImageIndex, folderName }) {
                         )
                     })}
                 </div>
-                {!isFetching &&
-                <div className='arrow-container'>
-                    <i onClick={() => fetchMoreData(scrollOffset)} className='arrow down'/>
-                </div>}
+                <div className='arrow-container second'>
+                    {isFetching ? <LinearProgress color="secondary" /> : <i onClick={() => fetchMoreData(scrollOffset)} className='arrow down' />}
+                </div>
             </div>
         </div>
     )

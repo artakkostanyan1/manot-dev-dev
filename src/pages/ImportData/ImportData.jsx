@@ -164,8 +164,9 @@ function ImportData() {
                                 maxNumber={maxNumber}
                                 acceptType={['jpg', 'jpeg', 'png']}
                                 maxFileSize={1000000}
-                                resolutionWidth={1024}
-                                resolutionHeight={1024}
+                                resolutionType='less'
+                                resolutionWidth={1025}
+                                resolutionHeight={1025}
                                 dataURLKey="data_url"
                             >
                                 {({
