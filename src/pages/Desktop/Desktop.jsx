@@ -109,7 +109,7 @@ function Desktop() {
             .then(res => {
                 console.log(`res`, res)
                 if (res.status === 'fail') throw new Error(res.message)
-                setMarks(res.message)
+                setMarks(res.message[imageIndex])
             })
             .catch(e => {
                 setError(e)
