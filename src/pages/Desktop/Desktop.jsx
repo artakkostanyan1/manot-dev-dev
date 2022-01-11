@@ -10,6 +10,7 @@ import defMarks from '../../components/AnotationTool/marks.json';
 import Loader from '../../components/Loader/Loader';
 import CircularUnderLoad from '../../components/Loader/Loader';
 import { PurpleRadio } from '../../components/CustomElements/PurpleRadio';
+import { Toaster, ToasterType } from '../../components/Toaster/Toaster';
 
 import './Desktop.scss';
 
@@ -107,9 +108,11 @@ function Desktop() {
                 return res.json()
             })
             .then(res => {
-                console.log(`res`, res)
-                if (res.status === 'fail') throw new Error(res.message)
-                setMarks(res.message)
+                if (res.status === 'fail') {
+                    Toaster.notify(res.message, ToasterType.info);
+                    throw new Error(res.message)
+                }
+                setMarks(res.message[imageIndex])
             })
             .catch(e => {
                 setError(e)
