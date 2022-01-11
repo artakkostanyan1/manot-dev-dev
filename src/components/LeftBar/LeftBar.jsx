@@ -51,7 +51,6 @@ function LeftBar({ imagesList, setImagesList, setImageIndex, folderName }) {
                 }
             })
             .then(res => {
-                console.log('res', res)
                 setImagesList(imagesList.concat(res.message));
             })
             .catch((err) => {

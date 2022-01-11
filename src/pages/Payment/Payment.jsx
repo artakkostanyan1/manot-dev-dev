@@ -87,7 +87,6 @@ function Payment() {
                                     placeholder='mm/yy'
                                     onChange={(e) => {
                                         setDate(e.target.value);
-                                        console.log('target.value', e.target.value)
                                     }}
                                     {...register("date", { required: 'The expiration date is not valid' })}
                                 />

@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import { InputAdornment } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { Toaster, ToasterType } from '../../components/Toaster/Toaster';
 
 import paths from '../../utils/routing';
 
@@ -75,13 +76,13 @@ function ResetPassword(props) {
         })
             .then(response => response.json())
             .then(response => {
-                console.log('res', response);
                 if (response.status === 'fail') {
                     throw Error('Error.');
-                } else {
-                    history.push(paths.NewLogin);
+                } else if (response.status === 'success') {
+                    Toaster.notify(response.message, ToasterType.success);
                 }
             })
+            .then(() => history.push(paths.Login))
             .catch((error) => {
                 console.log('err', error);
             });
@@ -141,7 +142,11 @@ function ResetPassword(props) {
         validatePass(new_pass, setNewPassError);
         validatePass(repeat_pass, setRepeatPassError);
 
-        !isPasswordsMissing() && !isPasswordsMatch() && validatePassword(new_pass) && validatePassword(repeat_pass) && resetPass(data);
+        !isPasswordsMissing()
+            && !isPasswordsMatch()
+            && validatePassword(new_pass)
+            && validatePassword(repeat_pass)
+            && resetPass(data);
     }
 
     return (

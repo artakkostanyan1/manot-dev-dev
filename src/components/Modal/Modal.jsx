@@ -28,7 +28,6 @@ function Modal() {
                     className="folder-name-input"
                     onChange={(e) => {
                         setFolderName(e.target.value);
-                        console.log('e', e.target.value)
                     }}
                     type='text'
                     autoFocus
