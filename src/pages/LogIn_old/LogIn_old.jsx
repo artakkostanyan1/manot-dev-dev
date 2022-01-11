@@ -48,7 +48,6 @@ function LogIn_old(props) {
             }
         })
             .then(response => {
-                console.log('verify response', response);
                 return response.json();
             })
             .then(data => {

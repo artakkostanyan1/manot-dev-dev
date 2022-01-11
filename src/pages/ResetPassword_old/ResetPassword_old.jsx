@@ -25,7 +25,6 @@ function ResetPassword(props) {
     // TO DO: /////////////////////////////////////////////////////resserpassword api path
 
     const resetPassword = (data) => {
-        console.log('data', data);
         fetch(`${apiUrl}reset-password`, {
             method: 'POST',
             headers: {
@@ -39,7 +38,6 @@ function ResetPassword(props) {
                 } else {
                     history.push(paths.Login);
                 }
-                console.log('res', response)
                 return response.json();
             })
             .catch((error) => {

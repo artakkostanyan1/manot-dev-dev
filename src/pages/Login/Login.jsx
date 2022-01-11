@@ -27,7 +27,6 @@ function NewLogin(props) {
     const params = useParams();
     const history = useHistory();
     const { state } = useLocation();
-    console.log('statae', state);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -135,7 +134,6 @@ function NewLogin(props) {
     }
 
     function validatePassword(password) {
-        console.log('dcjdcjhdbkjcn', strongRegex.test(password));
         return strongRegex.test(password);
     }
 
@@ -144,7 +142,6 @@ function NewLogin(props) {
     function validate() {
         (email === '' || !validateEmail(email)) ? setEmailError(true) : setEmailError(false);
         (password === '' || !validatePassword(password)) ? setPassError(true) : setPassError(false);
-        console.log('validateEmail', validatePassword(password));
         !validatePassword(password) && setError('The email or password is invalid.');
     }
 
@@ -173,7 +170,7 @@ function NewLogin(props) {
         <>
             {isLoading ? <Loader /> :
                 <div className='registration__wrapper'>
-                    {state.message && Toaster.notify(state.message, ToasterType.success)}
+                    {state?.message && Toaster.notify(state.message, ToasterType.success)}
                     <div className='signup__left__part'>
                         <Header />
                         <div className='welcome__header'>

@@ -90,7 +90,6 @@ function Profile(props) {
                         return response.json();
                     })
                     .then(data => {
-                        console.log('dataa', data);
                         if (data.status === 'fail' && data.message === "No folder created.") {
                             history.push(paths.Importdata);
                         } else {
