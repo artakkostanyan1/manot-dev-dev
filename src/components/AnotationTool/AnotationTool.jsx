@@ -11,22 +11,14 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
     const [markerAreaState, setMarkerAreaState] = useState() // MarkerArea state for restoring
     // eslint-disable-next-line
     const [markersInfoArray, setMarkersInfoArray] = useState([]) // markers with filtered info for backend
-
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
-
     const sourceImageRef = useRef(null) // image in initial state, withouth markers
     const sampleImageRef = useRef(null) // image, which we redact
-
     const selectedMarker = useRef(null) // TODO // to check marker selecting state
     // eslint-disable-next-line
     const notes = useRef({}) // labels array
     const dropboxDivRef = useRef(null)
-
     const markersArray = useRef([]) // TODO // to save markers state for backend
-    const [imgWidth, setImgWidth] = useState('');
-    const [imgHeight, setImgHeight] = useState('');
-
 
     const showMarkerArea = () => {
         MA.show(); // show markerArea on image
@@ -68,17 +60,17 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
         setMarkerAreaState(initialMarkerState);
 
         setNotes(getNotesFromMarkers(marks));
+
         markersInfoArray.current = initialMarkerState.markers || {};
+
         notes.current = getNotesFromMarkers(marks);
 
         if (sampleImageRef.current) {
-            sampleImageRef.current.src = sourceImageRef.current.src;
 
-            const markerArea = new mjs.MarkerArea(sourceImageRef.current);
-
+            const markerArea = new mjs.MarkerArea(sampleImageRef.current);
             markerArea.renderAtNaturalSize = true;
             markerArea.availableMarkerTypes = [mjs.FrameMarker];
-            markerArea.targetRoot = sourceImageRef.current.parentElement;
+            markerArea.targetRoot = sampleImageRef.current.parentElement;
             markerArea.uiStyleSettings.undoButtonVisible = false;
             markerArea.settings.defaultColor = "#69dafb";
             markerArea.settings.defaultFillColor = "#69dafbcc"
@@ -97,10 +89,9 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
 
             markerArea.show();
             markerArea.restoreState(initialMarkerState);
-            markerArea.switchToSelectMode();
-            setWidthAndHeight();
 
             markerArea.addRenderEventListener((dataUrl, state) => {
+
                 if (sampleImageRef.current) {
                     sampleImageRef.current.src = dataUrl; // render image with drawed markers
                     setMarkerAreaState(state); // save state of MarkerArea to be able to restore it
@@ -117,6 +108,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                                 }
                             }
                         }
+
                         return ({
                             width: i.width + 10e-10,
                             height: i.height + 10e-10,
@@ -127,8 +119,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                             matrix: isRotationAllowed ? i.containerTransformMatrix : undefined
                         })
                     })
-
-                    setMarkersInfoArray(markers)
 
                     if (markers.some(marker => marker.name.includes(' '))) {
                         Toaster.notify('The label can\'t include spaces.', ToasterType.failure);
@@ -142,7 +132,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                         labels: markers
                     }
                     setLoading(true)
-                    fetch(`${apiUrl}create-data/${isRotationAllowed ? 'rbb' : 'bb'}`, {
+                    fetch(`${apiUrl}${isRotationAllowed ? 'rbb' : 'bb'}`, {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json; charset=UTF-8',
@@ -206,7 +196,6 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
                     }
                 }
             });
-
             markerArea.addDeselectEventListener(marker => {
                 if (!isMarkerSaved(marker)) {
                     markerArea.setCurrentMarker(marker);
@@ -244,8 +233,7 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
             markerArea.addCloseEventListener(() => {
                 sampleImageRef.current.style.opacity = 1;
                 sampleImageRef.current.style.top = 0;
-                sourceImageRef.current.style.top = 0;
-            });
+             });
 
             markerArea.addNoNotesEventListener(markersWithoutNotes => {
                 markersWithoutNotes[0].select()
@@ -280,41 +268,20 @@ const AnotationTool = ({ folderName, imageIndex, isRotationAllowed, image, setNo
         return notes;
     }
 
-    const setWidthAndHeight = () => {
-        setImgWidth(getWidth() + 'px');
-        setImgHeight(getHeight() + 'px');
-    }
-
     const getWidth = () => {
         let offsetWidth = document.getElementById('annotationContainer')?.offsetWidth;
         offsetWidth = offsetWidth || 700;
 
-        return sourceImageRef.current.naturalWidth < offsetWidth ? sourceImageRef.current.naturalWidth : offsetWidth;
-    }
-
-    const getHeight = () => {
-        let offsetHeight = document.getElementById('annotationContainer')?.offsetHeight;
-        offsetHeight = offsetHeight || 550;
-
-        let height = sourceImageRef.current.naturalHeight < offsetHeight ? sourceImageRef.current.naturalHeight : offsetHeight;
-        return height < 512 ? 512 : height;
+        return sampleImageRef.current.naturalWidth < offsetWidth ? sampleImageRef.current.naturalWidth : offsetWidth;
     }
 
     return (
         <div className='anotationToolBox' id='annotationContainer'>
-            <div className='anoImageBox' style={{width: imgWidth, height: imgHeight}}>
-                <img
-                    src={image}
-                    ref={sourceImageRef}
-                    alt='Source'
-                    style={{ position: 'absolute', height: 'auto' }}
-                    crossOrigin='anonymous'
-                />
+            <div className='anoImageBox'>
                 <img
                     src={image}
                     ref={sampleImageRef}
                     alt='Sample'
-                    style={{ position: 'absolute' }}
                     crossOrigin='anonymous'
                     onClick={() => {
                         if (!loading) showMarkerArea()
